@@ -1,5 +1,5 @@
 /**
-* tUserBank.js
+* tUserMembership.js
 *
 * @description :: TODO: Write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
@@ -8,51 +8,45 @@
 module.exports = {
   "schema": true,
   "attributes": {
-    "userBankId": {
-      "columnName": "user_bank_id",
+    "userMemberId": {
+      "columnName": "user_member_id",
       "required": true,
       "type": "integer",
       "primaryKey": true
     },
     "userId": {
-      "model":"user",
       "columnName": "user_id",
       "type": "integer"
     },
-    "bankType": {
-      "columnName": "bank_type",
+    "membershipType": {
+      "columnName": "membership_type",
       "type": "string",
       "size": 45
     },
-    "screenshot": {
-      "columnName": "screenshot",
-      "type": "string",
-      "size": 145
+    "cash": {
+      "type": "integer"
     },
-    "accountName": {
-      "columnName": "account_name",
-      "type": "string",
-      "size": 45
+    "points": {
+      "type": "integer"
     },
-    "accountNumber": {
-      "columnName": "account_number",
-      "type": "string",
-      "size": 45
+    "startDate": {
+      "columnName": "start_date",
+      "type": "datetime"
     },
-    "branch": {
-      "type": "string",
-      "size": 45
-    },
-    "city": {
-      "type": "string",
-      "size": 45
+    "endDate": {
+      "columnName": "end_date",
+      "type": "datetime"
     },
     "comment": {
       "type": "string",
       "size": 2000
     },
-    "createdAt": {
-      "columnName": "created_at",
+    "status": {
+      "type": "string",
+      "size": 45
+    },
+    "createAt": {
+      "columnName": "create_at",
       "type": "datetime"
     },
     "createdBy": {
@@ -70,5 +64,5 @@ module.exports = {
       "size": 45
     }
   },
-  "tableName": "t_user_bank"
+  "tableName": "t_user_membership"
 }

@@ -8,16 +8,20 @@
 module.exports = {
   "schema": true,
   "attributes": {
-    "id": {
+    "userId": {
       "columnName": "user_id",
       "type": "integer",
        autoIncrement: true,
-      "required": true,
      "primaryKey": true
     },
     "userTypeId": {
       "columnName": "user_type_id",
       "type": "integer"
+    },
+     "image": {
+      "columnName": "image",
+      "type": "string",
+      "size": 145
     },
     "userLogin": {
       "columnName": "user_login",

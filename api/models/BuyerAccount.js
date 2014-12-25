@@ -1,5 +1,5 @@
 /**
-* tUserBank.js
+* tBuyerAccount.js
 *
 * @description :: TODO: Write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
@@ -8,48 +8,42 @@
 module.exports = {
   "schema": true,
   "attributes": {
-    "userBankId": {
-      "columnName": "user_bank_id",
+    "buyerAccountId": {
+      "columnName": "buyer_account_id",
       "required": true,
       "type": "integer",
       "primaryKey": true
     },
     "userId": {
-      "model":"user",
       "columnName": "user_id",
       "type": "integer"
     },
-    "bankType": {
-      "columnName": "bank_type",
+    "accountLogin": {
+      "columnName": "account_login",
       "type": "string",
       "size": 45
     },
-    "screenshot": {
-      "columnName": "screenshot",
-      "type": "string",
-      "size": 145
-    },
-    "accountName": {
-      "columnName": "account_name",
+    "platformId": {
+      "columnName": "platform_id",
       "type": "string",
       "size": 45
     },
-    "accountNumber": {
-      "columnName": "account_number",
+    "addressId": {
+      "columnName": "address_id",
+      "type": "integer"
+    },
+    "wangwang": {
       "type": "string",
       "size": 45
     },
-    "branch": {
+    "wwScreenshot": {
+      "columnName": "ww_screenshot",
       "type": "string",
-      "size": 45
+      "size": 255
     },
-    "city": {
-      "type": "string",
-      "size": 45
-    },
-    "comment": {
-      "type": "string",
-      "size": 2000
+    "statusId": {
+      "columnName": "status_id",
+      "type": "integer"
     },
     "createdAt": {
       "columnName": "created_at",
@@ -70,5 +64,5 @@ module.exports = {
       "size": 45
     }
   },
-  "tableName": "t_user_bank"
+  "tableName": "t_buyer_account"
 }
