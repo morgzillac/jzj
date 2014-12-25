@@ -30,21 +30,21 @@ module.exports = {
       "columnName": "display_order",
       "type": "integer"
     },
-    "createdTime": {
-      "columnName": "created_time",
+    "createdAt": {
+      "columnName": "created_at",
       "type": "datetime"
     },
     "createdBy": {
-      "columnName": "created_by",
+      "columnName": "created_at",
       "type": "string",
       "size": 45
     },
-    "lastupdatedTime": {
-      "columnName": "lastupdated_time",
+    "updatedAt": {
+      "columnName": "updated_time",
       "type": "datetime"
     },
-    "lastupdatedBy": {
-      "columnName": "lastupdated_by",
+    "updatedBy": {
+      "columnName": "updated_by",
       "type": "string",
       "size": 45
     }

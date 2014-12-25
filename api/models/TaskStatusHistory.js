@@ -18,12 +18,12 @@ module.exports = {
       "columnName": "status_id",
       "type": "integer"
     },
-    "createTime": {
-      "columnName": "create_time",
+    "createdAt": {
+      "columnName": "created_at",
       "type": "datetime"
     },
-    "createBy": {
-      "columnName": "create_by",
+    "createdBy": {
+      "columnName": "created_by",
       "type": "string",
       "size": 45
     }

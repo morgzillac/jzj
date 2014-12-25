@@ -21,8 +21,8 @@ module.exports = {
       "columnName": "type_id",
       "type": "integer"
     },
-    "createdTime": {
-      "columnName": "created_time",
+    "createdAt": {
+      "columnName": "created_at",
       "type": "datetime"
     },
     "createdBy": {

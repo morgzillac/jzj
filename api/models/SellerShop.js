@@ -50,8 +50,8 @@ module.exports = {
       "type": "string",
       "size": 2000
     },
-    "createdTime": {
-      "columnName": "created_time",
+    "createdAt": {
+      "columnName": "created_at",
       "type": "datetime"
     },
     "createdBy": {
@@ -59,12 +59,12 @@ module.exports = {
       "type": "string",
       "size": 45
     },
-    "lastupdatedTime": {
-      "columnName": "lastupdated_time",
+    "updatedAt": {
+      "columnName": "updated_at",
       "type": "datetime"
     },
-    "lastupdatedBy": {
-      "columnName": "lastupdated_by",
+    "updatedBy": {
+      "columnName": "updated_by",
       "type": "string",
       "size": 45
     }

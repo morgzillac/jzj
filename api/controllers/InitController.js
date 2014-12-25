@@ -9,10 +9,10 @@ module.exports = {
 
 
 
-login: function (req, res) {
+	db: function (req, res) {
 	
-	User.login(req, res);
-  
-  }
+
+  	}
+	
 };
 

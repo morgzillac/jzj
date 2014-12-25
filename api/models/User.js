@@ -50,7 +50,7 @@ module.exports = {
       "size": 45
     },
     "createdAt": {
-      "columnName": "created_time",
+      "columnName": "created_at",
       "type": "datetime"
     },
     "createdBy": {
@@ -59,14 +59,38 @@ module.exports = {
       "size": 45
     },
     "updatedAt": {
-      "columnName": "lastupdated_time",
+      "columnName": "updated_at",
       "type": "datetime"
     },
-    "lastupdatedBy": {
-      "columnName": "lastupdated_by",
+    "updatedBy": {
+      "columnName": "updated_by",
       "type": "string",
       "size": 45
+    },
+   
+    "banks":{
+      collection:'UserBank',
+      via: 'userId'
     }
+
   },
-  "tableName": "t_user"
+ 
+  "tableName": "t_user",
+
+  login: function (req, res) {
+    var statusCode = 200;
+    var result = {
+      status: statusCode
+    };  
+    User.find({ userLogin: req.param('login'), 
+            password: req.param('password') 
+          })
+          .populate('banks')
+          .exec(function cb(err,user){
+              if (err) return cb(err);
+              console.log('We found 1'+ user);
+              return res.json(user);
+          });
+    }
+
 }

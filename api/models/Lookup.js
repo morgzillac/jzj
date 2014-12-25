@@ -25,8 +25,8 @@ module.exports = {
       "type": "string",
       "size": 45
     },
-    "createdTime": {
-      "columnName": "created_time",
+    "createdAt": {
+      "columnName": "created_at",
       "type": "string",
       "size": 45
     },
