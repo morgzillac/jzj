@@ -10,7 +10,7 @@ module.exports = {
   "attributes": {
     "buyerAccountId": {
       "columnName": "buyer_account_id",
-      "required": true,
+       autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },
