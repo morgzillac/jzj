@@ -1,12 +1,8 @@
-/**
-* tUser.js
-*
-* @description :: TODO: Write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+var User = {
+  // Enforce model schema in the case of schemaless databases
+  schema: true,
+	"tableName": "t_user",
 
-module.exports = {
-  "schema": true,
   "attributes": {
     "userId": {
       "columnName": "user_id",
@@ -23,15 +19,10 @@ module.exports = {
       "type": "string",
       "size": 145
     },
-    "userLogin": {
-      "columnName": "user_login",
-      "type": "string",
-      "size": 45
-    },
-    "password": {
-      "type": "string",
-      "size": 45
-    },
+     "password": {
+       "type": "string",
+       "size": 45
+     },
     "payPassword": {
       "columnName": "pay_password",
       "type": "string",
@@ -42,8 +33,7 @@ module.exports = {
       "size": 45
     },
     "email": {
-      "type": "string",
-      "size": 45
+      "type": "email", unique: true
     },
     "qq": {
       "type": "string",
@@ -75,13 +65,20 @@ module.exports = {
     "banks":{
       collection:'UserBank',
       via: 'userId'
-    }
+    },
+    
+    username  : {  
+     "columnName": "user_login",
+      "type": "string",
+      "size": 45,
+      unique: true 
+    },
+
+    passports : { collection: 'Passport', via: 'user' }
 
   },
- 
-  "tableName": "t_user",
 
-  login: function (req, res) {
+login: function (req, res) {
     var statusCode = 200;
     var result = {
       status: statusCode
@@ -95,6 +92,51 @@ module.exports = {
               console.log('We found 1'+ user);
               return res.json(user);
           });
-    }
+    },
 
-}
+    beforeCreate: function (attrs, next) {
+    var bcrypt = require('bcrypt');
+
+    bcrypt.genSalt(10, function(err, salt) {
+      if (err) return next(err);
+
+      bcrypt.hash(attrs.password, salt, function(err, hash) {
+        if (err) return next(err);
+
+        attrs.password = hash;
+        next();
+      });
+    });
+
+  },
+
+   login2: function (req, res) {
+    var bcrypt = require('bcrypt');
+
+    User.findOneByEmail(req.body.email).done(function (err, user) {
+      if (err) res.json({ error: 'DB error' }, 500);
+
+      if (user) {
+        bcrypt.compare(req.body.password, user.password, function (err, match) {
+          if (err) res.json({ error: 'Server error' }, 500);
+
+          if (match) {
+            // password match
+            req.session.user = user.id;
+            res.json(user);
+          } else {
+            // invalid password
+            if (req.session.user) req.session.user = null;
+            res.json({ error: 'Invalid password' }, 400);
+          }
+        });
+      } else {
+        res.json({ error: 'User not found' }, 404);
+      }
+    });
+   
+  }
+
+};
+
+module.exports = User;
