@@ -7,6 +7,9 @@
 
 module.exports = {
 
+  "isLoggedIn": function(req,res){
+      res.ok('passed');
+  },
 
    "error": function(req,res)
    {
@@ -15,29 +18,29 @@ module.exports = {
 	  	var data = {
 	  		code: 'error_code_not_found',
 	  		message: 'The error code passed in querystring was not defined on the server side.'
-		}
-		
-		if (errorcode && sails.config.errs[errorcode]) {
-			  		data = sails.config.errs[errorcode];
-		}
-		if (!status) status = 0;
+		  }
 
-	  	switch(status) {
-	  		case '500': 
-	  			res.serverError(data);
-	  			break;
-	  		case '400':
-	  			res.badRequest(data);
-	  			break;
-			case '404':
-	  			res.badRequest(data);
-	  			break;
-	  	  	default:
-			  	console.log(status + ':' + data);
-			    res.customError(status, data);
-		}    	  	
+		  if (errorcode && sails.config.errs[errorcode]) {
+			  		data = sails.config.errs[errorcode];
+		  }
+		  if (!status) status = 0;
+
+      switch(status) {
+          case '500':
+            res.serverError(data);
+            break;
+          case '400':
+            res.badRequest(data);
+            break;
+        case '404':
+            res.badRequest(data);
+            break;
+            default:
+            console.log(status + ':' + data);
+            res.customError(status, data);
+      }
 	}
- 
+
 
 };
 

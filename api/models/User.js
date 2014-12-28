@@ -21,7 +21,7 @@ var User = {
     },
      "password": {
        "type": "string",
-       "size": 45
+       "size": 500
      },
     "payPassword": {
       "columnName": "pay_password",
@@ -61,38 +61,20 @@ var User = {
       "type": "string",
       "size": 45
     },
-   
+
     "banks":{
       collection:'UserBank',
       via: 'userId'
     },
-    
-    username  : {  
+
+    userLogin  : {
      "columnName": "user_login",
       "type": "string",
       "size": 45,
-      unique: true 
-    },
-
-    passports : { collection: 'Passport', via: 'user' }
+      unique: true
+    }
 
   },
-
-login: function (req, res) {
-    var statusCode = 200;
-    var result = {
-      status: statusCode
-    };  
-    User.find({ userLogin: req.param('login'), 
-            password: req.param('password') 
-          })
-          .populate('banks')
-          .exec(function cb(err,user){
-              if (err) return cb(err);
-              console.log('We found 1'+ user);
-              return res.json(user);
-          });
-    },
 
     beforeCreate: function (attrs, next) {
     var bcrypt = require('bcrypt');
@@ -104,37 +86,11 @@ login: function (req, res) {
         if (err) return next(err);
 
         attrs.password = hash;
+        console.log(hash);
         next();
       });
     });
 
-  },
-
-   login2: function (req, res) {
-    var bcrypt = require('bcrypt');
-
-    User.findOneByEmail(req.body.email).done(function (err, user) {
-      if (err) res.json({ error: 'DB error' }, 500);
-
-      if (user) {
-        bcrypt.compare(req.body.password, user.password, function (err, match) {
-          if (err) res.json({ error: 'Server error' }, 500);
-
-          if (match) {
-            // password match
-            req.session.user = user.id;
-            res.json(user);
-          } else {
-            // invalid password
-            if (req.session.user) req.session.user = null;
-            res.json({ error: 'Invalid password' }, 400);
-          }
-        });
-      } else {
-        res.json({ error: 'User not found' }, 404);
-      }
-    });
-   
   }
 
 };
