@@ -8,6 +8,7 @@
 
 module.exports = {
   connection: 'localDiskDb',
+  migrate: 'drop',
   attributes: {
         userId: {
             type: 'string',
