@@ -2,7 +2,7 @@ var User = {
   // Enforce model schema in the case of schemaless databases
   schema: true,
 	"tableName": "t_user",
-
+  migrate: 'safe',
   "attributes": {
     "userId": {
       "columnName": "user_id",
