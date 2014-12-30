@@ -47,7 +47,17 @@ module.exports = {
         console.log('req.ip: '  + req.ip + '\n');
         console.log('req.ips: '  + req.host + '\n');
         res.ok();
-      }
+      },
+
+    email: function(req,res){
+      EmailService.sendMail({
+        to:'mcheng@hyperbridge.com',
+        subject: 'test',
+        text:'this is a test'
+      });
+      res.ok();
+
+    }
 
 };
 

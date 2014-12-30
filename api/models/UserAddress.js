@@ -7,10 +7,12 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
+
   "attributes": {
     "addressId": {
       "columnName": "address_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },

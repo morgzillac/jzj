@@ -7,12 +7,14 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
+
   "attributes": {
     "buyerAccountId": {
       "columnName": "buyer_account_id",
        autoIncrement: true,
       "type": "integer",
-      "primaryKey": true
+      "primaryKey": true,
     },
     "userId": {
       "columnName": "user_id",
@@ -27,10 +29,6 @@ module.exports = {
       "columnName": "platform_id",
       "type": "string",
       "size": 45
-    },
-    "addressId": {
-      "columnName": "address_id",
-      "type": "integer"
     },
     "wangwang": {
       "type": "string",
@@ -62,6 +60,10 @@ module.exports = {
       "columnName": "updated_by",
       "type": "string",
       "size": 45
+    },
+    "addressId": {
+      "columnName": "address_id",
+      model: 'UserAddress'
     }
   },
   "tableName": "t_buyer_account"

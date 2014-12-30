@@ -1,21 +1,23 @@
 // EmailService.js - in api/services
 module.exports = {
 
-    sendInviteEmail: function(options) {
+  sendMail: function(opts) {
 
-        var opts = {"type":"messages","call":"send","message":
-            {
-                "subject": "YourIn!",
-                "from_email": "info@balderdash.co",
-                "from_name": "AmazingStartupApp",
-                "to":[
-                    {"email": options.email, "name": options.name}
-                ],
-                "text": "Dear "+options.name+",\nYou're in the Beta! Click <insert link> to verify your account"
-            }
-        };
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'jzj@hyperbridge.com',
+        pass: 'juzhuanjie'
+      }
+    });
+    transporter.sendMail({
+      from: 'jzj@hyperbridge.com',
+      to: opts.to,
+      subject: opts.subject,
+      text: opts.text
+    });
 
-        myEmailSendingLibrary.send(opts);
+  }
 
-    }
 };
