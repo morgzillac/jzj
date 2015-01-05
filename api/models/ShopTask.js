@@ -7,20 +7,24 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
   "attributes": {
     "taskId": {
       "columnName": "task_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },
-    "shopId": {
-      "columnName": "shop_id",
+
+    "shopId":{
+      "columnName":"shop_id",
       "type": "integer"
     },
+
     "productId": {
       "columnName": "product_id",
-      "type": "integer"
+      model:'ShopProduct',
+      via: 'productId'
     },
     "productPrice": {
       "columnName": "product_price",

@@ -57,6 +57,18 @@ module.exports = {
       });
       res.ok();
 
+    },
+
+    query: function (req, res){
+      User.query("select * from t_user_address", function(err, result){
+          if (err) return res.serverError(err);
+
+         return res.json(result);
+
+
+      })
+
+
     }
 
 };

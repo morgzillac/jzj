@@ -7,6 +7,7 @@
 
 module.exports = {
   "schema": true,
+  migrate:'drop',
   "attributes": {
     "tbActivityId": {
       "columnName": "tb_activity_id",
@@ -21,6 +22,11 @@ module.exports = {
     "statusId": {
       "columnName": "status_id",
       "type": "integer"
+    },
+    "ipAddress": {
+      "columnName": "ip_address",
+      "type": "string",
+      "size":20
     },
     "createdAt": {
       "columnName": "created_at",

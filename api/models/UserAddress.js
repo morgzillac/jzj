@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  migrate: 'drop',
+  migrate: 'safe',
 
   "attributes": {
     "addressId": {
@@ -73,5 +73,20 @@ module.exports = {
       "size": 45
     }
   },
-  "tableName": "t_user_address"
+  "tableName": "t_user_address",
+
+
+  beforeUpdate: function (data, next){
+
+    console.log(data);
+    next();
+
+  },
+
+  beforeCreate: function (data, next){
+
+    console.log(data);
+    next();
+
+  }
 }

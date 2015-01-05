@@ -7,16 +7,17 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
   "attributes": {
     "productId": {
       "columnName": "product_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },
     "shopId": {
       "columnName": "shop_id",
-      "type": "integer"
+      model: 'SellerShop'
     },
     "productPrice": {
       "columnName": "product_price",

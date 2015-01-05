@@ -67,4 +67,24 @@ module.exports = {
     }
   },
   "tableName": "t_buyer_account"
+
+  //beforeUpdate: function (data, next){
+  //    var addressData = data.addressId;
+  //  if (addressData) {
+  //    data.remove("addressId");
+  //    if (addressData.addressId) {
+  //        UserAddress.update({AddressId:addressData.addressId}, addressData, saveAddressCB);
+  //      } else {
+  //        UserAddress.create(addressData, saveAddressCB);
+  //      }
+  //    }
+  //
+  //  function saveAddressCB(err, rec) {
+  //    if (err) return next(err);
+  //    next ();
+  //  }
+  //
+  //}
+
+
 }
