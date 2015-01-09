@@ -14,7 +14,7 @@ module.exports = {
       "columnName": "buyer_account_id",
        autoIncrement: true,
       "type": "integer",
-      "primaryKey": true,
+      "primaryKey": true
     },
     "userId": {
       "columnName": "user_id",

@@ -44,6 +44,10 @@ module.exports = {
       "type": "string",
       "size": 45
     },
+    "PlatformId": {
+      "columnName": "platform_id",
+      "type": "integer"
+    },
     "taskTypeId": {
       "columnName": "task_type_id",
       "type": "integer"
@@ -58,7 +62,11 @@ module.exports = {
     },
     "comment": {
       "type": "string",
-      "size": 45
+      "size": 255
+    },
+    "taskDetail": {
+      "type": "string",
+      "size": 4000
     },
     "createdAt": {
       "columnName": "created_at",
