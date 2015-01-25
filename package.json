@@ -32,7 +32,9 @@
     "sails-disk": "~0.10.0",
     "sails-generate-auth": "^0.2.0",
     "sails-mysql": "^0.10.8",
-    "validator": "^3.26.0"
+    "validator": "^3.26.0",
+    "winston": "^0.8.3",
+    "winston-mysql-transport": "^0.1.2"
   },
   "scripts": {
     "start": "node app.js",

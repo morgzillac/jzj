@@ -59,7 +59,15 @@ module.exports = {
 
     },
 
-    query: function (req, res){
+  log: function(req,res){
+    sails.log.error('this is a test');
+    console.log("here");
+    sails.log.info('this is a transaction');
+    res.ok();
+
+  },
+
+  query: function (req, res){
       User.query("select * from t_user_address", function(err, result){
           if (err) return res.serverError(err);
 

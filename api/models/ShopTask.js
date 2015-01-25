@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  migrate: 'drop',
+  migrate: 'alter',
   "attributes": {
     "taskId": {
       "columnName": "task_id",
@@ -33,6 +33,7 @@ module.exports = {
     "commission": {
       "type": "integer"
     },
+    //加赏
     "bonus": {
       "type": "integer"
     },
@@ -44,7 +45,7 @@ module.exports = {
       "type": "string",
       "size": 45
     },
-    "PlatformId": {
+    "platformId": {
       "columnName": "platform_id",
       "type": "integer"
     },
@@ -64,9 +65,26 @@ module.exports = {
       "type": "string",
       "size": 255
     },
+    //task JSON
     "taskDetail": {
+      "columnName": "task_detail",
       "type": "string",
       "size": 4000
+    },
+    //优先审单
+    "approvalPriority": {
+      "columnName": "approval_priority",
+      "type": "integer"
+    },
+    //提升速度
+    "taskPriority": {
+      "columnName": "task_priority",
+      "type": "integer"
+    },
+    //包邮
+    "includeShipping": {
+      "columnName": "include_shipping",
+      "type": "integer"
     },
     "createdAt": {
       "columnName": "created_at",

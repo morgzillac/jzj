@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  migrate: 'drop',
+  migrate: 'alter',
   "attributes": {
     "productId": {
       "columnName": "product_id",
@@ -23,9 +23,16 @@ module.exports = {
       "columnName": "product_price",
       "type": "integer"
     },
+    "productExtID": {
+      "columnName": "product_ext_id",
+      "type": "string",
+      index: true,
+      "size": 50
+    },
     "productName": {
       "columnName": "product_name",
       "type": "string",
+      index: true,
       "size": 255
     },
     "productDesc": {
