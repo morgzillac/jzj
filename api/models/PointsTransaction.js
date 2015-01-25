@@ -10,7 +10,7 @@ module.exports = {
   "attributes": {
     "pointsTranId": {
       "columnName": "points_tran_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },

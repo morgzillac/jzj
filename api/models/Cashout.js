@@ -7,12 +7,17 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
   "attributes": {
     "cashoutId": {
       "columnName": "cashout_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
+    },
+    "userId": {
+      "columnName": "user_id",
+      "type": "integer"
     },
     "amount": {
       "type": "integer"
@@ -21,6 +26,10 @@ module.exports = {
       "type": "integer"
     },
     "fee": {
+      "type": "integer"
+    },
+    "cashoutTypeId": {
+      "columnName": "cashout_type_id",
       "type": "integer"
     },
     "cashoutTime": {

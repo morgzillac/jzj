@@ -7,12 +7,17 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
   "attributes": {
     "rechargeId": {
       "columnName": "recharge_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
+    },
+    "userId": {
+      "columnName": "user_id",
+      "type": "integer"
     },
     "amount": {
       "type": "integer"

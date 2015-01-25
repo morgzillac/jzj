@@ -7,15 +7,12 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
   "attributes": {
-    "balanceId": {
-      "columnName": "balance_id",
-      "required": true,
-      "type": "integer",
-      "primaryKey": true
-    },
     "userId": {
       "columnName": "user_id",
+      "required": true,
+      "primaryKey": true,
       "type": "integer"
     },
     "points": {
