@@ -8,10 +8,10 @@
  * For more information on the Sails logger, check out:
  * http://sailsjs.org/#documentation
  */
-
+/*
 var winston = require('winston');
 
-/*see the documentation for Winston:  https://github.com/flatiron/winston */
+/*see the documentation for Winston:  https://github.com/flatiron/winston
 var logger = new (winston.Logger)({
   transports: [
     new (winston.transports.Console)( { } ),
@@ -23,6 +23,8 @@ var logger = new (winston.Logger)({
     })
   ]
 });
+
+*/
 
 /*
 var transLogger = new (winston.Logger)({
@@ -49,8 +51,8 @@ module.exports = {
   //
   log: {
     level: 'info',
-    filePath: 'logs/jzj.log',
-    custom: logger
+    filePath: 'logs/jzj.log'
+    //custom: logger
   }
 
 };
