@@ -1,5 +1,5 @@
 /**
-* tRecharge.js
+* tPointsTransaction.js
 *
 * @description :: TODO: Write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
@@ -9,8 +9,8 @@ module.exports = {
   "schema": true,
   migrate: 'drop',
   "attributes": {
-    "rechargeId": {
-      "columnName": "recharge_id",
+    "transactId": {
+      "columnName": "transact_id",
       autoIncrement: true,
       "type": "integer",
       "primaryKey": true
@@ -19,18 +19,36 @@ module.exports = {
       "columnName": "user_id",
       "type": "integer"
     },
-    "amount": {
+    "cashIn": {
+      "columnName": "cash_in",
       "type": "integer"
     },
-    "points": {
+    "cashOut": {
+      "columnName": "cash_out",
       "type": "integer"
     },
-    "rechargeTime": {
-      "columnName": "recharge_time",
-      "type": "datetime"
+    "pointsIn": {
+      "columnName": "points_in",
+      "type": "integer"
     },
-    "rechargeTypeId": {
-      "columnName": "recharge_type_id",
+    "pointsOut": {
+      "columnName": "points_out",
+      "type": "integer"
+    },
+    "pointsBalance": {
+      "columnName": "points_balance",
+      "type": "integer"
+    },
+    "cashBalance": {
+      "columnName": "cash_balance",
+      "type": "integer"
+    },
+    "frozenBalance": {
+      "columnName": "frozen_balance",
+      "type": "integer"
+    },
+    "typeId": {
+      "columnName": "type_id",
       "type": "integer"
     },
     "comment": {
@@ -57,5 +75,5 @@ module.exports = {
       "size": 45
     }
   },
-  "tableName": "t_recharge"
+  "tableName": "t_transaction"
 }

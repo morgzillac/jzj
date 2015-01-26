@@ -28,13 +28,14 @@ module.exports = {
     "fee": {
       "type": "integer"
     },
+    "comment": {
+      "columnName": "comment",
+      "type": "string",
+      "size": 500
+    },
     "cashoutTypeId": {
       "columnName": "cashout_type_id",
       "type": "integer"
-    },
-    "cashoutTime": {
-      "columnName": "cashout_time",
-      "type": "datetime"
     },
     "status": {
       "type": "integer"
