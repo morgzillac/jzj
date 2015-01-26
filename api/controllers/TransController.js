@@ -10,13 +10,18 @@ module.exports = {
   recharge: function (req, res) {
     var comment = '"充值"';
     var userId = 9999;
+    var isFrozen = false;
+    if (req.param('isFrozen')) {
+      isFrozen = true;
+    }
     if (req.userId) userId = req.userId;
     var sql = "call sp_recharge(" + req.param('points') + ","
         + req.param('amount')  + ","
         + req.param('type')  + ","
         + comment + ","
         + userId + ","
-        + " @result);";
+        + isFrozen + ","
+      + " @result);";
     User.query(sql, function (err,data) {
       console.log(sql);
       // Error handling
@@ -24,8 +29,12 @@ module.exports = {
         console.log(err);
         res.customError("操作失败！");
       } else {
-        console.log("充值成功！", data);
-        res.ok();
+        if (data[0][0].outSuccess == 1) {
+          console.log("充值成功！", data);
+          res.ok("充值成功！");
+        }else {
+          res.customError("操作失败！");
+        }
       }
     });
   },
@@ -34,7 +43,8 @@ module.exports = {
     var comment = '"提现"';
     var userId = 9999;
     if (req.userId) userId = req.userId;
-    var sql = "call sp_cashout(" + req.param('points') + ","
+    var sql = "call sp_cashout("
+      + req.param('points') + ","
       + req.param('amount')  + ","
       + req.param('fee')  + ","
       + req.param('type')  + ","
@@ -48,8 +58,12 @@ module.exports = {
         console.log(err);
         res.customError("操作失败！");
       } else {
-        console.log("提现成功！", data);
-        res.ok();
+        if (data[0][0].outSuccess == 1) {
+          console.log("提现成功！", data);
+          res.ok("提现成功！");
+        }else{
+          res.customError("操作失败！");
+        }
       }
     });
   },
@@ -72,6 +86,13 @@ module.exports = {
       if (err) {
         console.log(err);
         res.customError("操作失败！");
+      } else {
+        if (data[0][0].outSuccess == 1) {
+          console.log("变现成功！", data);
+          res.ok("变现成功！");
+        }else{
+          res.customError("操作失败！");
+        }
       }
       res.ok();
 
