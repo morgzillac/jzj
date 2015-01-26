@@ -11,6 +11,13 @@ module.exports = {
     var comment = '"充值"';
     var userId = 9999;
     var isFrozen = false;
+
+    // for testing only, to be removed.
+    if (req.param('userId')){
+      userId = req.param('userId');
+    }
+
+
     if (req.param('isFrozen')) {
       isFrozen = true;
     }
@@ -42,6 +49,13 @@ module.exports = {
   cashout: function (req, res) {
     var comment = '"提现"';
     var userId = 9999;
+
+    // for testing only, to be removed.
+    if (req.param('userId')){
+      userId = req.param('userId');
+    }
+
+
     if (req.userId) userId = req.userId;
     var sql = "call sp_cashout("
       + req.param('points') + ","
@@ -71,6 +85,13 @@ module.exports = {
   points2cash: function (req, res) {
     var userId = 9999;
     var comment = '"变现"';
+
+    // for testing only, to be removed.
+    if (req.param('userId')){
+      userId = req.param('userId');
+    }
+
+
     if (req.userId) userId = req.userId;
     var sql = "call sp_points2cash("
       + req.param('points') + ","
@@ -94,7 +115,6 @@ module.exports = {
           res.customError("操作失败！");
         }
       }
-      res.ok();
 
     });
 
@@ -119,6 +139,7 @@ module.exports = {
     }
     res.ok();
   }
+
 
 };
 
