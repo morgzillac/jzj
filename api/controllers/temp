@@ -1,0 +1,98 @@
+{
+  "taskId" : -1,
+
+  "status" : 2,
+
+  "platformId" : 1,
+
+  "shopId" : -1,
+
+  "taskTypeId" : 1,
+
+  "productId" : -1,
+
+  "productPrice" : 0,
+
+  "totalTasks" : 1,
+
+  "commission": 0,
+
+  "bonus": 0,
+
+  "terminal": null,
+
+  "approvalPriority": 0,
+
+  "taskPriority": 0,
+
+  "includeShipping": 0,
+
+  "taskDetail" : {
+
+    "currItem" : "app.task.item1",
+
+    "flowItem" : ["app.task.item1","app.task.item2","app.task.item3","app.task.item4","app.task.item5","app.task.item6"],
+
+    "taskId" : -1,
+
+    "status" : 2,
+
+    "platformId" : 1,
+
+    "shopId" : -1,
+
+    "shopName" : "",
+
+    "taskTypeId" : 1,
+
+    "productId" : -1,
+
+    "productPrice" : 0,
+
+    "productCount" : 1,
+
+    "searchProductKeywords" : [
+      {"keyword":"abc", "totalTasks":"2", "category1" : "a", "category2" : "b", "category3" : "c", "category4" : ""},
+      {"keyword":"def", "totalTasks":"3", "category1" : "d", "category2" : "e", "category3" : "f", "category4" : "g"},
+      {"keyword":"ghi", "totalTasks":"5", "category1" : "h", "category2" : "i", "category3" : "", "category4" : ""}
+    ],
+
+    "searchMinPrice" : "",
+
+    "searchMaxPrice" : "",
+
+    "searchProductLocation" : "",
+
+    "includeShipping" : false,
+
+    "totalTasks" : "",
+
+    "orderMessages" : [""],
+
+    "agreeFastRefunds" : false,
+
+    "taskPriority" : -1,
+
+    "agreeBonus" : false,
+
+    "bonus" : 0,
+
+
+    "agreeApprovalPriority" : false,
+
+
+    "agreeQualityPraise" : false,
+
+
+    "praiseKeywords" : ["","",""],
+
+
+    "paymentPiont" : false,
+
+    "paymentDeposit" : false,
+
+    "paymentBank" : false
+
+  }
+
+}

@@ -25,13 +25,17 @@ module.exports = {
     "points": {
       "type": "integer"
     },
-    "rechargeTime": {
-      "columnName": "recharge_time",
-      "type": "datetime"
-    },
     "rechargeTypeId": {
       "columnName": "recharge_type_id",
       "type": "integer"
+    },
+    "bankType": {
+      "columnName": "bank_type",
+      "type": "string"
+    },
+    "bankConfirm": {
+      "columnName": "bank_confirm",
+      "type": "string"
     },
     "comment": {
       "columnName": "comment",

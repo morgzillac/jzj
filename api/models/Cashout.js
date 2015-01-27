@@ -28,6 +28,11 @@ module.exports = {
     "fee": {
       "type": "integer"
     },
+    "userBankId": {
+      "model":"UserBank",
+      "columnName": "user_bank_id",
+      "type": "integer"
+    },
     "comment": {
       "columnName": "comment",
       "type": "string",

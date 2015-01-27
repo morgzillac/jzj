@@ -86,6 +86,10 @@ module.exports = {
       "columnName": "include_shipping",
       "type": "integer"
     },
+    keywords:{
+      collection: 'TaskKeyword',
+      via: 'taskId'
+    },
     "createdAt": {
       "columnName": "created_at",
       "type": "datetime"

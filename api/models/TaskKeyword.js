@@ -11,11 +11,12 @@ module.exports = {
   "attributes": {
     "keywordId": {
       "columnName": "keyword_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },
     "taskId": {
+      "model":"ShopTask",
       "columnName": "task_id",
       "type": "integer"
     },
@@ -39,7 +40,7 @@ module.exports = {
       "type": "string",
       "size": 45
     },
-    "quantity": {
+    "totalTask": {
       "type": "integer"
     },
     "createdAt": {

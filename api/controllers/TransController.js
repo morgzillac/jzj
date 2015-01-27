@@ -25,7 +25,8 @@ module.exports = {
     var sql = "call sp_recharge(" + req.param('points') + ","
         + req.param('amount')  + ","
         + req.param('type')  + ","
-        + comment + ","
+      + '"' + req.param('bankType')  + '"' + ","
+      + comment + ","
         + userId + ","
         + isFrozen + ","
       + " @result);";
@@ -62,6 +63,7 @@ module.exports = {
       + req.param('amount')  + ","
       + req.param('fee')  + ","
       + req.param('type')  + ","
+      + req.param('userBankId')  + ","
       + comment + ","
       + userId + ","
       + " @result);";
@@ -133,6 +135,25 @@ module.exports = {
     console.log(taskJson);
     try {
       var taskObj = JSON.parse(taskJson);
+     taskObj.keywords = taskObj.taskDetail.searchProductKeywords;
+      taskObj.taskDetail = JSON.stringify(taskObj.taskDetail);
+      console.log(taskObj.taskId, taskObj.keywords);
+    } catch (e) {
+      console.log(e);
+    }
+
+    ShopTask.create(taskObj).exec(console.log);
+
+    res.ok();
+  },
+
+  calcCost: function (req, res) {
+    var taskJson = req.param('taskJson');
+
+    console.log(taskJson);
+    try {
+      var taskObj = JSON.parse(taskJson);
+
       console.log(taskObj.a);
     } catch (e) {
       console.log(e);
