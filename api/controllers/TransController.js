@@ -149,16 +149,42 @@ module.exports = {
 
   calcCost: function (req, res) {
     var taskJson = req.param('taskJson');
-
-    console.log(taskJson);
     try {
       var taskObj = JSON.parse(taskJson);
 
-      console.log(taskObj.a);
     } catch (e) {
       console.log(e);
     }
-    res.ok();
+
+    var result = {};
+    var categories = [{}, {}, {}];
+
+    result.categories = categories;
+    categories[0].name = "deposit";
+    categories[0].items = [];
+    categories[1].name = "service";
+    categories[1].items = [];
+    categories[2].name = "extra";
+    categories[2].items = [];
+
+    var item = {};
+    item.name = "商品";
+    item.value = 10;
+    categories[0].items.push(item);
+
+    var item = {};
+    item.name = "服务费";
+    item.value = 15.6;
+    categories[1].items.push(item);
+
+    var item = {};
+    item.name = "增值服务费";
+    item.value = 15.6;
+    categories[2].items.push(item);
+
+    //console.log(JSON.stringify(result));
+
+    res.ok(result);
   }
 
 
