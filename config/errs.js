@@ -23,5 +23,11 @@ module.exports.errs = {
   access_notloggedin:{
     code: "access_notloggedin",
     message: "未登录!"
+  },
+
+  db_userdata_not_found:{
+    code: "db_userdata_not_found",
+    message: "用户数据没找到!"
   }
+
 };

@@ -22,6 +22,18 @@ module.exports = {
   destroy: function (req, res) {
     console.log("not allowed");
     res.forbidden();
+  },
+
+  find: function (req, res) {
+    console.log("not allowed");
+    res.forbidden();
+
+  },
+
+  findOne: function (req, res) {
+    console.log("not allowed");
+    res.forbidden();
+
   }
 
 };

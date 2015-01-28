@@ -8,9 +8,9 @@
 module.exports = {
 
   recharge: function (req, res) {
-    var comment = '"充值"';
     var userId = 9999;
     var isFrozen = false;
+    var comment = '"充值现金"';
 
     // for testing only, to be removed.
     if (req.param('userId')){
@@ -18,9 +18,13 @@ module.exports = {
     }
 
 
-    if (req.param('isFrozen')) {
+    if (req.param('isFrozen') && req.param('isFrozen') == 1) {
       isFrozen = true;
+      comment = '"充值押金"';
+    } else if (req.param('points') && req.param('points') > 0) {
+      comment = '"购买赚点"';
     }
+
     if (req.userId) userId = req.userId;
     var sql = "call sp_recharge(" + req.param('points') + ","
         + req.param('amount')  + ","
@@ -35,13 +39,13 @@ module.exports = {
       // Error handling
       if (err) {
         console.log(err);
-        res.customError("操作失败！");
+        res.customError(comment + "失败！");
       } else {
         if (data[0][0].outSuccess == 1) {
-          console.log("充值成功！", data);
-          res.ok("充值成功！");
+          console.log(comment, data);
+          res.ok(comment + "成功！");
         }else {
-          res.customError("操作失败！");
+          res.customError(comment + "失败！");
         }
       }
     });

@@ -5,7 +5,15 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-module.exports = {
+/*
+'use strict';
+
+var _ = require("lodash");
+
+module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
+*/
+
+  module.exports = {
 
 /*
 

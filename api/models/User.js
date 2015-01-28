@@ -72,7 +72,19 @@ var User = {
       "type": "string",
       "size": 45,
       unique: true
+    },
+
+    // Override toJSON method to remove password from API
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj.password;
+      return obj;
+    },
+
+    query: function () {
+      return null;
     }
+
 
   },
 
