@@ -1,4 +1,4 @@
-module.exports = {
+module.exports.settings = {
 
   bank_type: {
   	zhifubao: 10,
@@ -11,7 +11,8 @@ module.exports = {
     shopper: 0.05,
     approvalPriority: 5,
     refund: 0.01,
-    shopperPriority: 5
+    shopperPriority: 5,
+    shipping:6
   }
 
 };

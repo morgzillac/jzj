@@ -155,7 +155,8 @@ module.exports = {
     var taskJson = req.param('taskJson');
     try {
       var taskObj = JSON.parse(taskJson);
-
+      taskObj = taskObj.taskDetail;
+     // console.log(taskObj);
     } catch (e) {
       console.log(e);
     }
@@ -164,27 +165,66 @@ module.exports = {
     var categories = [{}, {}, {}];
 
     result.categories = categories;
+    result.total = 0;
+    result.totalPts = 0;
     categories[0].name = "deposit";
     categories[0].items = [];
+    categories[0].subtotal = 0;
+
     categories[1].name = "service";
     categories[1].items = [];
+    categories[1].subtotal = 0;
+
     categories[2].name = "extra";
     categories[2].items = [];
+    categories[2].subtotal = 0;
 
     var item = {};
-    item.name = "商品";
-    item.value = 10;
+    item.name = "商品总价 (" + taskObj.productPrice + " X "
+       + taskObj.productCount + " X "
+       + taskObj.totalTasks+ ')';
+    item.value = taskObj.productPrice * taskObj.productCount * taskObj.totalTasks;
+    result.total += item.value;
+    categories[0].subtotal += item.value;
     categories[0].items.push(item);
 
     var item = {};
-    item.name = "服务费";
-    item.value = 15.6;
+    item.name = "平台服务费 (" + taskObj.productPrice * sails.config.settings.fee.platform
+            + " X " +  taskObj.totalTasks + ")";
+    item.value = taskObj.productPrice * sails.config.settings.fee.platform
+            *  taskObj.totalTasks;
+    result.totalPts += item.value;
+    categories[1].subtotal += item.value;
     categories[1].items.push(item);
 
     var item = {};
-    item.name = "增值服务费";
-    item.value = 15.6;
-    categories[2].items.push(item);
+    item.name = "服务费 (" + taskObj.productPrice * sails.config.settings.fee.shopper
+          + " X " +  taskObj.totalTasks + ")";
+    item.value =  taskObj.productPrice * sails.config.settings.fee.shopper * taskObj.totalTasks;
+    result.totalPts += item.value;
+    categories[1].subtotal += item.value;
+    categories[1].items.push(item);
+
+    if (taskObj.agreeApprovalPriority) {
+      var item = {};
+      item.name = "加速审核费";
+      item.value = sails.config.settings.fee.approvalPriority;
+      categories[2].items.push(item);
+      categories[2].subtotal += item.value;
+      result.totalPts += item.value;
+    }
+
+    if (taskObj.includeShipping) {
+      var item = {};
+      item.name = "包邮费用 (" + sails.config.settings.fee.shipping
+            + " X " +  taskObj.totalTasks + ")";
+      item.value = sails.config.settings.fee.shipping;
+      categories[2].items.push(item);
+      categories[2].subtotal += item.value;
+      result.totalPts += item.value;
+    }
+
+
 
     //console.log(JSON.stringify(result));
 

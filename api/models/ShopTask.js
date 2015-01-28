@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  migrate: 'alter',
+  migrate: 'drop',
   "attributes": {
     "taskId": {
       "columnName": "task_id",
@@ -74,17 +74,17 @@ module.exports = {
     //优先审单
     "approvalPriority": {
       "columnName": "approval_priority",
-      "type": "integer"
+      "type": "boolean"
     },
     //提升速度
     "taskPriority": {
       "columnName": "task_priority",
-      "type": "integer"
+      "type": "boolean"
     },
     //包邮
     "includeShipping": {
       "columnName": "include_shipping",
-      "type": "integer"
+      "type": "boolean"
     },
     keywords:{
       collection: 'TaskKeyword',

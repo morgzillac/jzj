@@ -10,21 +10,21 @@
 
   "productId" : -1,
 
-  "productPrice" : 0,
+  "productPrice" : 150,
 
-  "totalTasks" : 1,
+  "totalTasks" : 10,
 
   "commission": 0,
 
-  "bonus": 0,
+  "bonus": 10,
 
   "terminal": null,
 
-  "approvalPriority": 0,
+  "approvalPriority": true,
 
   "taskPriority": 0,
 
-  "includeShipping": 0,
+  "includeShipping": true,
 
   "taskDetail" : {
 
@@ -46,9 +46,9 @@
 
     "productId" : -1,
 
-    "productPrice" : 0,
+    "productPrice" : 150,
 
-    "productCount" : 1,
+    "productCount" : 2,
 
     "searchProductKeywords" : [
       {"keyword":"abc", "totalTasks":"2", "category1" : "a", "category2" : "b", "category3" : "c", "category4" : ""},
@@ -62,9 +62,9 @@
 
     "searchProductLocation" : "",
 
-    "includeShipping" : false,
+    "includeShipping" : true,
 
-    "totalTasks" : "",
+    "totalTasks" : 10,
 
     "orderMessages" : [""],
 
@@ -77,7 +77,7 @@
     "bonus" : 0,
 
 
-    "agreeApprovalPriority" : false,
+    "agreeApprovalPriority" : true,
 
 
     "agreeQualityPraise" : false,
