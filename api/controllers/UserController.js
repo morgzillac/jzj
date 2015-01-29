@@ -39,12 +39,17 @@ module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
             var token = UtilsService.uid(5);
             console.log('match found!!!' + token );
 
-            AccessToken.create({userId:user.userId, token:token}).exec(function createCB(err) {
+            //todo: line below is for testing only, need to be removed
+            token = 123;
+
+            AccessToken.create({userId:user.userId, token:token,
+                                  payPassword:user.payPassword })
+                .exec(function createCB(err) {
               if (err) {
                 res.customError('500', sails.config.errs.systemError('写入Token错误'));
                 console.log(err);
               }
-
+              //console.log(AccessToken);
             });
             res.set('token',token);
             res.json(user);

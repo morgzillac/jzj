@@ -12,12 +12,6 @@ module.exports = {
     var isFrozen = false;
     var comment = '"充值现金"';
 
-    // for testing only, to be removed.
-    if (req.param('userId')){
-      userId = req.param('userId');
-    }
-
-
     if (req.param('isFrozen') && req.param('isFrozen') == 1) {
       isFrozen = true;
       comment = '"充值押金"';
@@ -25,7 +19,9 @@ module.exports = {
       comment = '"购买赚点"';
     }
 
+    // get user ID of the current logged in user
     if (req.userId) userId = req.userId;
+
     var sql = "call sp_recharge(" + req.param('points') + ","
         + req.param('amount')  + ","
         + req.param('type')  + ","
@@ -55,13 +51,9 @@ module.exports = {
     var comment = '"提现"';
     var userId = 9999;
 
-    // for testing only, to be removed.
-    if (req.param('userId')){
-      userId = req.param('userId');
-    }
-
-
+    // get user ID of the current logged in user
     if (req.userId) userId = req.userId;
+
     var sql = "call sp_cashout("
       + req.param('points') + ","
       + req.param('amount')  + ","
@@ -92,13 +84,9 @@ module.exports = {
     var userId = 9999;
     var comment = '"变现"';
 
-    // for testing only, to be removed.
-    if (req.param('userId')){
-      userId = req.param('userId');
-    }
-
-
+    // get user ID of the current logged in user
     if (req.userId) userId = req.userId;
+
     var sql = "call sp_points2cash("
       + req.param('points') + ","
       + req.param('amount')  + ","
@@ -139,8 +127,9 @@ module.exports = {
     console.log(taskJson);
     try {
       var taskObj = JSON.parse(taskJson);
-     taskObj.keywords = taskObj.taskDetail.searchProductKeywords;
+      taskObj.keywords = taskObj.taskDetail.searchProductKeywords;
       taskObj.taskDetail = JSON.stringify(taskObj.taskDetail);
+      taskObj.userId = req.userId; //set user ID
       console.log(taskObj.taskId, taskObj.keywords);
     } catch (e) {
       console.log(e);

@@ -25,6 +25,11 @@ module.exports.errs = {
     message: "未登录!"
   },
 
+  access_notTheUser:{
+    code: "access_notTheUser",
+    message: "不是当前登陆用户!"
+  },
+
   db_userdata_not_found:{
     code: "db_userdata_not_found",
     message: "用户数据没找到!"

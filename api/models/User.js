@@ -2,7 +2,7 @@ var User = {
   // Enforce model schema in the case of schemaless databases
   schema: true,
 	"tableName": "t_user",
-  migrate: 'safe',
+  migrate: 'drop',
   "attributes": {
     "userId": {
       "columnName": "user_id",
@@ -26,7 +26,7 @@ var User = {
     "payPassword": {
       "columnName": "pay_password",
       "type": "string",
-      "size": 45
+      "size": 500
     },
     "mobile": {
       "type": "string",
@@ -96,10 +96,19 @@ var User = {
 
       bcrypt.hash(attrs.password, salt, function(err, hash) {
         if (err) return next(err);
-
         attrs.password = hash;
         console.log(hash);
-        next();
+
+        bcrypt.genSalt(10, function(err, salt) {
+          if (err) return next(err);
+          bcrypt.hash(attrs.payPassword, salt, function(err, hash) {
+            if (err) return next(err);
+
+            attrs.payPassword = hash;
+            console.log(hash);
+            next();
+          });
+        });
       });
     });
 

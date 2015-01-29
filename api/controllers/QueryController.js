@@ -24,11 +24,10 @@ module.exports = {
 
     balance: function (req, res){
 
-      var userId = req.param('userId');
+      var userId = 0;
 
-      // TODO: uncomment for production
-      // var userId = req.userId;
-
+      // get user ID of the current logged in user
+      if (req.userId) userId = req.userId;
 
       UserBalance.findOne({userId:userId}).exec(function (err, bal) {
         if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
@@ -40,8 +39,6 @@ module.exports = {
         }
 
       })
-
-
     },
 
     count: function (req, res){
@@ -51,6 +48,14 @@ module.exports = {
 
       // remove the model attribute from query string
       delete criteria.model;
+
+      // add user Id to the criteria
+      if (!criteria.where) {
+        criteria.where = {};
+      }
+      criteria.where.userId = req.userId;
+
+      console.log(criteria);
 
       switch (strMode) {
         case 'transaction' :
