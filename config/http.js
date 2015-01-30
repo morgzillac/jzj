@@ -83,5 +83,19 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-  // cache: 31557600000
+  // cache: 31557600000,
+
+  /**
+   * Configure advanced options for the Express server inside of Sails.
+   *
+   * For more information on configuration, check out:
+   * http://sailsjs.org/#documentation
+   */
+  middleware: {
+    poweredBy: false
+  },
+
+  customMiddleware: function (app) {
+    app.disable('x-powered-by');
+  }
 };

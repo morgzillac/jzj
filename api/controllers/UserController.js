@@ -52,6 +52,14 @@ module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
               //console.log(AccessToken);
             });
             res.set('token',token);
+
+            //todo: remove following for production
+            res.set('Access-Control-Allow-Origin', '*');
+            res.set("Access-Control-Allow-Methods', 'POST, GET");
+            res.set('Custom-Header', 'Own-Data');
+            res.set('Access-Control-Expose-Headers', 'Custom-Header');
+            // end of removing part
+
             res.json(user);
           } else {
             // invalid password
