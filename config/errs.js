@@ -33,6 +33,12 @@ module.exports.errs = {
   db_userdata_not_found:{
     code: "db_userdata_not_found",
     message: "用户数据没找到!"
+  },
+
+  db_reset_password_err:{
+    code: "db_reset_password_err",
+    message: "密码重置失败!"
   }
+
 
 };

@@ -15,11 +15,10 @@ module.exports = function(req, res, next) {
   var tokenIn = req.get('token');
   console.log('IsLoggedIn.js token:' + tokenIn);
 
-  AccessToken.findOne({token:tokenIn}).exec(function (err, token) {
+  AccessToken.findOne({token:tokenIn}).exec(function (err, userData) {
     if (err) return res.customError('500', sails.config.errs.systemError('硬盘数据出错'));
-
-    if (token) {
-      req.userId = token.userId;
+    if (userData) {
+      req.userData = userData;
       next();
     } else {
       return res.customError('403', sails.config.errs.access_notloggedin);

@@ -56,6 +56,17 @@ module.exports = {
       return true;
 
     });
+  },
+
+  encrypt: function (value) {
+    var bcrypt = require('bcrypt');
+    try{
+        var salt = bcrypt.genSaltSync(10);
+        return bcrypt.hashSync(value, salt);
+    } catch (err) {
+      console.log('UtilsService.encrypt' + err)
+      throw (err);
+    }
   }
 };
 

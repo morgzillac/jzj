@@ -28,7 +28,25 @@ module.exports.policies = {
     // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
     'find': ['IsLoggedIn', 'UserFilter'],
     'findOne': ['IsLoggedIn', 'UserFilter']
+  },
+  Cashout: {
+    // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
+  },
+  Points2Cash: {
+    // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
+  },
+  Recharge: {
+    // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
   }
+
+
+
 
 };
 

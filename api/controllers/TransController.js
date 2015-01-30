@@ -20,7 +20,7 @@ module.exports = {
     }
 
     // get user ID of the current logged in user
-    if (req.userId) userId = req.userId;
+    if (req.userData && req.userData.userId) userId = req.userData.userId;
 
     var sql = "call sp_recharge(" + req.param('points') + ","
         + req.param('amount')  + ","
@@ -52,7 +52,11 @@ module.exports = {
     var userId = 9999;
 
     // get user ID of the current logged in user
-    if (req.userId) userId = req.userId;
+    if (req.userData && req.userData.userId) {
+      userId = req.userData.userId;
+    } else {
+      res.customError('403', sails.config.errs.access_notloggedin);
+    }
 
     var sql = "call sp_cashout("
       + req.param('points') + ","
@@ -85,7 +89,11 @@ module.exports = {
     var comment = '"变现"';
 
     // get user ID of the current logged in user
-    if (req.userId) userId = req.userId;
+    if (req.userData && req.userData.userId) {
+      userId = req.userData.userId;
+    } else {
+      res.customError('403', sails.config.errs.access_notloggedin);
+    }
 
     var sql = "call sp_points2cash("
       + req.param('points') + ","
@@ -129,7 +137,7 @@ module.exports = {
       var taskObj = JSON.parse(taskJson);
       taskObj.keywords = taskObj.taskDetail.searchProductKeywords;
       taskObj.taskDetail = JSON.stringify(taskObj.taskDetail);
-      taskObj.userId = req.userId; //set user ID
+      taskObj.userId = req.userData.userId; //set user ID
       console.log(taskObj.taskId, taskObj.keywords);
     } catch (e) {
       console.log(e);

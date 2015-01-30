@@ -22,9 +22,9 @@
 
 module.exports.routes = {
 
-'get /login': 'User.login',
-'get /logout': 'User.logout',
-'get /register': 'User.register',
+'/login': 'User.login',
+'/logout': 'User.logout',
+'/register': 'User.register',
 
   /***************************************************************************
   *                                                                          *

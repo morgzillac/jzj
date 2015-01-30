@@ -13,7 +13,7 @@ module.exports = {
     var bcrypt = require('bcrypt');
 
 
-    AccessToken.findOne({userId:req.userId}).exec(function (err, token) {
+    AccessToken.findOne({userId:req.userData.userId}).exec(function (err, token) {
       if (err) return res.customError('500', sails.config.errs.systemError('硬盘数据出错'));
 
       if (token) {
@@ -29,7 +29,6 @@ module.exports = {
         res.customError('403', sails.config.errs.access_notloggedin);
       }
     });
-
   }
 };
 

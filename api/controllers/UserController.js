@@ -40,7 +40,7 @@ module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
             console.log('match found!!!' + token );
 
             //todo: line below is for testing only, need to be removed
-            token = 123;
+            token = 123;  //user.userId;
 
             AccessToken.create({userId:user.userId, token:token,
                                   payPassword:user.payPassword })
@@ -66,7 +66,40 @@ module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
 
 
   logout: function (req, res) {
+
+    AccessToken.destroy({token:req.userData.token}).exec(function (err, userData) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(userData);
+      }
+      res.ok();
+    });
+
   },
+
+    resetPassword: function (req, res) {
+
+      var email = req.param('email');
+      var record = {};
+      if (req.param('password')) {
+        record.password = req.param('password');
+        console.log(record);
+      }
+      if (req.param('payPassword')) {
+        record.payPassword = req.param('payPassword');
+      }
+      User.update({"email":email},record).exec(function (err, userData) {
+        if (err) {
+          console.log(err);
+          res.customError('500', sails.config.errs.systemError(sails.config.errs.db_reset_password_err));
+        } else {
+          console.log(userData);
+        }
+        res.ok();
+      });
+
+    },
 
   register: function (req, res) {
   }

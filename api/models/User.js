@@ -78,6 +78,7 @@ var User = {
     toJSON: function() {
       var obj = this.toObject();
       delete obj.password;
+      delete obj.payPassword;
       return obj;
     },
 
@@ -88,7 +89,72 @@ var User = {
 
   },
 
-    beforeCreate: function (attrs, next) {
+  beforeCreate4: function (attrs, next) {
+    var bcrypt = require('bcrypt');
+    async.series([
+        function(callback){
+          bcrypt.genSalt(10);
+          callback(null, salt);
+        },
+        function(callback){
+          bcrypt.genSalt(10);
+          callback(null, salt);
+        }
+      ],
+
+      function(err, results){
+        async.series([
+            function(callback){
+              bcrypt.hash(attrs.password, results[0]),
+              callback(null, hash);
+            },
+            function(callback){
+              bcrypt.hash(attrs.payPassword, results[1]),
+              callback(null, hash);
+            }
+          ],
+          function(err, results){
+            attrs.password = results[0];
+            attrs.payPassword = results[1];
+          });
+      });
+
+  },
+
+  beforeCreate3: function (attrs, next) {
+    var bcrypt = require('bcrypt');
+    var Promise = require('q');
+
+    Promise.all([
+      bcrypt.genSalt(10),
+      bcrypt.genSalt(10)
+    ])
+      .spread(function(salt1, salt2){
+        Promise.all([
+          bcrypt.hash(attrs.password, salt),
+          bcrypt.hash(attrs.payPassword, salt)
+        ])
+          .spread(function(salt1, salt2){
+            //use the results
+            next();
+          })
+          .catch(function(err1, err2){
+            //handle errors
+            next(err1);
+          })
+          .done(function(){
+            //clean up
+          });
+      })
+      .catch(function(err1, err2){
+         next(err1);
+      })
+      .done(function(){
+        //clean up
+      });
+  },
+
+    beforeCreate1: function (attrs, next) {
     var bcrypt = require('bcrypt');
 
     bcrypt.genSalt(10, function(err, salt) {
@@ -112,8 +178,29 @@ var User = {
       });
     });
 
+    },
+
+  beforeCreate: function (attrs, next) {
+
+    try {
+      attrs.password = UtilsService.encrypt(attrs.password);
+      attrs.payPassword = UtilsService.encrypt(attrs.payPassword);
+    } catch (err) {
+      return next (err);
+    }
+    next();
+  },
+
+  beforeUpdate: function (attrs, next) {
+    try {
+      if (attrs.password) attrs.password = UtilsService.encrypt(attrs.password);
+      if (attrs.payPassword) attrs.payPassword = UtilsService.encrypt(attrs.payPassword);
+    } catch (err) {
+      return next (err);
+    }
+    next();
   }
 
-};
+  };
 
 module.exports = User;

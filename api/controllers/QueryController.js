@@ -27,7 +27,7 @@ module.exports = {
       var userId = 0;
 
       // get user ID of the current logged in user
-      if (req.userId) userId = req.userId;
+      if (req.userData.userId && req.userData.userId) userId = req.userData.userId;
 
       UserBalance.findOne({userId:userId}).exec(function (err, bal) {
         if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
@@ -53,9 +53,13 @@ module.exports = {
       if (!criteria.where) {
         criteria.where = {};
       }
-      criteria.where.userId = req.userId;
 
-      console.log(criteria);
+      if (req.userData) {
+        criteria.where.userId = req.userData.userId;
+      } else {
+        // send not logged in msg
+        return res.customError('403', sails.config.errs.access_notloggedin);
+      }
 
       switch (strMode) {
         case 'transaction' :
@@ -92,8 +96,8 @@ module.exports = {
           break;
         default:
           res.ok({count: count});
-
       }
     }
+
 };
 
