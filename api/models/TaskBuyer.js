@@ -7,10 +7,11 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
   "attributes": {
     "taskBuyerId": {
       "columnName": "task_buyer_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },
@@ -21,6 +22,12 @@ module.exports = {
     "taskId": {
       "columnName": "task_id",
       "type": "integer"
+    },
+    //task JSON
+    "taskDetail": {
+      "columnName": "task_detail",
+      "type": "string",
+      "size": 4000
     },
     "statusId": {
       "columnName": "status_id",

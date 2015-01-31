@@ -104,6 +104,10 @@ module.exports = {
       "columnName": "platform_id",
       "type": "integer"
     },
+    "assigned": {
+      "columnName": "assigned",
+      "type": "integer"
+    },
     "userId": {
       "columnName": "user_id",
       "type": "integer"
