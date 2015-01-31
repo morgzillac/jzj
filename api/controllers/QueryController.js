@@ -54,7 +54,7 @@ module.exports = {
         criteria.where = {};
       }
 
-      if (req.userData && strMode != 'task') {
+      if (req.userData) {
         criteria.where.userId = req.userData.userId;
       } else {
         // send not logged in msg
@@ -88,7 +88,7 @@ module.exports = {
               res.ok({count: total})});
           break;
         case 'task':
-          ShopTask.count(criteria)
+          VWShopTask.count(criteria)
             .exec(function(err, total){
               if (err) return res.serverError(err);
               res.ok({count: total})});
