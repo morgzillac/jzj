@@ -95,7 +95,7 @@ module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
       var code = UtilsService.encrypt(email);
       var port = "";
       if (req.port) port = ":" + req.port;
-      var url = req.host + port + '/#/access/forgotpwd?code=' + code;
+      var url = req.host + port + '/#/access/resetpwd?code=' + code;
 
       var locals = {
         templateName: sails.config.email.resetPW.templateName,
