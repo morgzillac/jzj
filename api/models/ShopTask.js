@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  migrate: 'drop',
+  migrate: 'safe',
   "attributes": {
     "taskId": {
       "columnName": "task_id",

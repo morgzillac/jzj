@@ -45,6 +45,11 @@ module.exports = {
       "type": "string",
       "size": 500
     },
+    "productUrl": {
+      "columnName": "product_url",
+      "type": "string",
+      "size": 500
+    },
     "statusId": {
       "columnName": "status_id",
       "type": "integer"
