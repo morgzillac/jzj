@@ -86,27 +86,68 @@ module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
 
   },
 
-    resetPassword: function (req, res) {
+    resetPasswordRequest: function (req, res){
 
       var email = req.param('email');
-      var record = {};
-      if (req.param('password')) {
-        record.password = req.param('password');
-        console.log(record);
-      }
-      if (req.param('payPassword')) {
-        record.payPassword = req.param('payPassword');
-      }
-      User.update({"email":email},record).exec(function (err, userData) {
-        if (err) {
-          console.log(err);
-          res.customError('500', sails.config.errs.systemError(sails.config.errs.db_reset_password_err));
-        } else {
-          console.log(userData);
-        }
-        res.ok();
-      });
+      if (!email) return res.serverError("没有邮箱");
+//todo: add check email
 
+      var code = UtilsService.encrypt(email);
+      var port = "";
+      if (req.port) port = ":" + req.port;
+      var url = req.host + port + '/#/access/forgotpwd?code=' + code;
+
+      var locals = {
+        templateName: sails.config.email.resetPW.templateName,
+        subject: sails.config.email.resetPW.subject,
+        to: req.param('email'),
+        data: {
+          url: url
+        }
+      };
+      EmailService.sendEmail(locals);
+
+      res.ok();
+
+    },
+
+    resetPassword: function (req, res) {
+
+      if (req.method.toUpperCase()=='GET') {
+        res.view('forgotpw');
+      } else {
+        var thecode = req.param('thecode');
+        var email = req.param('email');
+//todo: add check email
+        var bcrypt = require('bcrypt');
+console.log(email, thecode);
+        bcrypt.compare(email, thecode, function (err, match) {
+          if (err) return res.customError('500', res.serverError("系统错误"));
+          if (match) {
+            var record = {};
+            if (req.param('password')) {
+              record.password = req.param('password');
+              console.log(record);
+            }
+            if (req.param('payPassword')) {
+              record.payPassword = req.param('payPassword');
+            }
+            User.update({"email": email}, record).exec(function (err, userData) {
+              if (err) {
+                console.log(err);
+                res.customError('500', sails.config.errs.systemError(sails.config.errs.db_reset_password_err));
+              } else {
+                console.log(userData);
+              }
+              res.ok();
+            });
+          } else {
+            console.log('no match');
+            res.serverError("重置密码错误");
+          }
+        });
+
+      }
     },
 
   register: function (req, res) {

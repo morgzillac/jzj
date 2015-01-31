@@ -29,6 +29,24 @@ module.exports = {
         res.customError('403', sails.config.errs.access_notloggedin);
       }
     });
+  },
+
+  email: function (req, res) {
+
+    // An example users object with formatted email function
+    var locals = {
+      templateName: sails.config.email.welcome.templateName,
+      subject: sails.config.email.welcome.subject,
+      to: req.param('email'),
+      data: {
+        first: 'Morgan',
+        last: 'Cheng'
+      }
+    };
+
+    EmailService.sendEmail(locals);
+
+    res.ok();
   }
 };
 

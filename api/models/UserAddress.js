@@ -76,17 +76,22 @@ module.exports = {
   "tableName": "t_user_address",
 
 
-  beforeUpdate: function (data, next){
+  beforeCreate: function (attrs, next) {
 
-    console.log(data);
-    next();
-
+      if (req.token && req.userData.userId) {
+        attrs.userId = req.userData.userId;
+        next();
+      } else {
+        return next(new Error('未登陆'));
+      }
   },
 
-  beforeCreate: function (data, next){
-
-    console.log(data);
-    next();
-
+  beforeUpdate: function (attrs, next) {
+    if (req.token && req.userData.userId) {
+      attrs.userId = req.userData.userId;
+      next();
+    } else {
+      return next(new Error('未登陆'));
+    }
   }
 }

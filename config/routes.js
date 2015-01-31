@@ -35,10 +35,11 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
-
+/*
   '/': {
-    view: 'homepage'
+    view: 'webapp/index.html'
   },
+*/
 
   '/test': {
     view: 'test'

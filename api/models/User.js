@@ -183,6 +183,8 @@ var User = {
   beforeCreate: function (attrs, next) {
 
     try {
+      delete attrs.userId;
+
       attrs.password = UtilsService.encrypt(attrs.password);
       attrs.payPassword = UtilsService.encrypt(attrs.payPassword);
     } catch (err) {
@@ -193,6 +195,8 @@ var User = {
 
   beforeUpdate: function (attrs, next) {
     try {
+      delete attrs.userId;
+
       if (attrs.password) attrs.password = UtilsService.encrypt(attrs.password);
       if (attrs.payPassword) attrs.payPassword = UtilsService.encrypt(attrs.payPassword);
     } catch (err) {

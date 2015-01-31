@@ -9,6 +9,8 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.http.html
  */
 
+var fs = require('fs');
+
 module.exports.http = {
 
   /****************************************************************************

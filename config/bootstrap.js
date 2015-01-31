@@ -15,5 +15,13 @@ module.exports.bootstrap = function(cb) {
 
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
+/*
+  var fs = require('fs');
+  sails.config.express.serverOptions = {
+    key: fs.readFileSync('config/ssl/jzj.key'),
+    cert: fs.readFileSync('config/ssl/jzj.cert')
+  };
+*/
+
   cb();
 };

@@ -21,7 +21,9 @@ module.exports.policies = {
   User: {
     // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
     'login': true,
-    'create': true
+    'create': true,
+    'resetPasswordRequest': true,
+    'resetPassword': true
   },
 
   Transaction: {

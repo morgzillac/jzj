@@ -67,6 +67,10 @@ module.exports = {
       console.log('UtilsService.encrypt' + err)
       throw (err);
     }
+  },
+
+  resetPasswordCode: function (email) {
+    return this.encrypt(email);
   }
 };
 

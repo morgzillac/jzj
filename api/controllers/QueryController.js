@@ -54,7 +54,7 @@ module.exports = {
         criteria.where = {};
       }
 
-      if (req.userData) {
+      if (req.userData && strMode != 'task') {
         criteria.where.userId = req.userData.userId;
       } else {
         // send not logged in msg

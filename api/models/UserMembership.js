@@ -62,7 +62,27 @@ module.exports = {
       "columnName": "updated_by",
       "type": "string",
       "size": 45
+    },
+
+    beforeCreate: function (attrs, next) {
+
+      if (req.token && req.userData.userId) {
+        attrs.userId = req.userData.userId;
+        next();
+      } else {
+        return next(new Error('未登陆'));
+      }
+    },
+
+    beforeUpdate: function (attrs, next) {
+      if (req.token && req.userData.userId) {
+        attrs.userId = req.userData.userId;
+        next();
+      } else {
+        return next(new Error('未登陆'));
+      }
     }
+    
   },
   "tableName": "t_user_membership"
 }

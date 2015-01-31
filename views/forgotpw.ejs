@@ -1,0 +1,8 @@
+<form method="post" action="/user/resetPassword">
+  输入邮箱 <input type="text" name="email">
+  重置密码 <input type="text" name="password">
+  <input type="text" name="thecode" value="<%= req.param('code') %>">
+
+  <input type="submit">
+
+</form>
