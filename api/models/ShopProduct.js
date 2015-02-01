@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  migrate: 'alter',
+//  migrate: 'alter',
   "attributes": {
     "productId": {
       "columnName": "product_id",

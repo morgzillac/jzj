@@ -7,6 +7,7 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
   "attributes": {
     "featuredId": {
       "columnName": "featured_id",

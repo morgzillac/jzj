@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  migrate: 'safe',
+  migrate: 'drop',
 
   "attributes": {
     "buyerAccountId": {
