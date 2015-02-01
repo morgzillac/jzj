@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  migrate: 'drop',
+//  migrate: 'drop',
   "attributes": {
     "rechargeId": {
       "columnName": "recharge_id",

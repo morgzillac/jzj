@@ -59,8 +59,8 @@ module.exports.routes = {
   "GET /user": {
     controller: 'user',
     action: 'find',
-    where: {'deleted': false},
-    sort: 'age DESC'
+    where: {'deleted': false}
+    //sort: 'age DESC'
   }
 
 };
