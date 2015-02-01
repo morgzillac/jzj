@@ -1,4 +1,3 @@
-use jzj;
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_cashout`(in inPoints int(11), in inAmount int(11), 
 		in inFee int, in inTypeId int, in inUserBankId int, in inComment varchar(500), in inUserId int, out outSuccess int)
