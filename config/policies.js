@@ -19,32 +19,63 @@ module.exports.policies = {
   //'*':true,
 
   User: {
-    // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
+    // no need to be logged in
     'login': true,
     'create': true,
     'resetPasswordRequest': true,
     'resetPassword': true
+
+    //
   },
 
   Transaction: {
-    // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
+    // must be logged in and have userId in criteria
     'find': ['IsLoggedIn', 'UserFilter'],
-    'findOne': ['IsLoggedIn', 'UserFilter']
+    'findOne': ['IsLoggedIn', 'UserFilter'],
+
+    //this is readonly
+    create: 'readonly',
+    update: 'readonly',
+    destroy: 'readonly'
   },
   Cashout: {
-    // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
+    // must be logged in and have userId in criteria
     'find': ['IsLoggedIn', 'UserFilter'],
-    'findOne': ['IsLoggedIn', 'UserFilter']
+    'findOne': ['IsLoggedIn', 'UserFilter'],
+
+    //this is readonly
+    create: 'readonly',
+    update: 'readonly',
+    destroy: 'readonly'
   },
   Points2Cash: {
-    // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
+    // must be logged in and have userId in criteria
     'find': ['IsLoggedIn', 'UserFilter'],
-    'findOne': ['IsLoggedIn', 'UserFilter']
+    'findOne': ['IsLoggedIn', 'UserFilter'],
+
+    //this is readonly
+    create: 'readonly',
+    update: 'readonly',
+    destroy: 'readonly'
   },
+
   Recharge: {
-    // Apply 'isAdmin' to the 'foo' action.  'isLoggedIn' will NOT be applied!
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter'],
+
+    //this is readonly
+    create: 'readonly',
+    update: 'readonly',
+    destroy: 'readonly'
+  },
+
+  TaskBuyer : {
+    // must be logged in and have userId in criteria
     'find': ['IsLoggedIn', 'UserFilter'],
     'findOne': ['IsLoggedIn', 'UserFilter']
+
+
   }
 
 

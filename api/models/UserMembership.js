@@ -66,7 +66,7 @@ module.exports = {
 
     beforeCreate: function (attrs, next) {
 
-      if (req.token && req.userData.userId) {
+      if (req.userData && req.userData.userId) {
         attrs.userId = req.userData.userId;
         next();
       } else {
@@ -75,14 +75,14 @@ module.exports = {
     },
 
     beforeUpdate: function (attrs, next) {
-      if (req.token && req.userData.userId) {
+      if (req.userData && req.userData.userId) {
         attrs.userId = req.userData.userId;
         next();
       } else {
         return next(new Error('未登陆'));
       }
     }
-    
+
   },
   "tableName": "t_user_membership"
 }

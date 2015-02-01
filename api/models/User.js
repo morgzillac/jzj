@@ -2,7 +2,7 @@ var User = {
   // Enforce model schema in the case of schemaless databases
   schema: true,
 	"tableName": "t_user",
-  migrate: 'safe',
+  migrate: 'alter',
   "attributes": {
     "userId": {
       "columnName": "user_id",
@@ -12,6 +12,7 @@ var User = {
     },
     "userTypeId": {
       "columnName": "user_type_id",
+      index: true,
       "type": "integer"
     },
      "image": {
@@ -30,10 +31,13 @@ var User = {
     },
     "mobile": {
       "type": "string",
+      index: true,
       "size": 45
     },
     "email": {
-      "type": "email", unique: true
+      index: true,
+      "type": "email",
+      unique: true
     },
     "qq": {
       "type": "string",
@@ -42,6 +46,11 @@ var User = {
     "wechat": {
       "type": "string",
       "size": 45
+    },
+
+    "deleted": {
+      "type": "boolean",
+      "default": false
     },
     "createdAt": {
       "columnName": "created_at",
@@ -80,10 +89,6 @@ var User = {
       delete obj.password;
       delete obj.payPassword;
       return obj;
-    },
-
-    query: function () {
-      return null;
     }
 
 

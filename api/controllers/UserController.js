@@ -5,20 +5,8 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-/*
-'use strict';
-
-var _ = require("lodash");
-
-module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
-*/
-
   module.exports = {
 
-/*
-
-
- */
 
   login: function (req, res) {
 
@@ -53,12 +41,14 @@ module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
             });
             res.set('token',token);
 
+            /*
             //todo: remove following for production
             res.set('Access-Control-Allow-Origin', '*');
             res.set("Access-Control-Allow-Methods', 'POST, GET");
             res.set('Custom-Header', 'Own-Data');
             res.set('Access-Control-Expose-Headers', 'Custom-Header');
             // end of removing part
+            */
 
             res.json(user);
           } else {
@@ -89,8 +79,11 @@ module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
     resetPasswordRequest: function (req, res){
 
       var email = req.param('email');
-      if (!email) return res.serverError("没有邮箱");
-//todo: add check email
+      if (!email) return res.serverError(sails.config.errs.param_email_notfound);
+
+      if (!checkEmail(email)) {
+        if (!email) return res.serverError(sails.config.errs.user_email_notfound);
+      }
 
       var code = UtilsService.encrypt(email);
       var port = "";
@@ -118,9 +111,13 @@ module.exports = _.merge(_.cloneDeep(require("../services/BaseController")), {
       } else {
         var thecode = req.param('thecode');
         var email = req.param('email');
-//todo: add check email
+
+        if (!checkEmail(email)) {
+          if (!email) return res.serverError(sails.config.errs.user_email_notfound);
+        }
+
         var bcrypt = require('bcrypt');
-console.log(email, thecode);
+
         bcrypt.compare(email, thecode, function (err, match) {
           if (err) return res.customError('500', res.serverError("系统错误"));
           if (match) {
@@ -148,10 +145,18 @@ console.log(email, thecode);
         });
 
       }
-    },
-
-  register: function (req, res) {
-  }
+    }
 
 };
 
+function checkEmail (email) {
+
+  User.findOne({email:email}).exec(function(err, results) {
+    if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
+    if (results) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+}

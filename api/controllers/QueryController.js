@@ -9,21 +9,7 @@ var util = require('util'),
 
 module.exports = {
 
-
-    tasks: function (req, res){
-      User.query("select * from t_user_address", function(err, result){
-          if (err) return res.serverError(err);
-
-         return res.json(result);
-
-
-      })
-
-
-    },
-
     balance: function (req, res){
-
       var userId = 0;
 
       // get user ID of the current logged in user
@@ -50,9 +36,7 @@ module.exports = {
       delete criteria.model;
 
       // add user Id to the criteria
-      if (!criteria.where) {
-        criteria.where = {};
-      }
+      criteria.where = criteria.where || {};
 
       if (req.userData) {
         criteria.where.userId = req.userData.userId;

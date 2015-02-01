@@ -1,0 +1,45 @@
+
+<div>
+  <ul class="breadcrumb bg-white b-b breadcrumb-custom">
+    <li><a href class="breadcrumb-font"><i class="fa fa-home"></i> 首页</a></li>
+    <li class="active breadcrumb-font">商家发布任务</li>
+  </ul>
+</div>
+<div ng-controller="TaskFlowCtrl">
+<div class="bg-light bg-white b-b wrapper-xs ">
+  <div class="row">
+    <div class="col-md-2"><span class="m-l font-bold h3 text-danger" style="line-height:50px;">发布任务</span></div>
+    <div class="col-md-10">
+      <div class="row">
+        <div class="pull-left col-md-2 text-center">
+          <div class=""><span>选择任务类型</span></div>
+          <div ng-class="{'btn-danger':(currItemIndex >= 0)}" class="btn btn-icon btn-rounded btn-default"><i class="fa">1</i></div>
+        </div>
+        <div class="pull-left col-md-2 text-center">
+          <div><span>填写商品信息</span></div>
+          <div ng-class="{'btn-danger':(currItemIndex >= 1)}" class="btn btn-icon btn-rounded btn-default"><i class="fa">2</i></div>
+        </div> 
+        <div class="pull-left col-md-2 text-center">
+          <div><span>填写刷单信息</span></div>
+          <div ng-class="{'btn-danger':(currItemIndex >= 2)}" class="btn btn-icon btn-rounded btn-default"><i class="fa">3</i></div>
+        </div>
+        <div class="pull-left col-md-2 text-center">
+          <div><span>选择增值服务</span></div>
+          <div ng-class="{'btn-danger':(currItemIndex >= 3)}" class="btn btn-icon btn-rounded btn-default"><i class="fa">4</i></div>
+        </div>
+        <div class="pull-left col-md-2 text-center">
+          <div><span>支付</span></div>
+          <div ng-class="{'btn-danger':(currItemIndex >= 4)}" class="btn btn-icon btn-rounded btn-default"><i class="fa">5</i></div>
+        </div>
+        <div class="pull-left col-md-2 text-center">
+          <div><span>发布成功</span></div>
+          <div ng-class="{'btn-danger':(currItemIndex >= 5)}" class="btn btn-icon btn-rounded btn-default"><i class="fa">6</i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="hbox hbox-auto-xs hbox-auto-sm bg-white">
+  <div ui-view ></div>
+</div>
+</div>

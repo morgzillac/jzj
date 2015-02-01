@@ -33,6 +33,12 @@ module.exports = {
       "columnName": "status_id",
       "type": "integer"
     },
+    "ipAddress": {
+      "columnName": "ip_address",
+      "type": "string",
+      "size":50
+    },
+
     "createdAt": {
       "columnName": "created_at",
       "type": "datetime"
@@ -51,9 +57,10 @@ module.exports = {
       "type": "string",
       "size": 45
     },
+
     beforeCreate: function (attrs, next) {
 
-      if (req.token && req.userData.userId) {
+      if (req.userData && req.userData.userId) {
         attrs.userId = req.userData.userId;
         next();
       } else {
@@ -62,7 +69,7 @@ module.exports = {
     },
 
     beforeUpdate: function (attrs, next) {
-      if (req.token && req.userData.userId) {
+      if (req.userData && req.userData.userId) {
         attrs.userId = req.userData.userId;
         next();
       } else {
@@ -70,5 +77,6 @@ module.exports = {
       }
     }
   },
+
   "tableName": "t_task_buyer"
 }

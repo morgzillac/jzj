@@ -80,7 +80,7 @@ module.exports.connections = {
     user: 'YOUR_POSTGRES_USER',
     password: 'YOUR_POSTGRES_PASSWORD',
     database: 'YOUR_POSTGRES_DB'
-  }
+  },
 
 
   /***************************************************************************
@@ -88,5 +88,24 @@ module.exports.connections = {
   * More adapters: https://github.com/balderdashy/sails                      *
   *                                                                          *
   ***************************************************************************/
+
+  redis: {
+    adapter: 'sails-redis',
+    port: 6379,
+    host: 'localhost',
+    password: null,
+    database: null,
+    options: {
+
+      // low-level configuration
+      // (redis driver options)
+      parser: 'hiredis',
+      return_buffers: false,
+      detect_buffers: false,
+      socket_nodelay: true,
+      no_ready_check: false,
+      enable_offline_queue: true
+    }
+  }
 
 };

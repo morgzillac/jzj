@@ -22,7 +22,7 @@ module.exports = {
             console.log(err);
             res.customError('500', sails.config.errs.systemError());
           } else {
-            res.json(match);
+            res.json({result:match});
           }
         });
       } else {

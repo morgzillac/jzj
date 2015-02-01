@@ -24,7 +24,6 @@ module.exports.routes = {
 
 '/login': 'User.login',
 '/logout': 'User.logout',
-'/register': 'User.register',
 
   /***************************************************************************
   *                                                                          *
@@ -43,7 +42,10 @@ module.exports.routes = {
 
   '/test': {
     view: 'test'
-  }
+  },
+
+
+
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
@@ -53,5 +55,12 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
+
+  "GET /user": {
+    controller: 'user',
+    action: 'find',
+    where: {'deleted': false},
+    sort: 'age DESC'
+  }
 
 };

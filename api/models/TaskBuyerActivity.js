@@ -16,6 +16,7 @@ module.exports = {
       "primaryKey": true
     },
     "taskBuyerId": {
+      "model":"user",
       "columnName": "task_buyer_id",
       "type": "integer"
     },
@@ -26,7 +27,7 @@ module.exports = {
     "ipAddress": {
       "columnName": "ip_address",
       "type": "string",
-      "size":20
+      "size":50
     },
     "createdAt": {
       "columnName": "created_at",

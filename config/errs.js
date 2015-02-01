@@ -10,6 +10,17 @@ module.exports.errs = {
     };
   },
 
+
+  user_email_notfound:{
+    code: "user_email_notfound",
+    message: "输入的邮箱不存在！"
+  },
+
+  param_email_notfound:{
+    code: "param_email_notfound",
+    message: "必须输入邮箱！"
+  },
+
   login_username_notfound:{
     code: "login_username_notfound",
     message: "用户没找到！"
