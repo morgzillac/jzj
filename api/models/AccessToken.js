@@ -7,8 +7,8 @@
  */
 
 module.exports = {
-  connection: 'localDiskDb',
-  //connection: 'redis',
+  //connection: 'localDiskDb',
+  connection: 'redis',
   migrate: 'drop',
   attributes: {
         userId: {

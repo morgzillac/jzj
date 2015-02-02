@@ -1,11 +1,11 @@
 // config
 
-var app =  
+var app =
 angular.module('app')
   .config(
     [        '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
     function ($controllerProvider,   $compileProvider,   $filterProvider,   $provide) {
-        
+
         // lazy controller, directive and service
         app.controller = $controllerProvider.register;
         app.directive  = $compileProvider.directive;
@@ -29,3 +29,11 @@ angular.module('app')
     // Tell the module to store the language in the local storage
     $translateProvider.useLocalStorage();
   }]);
+
+  //初始化global变量
+  app.global = {
+    "host" : "http://119.29.22.94:1337"
+    //"host" : "http://localhost:1337"
+    //"host" : "http://mc-ubuntu2.cloudapp.net"
+  };
+

@@ -42,7 +42,7 @@ module.exports.routes = {
 
   '/test': {
     view: 'test'
-  },
+  }
 
 
 
@@ -55,12 +55,12 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-
+/*
   "GET /user": {
     controller: 'user',
     action: 'find',
     where: {'deleted': false}
     //sort: 'age DESC'
   }
-
+*/
 };
