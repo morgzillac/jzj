@@ -12,7 +12,6 @@ module.exports = {
 
 
   list: function (req, res) {
-    console.log('in list function');
     var query = TaskBuyer.find({select:['taskBuyerId','userId', 'taskId','statusId','createdAt']})
       .where( actionUtil.parseCriteria(req) )
       .limit( actionUtil.parseLimit(req) )

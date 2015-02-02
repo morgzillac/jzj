@@ -36,7 +36,7 @@ module.exports = {
     "ipAddress": {
       "columnName": "ip_address",
       "type": "string",
-      "size":50
+      "size": 50
     },
 
     "createdAt": {
@@ -78,5 +78,33 @@ module.exports = {
     }
   },
 
+  afterCreate: function (rec, next) {
+    //update assigned count in ShopTask
+    console.log('after create' + rec);
+    if (rec) {
+      //todo: get rid of sql execution
+      UtilsService.updateShopTaskCounts (rec.taskId);
+    }
+    next();
+  },
+
+  afterUpdate: function (rec, next) {
+    if (rec) {
+      UtilsService.updateShopTaskCounts (rec.taskId);
+    }
+    next();
+
+  },
+
+  afterDestroy: function (records, next) {
+    //update assigned count in ShopTask
+    if (records.count > 0) {
+      //todo: get rid of sql execution
+      UtilsService.updateShopTaskCounts (records[0].taskId);
+    }
+    next();
+
+  }
+,
   "tableName": "t_task_buyer"
 }

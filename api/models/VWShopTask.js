@@ -110,7 +110,9 @@ module.exports = {
       "type": "integer"
     },
     "assigned": {
-      "columnName": "assigned",
+      "type": "integer"
+    },
+    "pending": {
       "type": "integer"
     },
     "userId": {

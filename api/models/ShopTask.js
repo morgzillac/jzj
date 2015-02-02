@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-//  migrate: 'safe',
+  migrate: 'drop',
   "attributes": {
     "taskId": {
       "columnName": "task_id",
@@ -89,6 +89,12 @@ module.exports = {
     keywords:{
       collection: 'TaskKeyword',
       via: 'taskId'
+    },
+    "assigned": {
+      "type": "integer"
+    },
+    "pending": {
+      "type": "integer"
     },
     "createdAt": {
       "columnName": "created_at",

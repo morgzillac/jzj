@@ -71,7 +71,26 @@ module.exports = {
 
   resetPasswordCode: function (email) {
     return this.encrypt(email);
+  },
+
+//
+// this is a temp solution for updating the assigned and pending counts in ShopTask
+  // it is called when TaskBuyer is created, destroyed and updated
+  updateShopTaskCounts: function (taskId) {
+    //update assigned count in ShopTask
+
+      //todo: get rid of sql execution
+      var sql = 'call sp_update_task_count(' + taskId + ')';
+
+    //console.log (sql);
+      ShopTask.query(sql, function (err, data) {
+        if (err) {
+          sails.log('更新任务表Assigned出错' + err);
+          console.log(err);
+        }
+      });
   }
+
 };
 
 /**
