@@ -13,13 +13,12 @@ module.exports = {
     var bcrypt = require('bcrypt');
 
 
-    AccessToken.findOne({userId:req.userData.userId}).exec(function (err, token) {
+    User.findOne({userId:req.userData.userId}).exec(function (err, user) {
       if (err) return res.customError('500', sails.config.errs.systemError('硬盘数据出错'));
 
-      if (token) {
-        bcrypt.compare(payPassword, token.payPassword, function (err, match) {
+      if (user) {
+        bcrypt.compare(payPassword, user.payPassword, function (err, match) {
           if (err) {
-            console.log(err);
             res.customError('500', sails.config.errs.systemError());
           } else {
             res.json({result:match});

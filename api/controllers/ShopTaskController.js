@@ -25,10 +25,6 @@ module.exports = {
     ShopTask.create(taskObj).exec(console.log);
 
     res.ok();
-  },
-
-  setStatus: function (req, res) {
-
   }
 
 };

@@ -7,13 +7,18 @@
 
 module.exports = {
   "schema": true,
-//  migrate: 'drop',
+  migrate: 'alter',
   "attributes": {
     "shopId": {
       "columnName": "shop_id",
       autoIncrement: true,
       "type": "integer",
       "primaryKey": true
+    },
+    "shopName": {
+      "columnName": "shop_name",
+      "type": "string",
+      "size": 50
     },
     "platformId": {
       "columnName": "platform_id",
