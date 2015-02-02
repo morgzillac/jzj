@@ -16,6 +16,11 @@ module.exports = {
       "columnName": "shop_id",
       "type": "integer"
     },
+    "shopName": {
+      "columnName": "shop_name",
+      "type": "string",
+      "size": 250
+    },
     "commission": {
       "type": "integer"
     },
