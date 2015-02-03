@@ -9,19 +9,19 @@ app.factory('sessionInjector', ['toaster', function(toaster){
 	return {
       request: function (config) {
           //如果User Session信息已经保存了，包在request的header发回去给服务器
-          if (angular.isObject(app.userSession)) {            
+          if (angular.isObject(app.userSession)) {
             //config.headers['token'] = app.userSession.Tokan;
             config.headers['token'] = '123';
-          }                    
+          }
           return config;
       },
-      response:function(response) {     
-            switch (response.status) {            	
+      response:function(response) {
+            switch (response.status) {
                 case (200):
-                	//console.log(response.headers('token'));                	
-                	
+                	//console.log(response.headers('token'));
+
                     if(angular.isObject(response.data)){
-                		
+
                 	}
                     break;
                 case (500):
@@ -50,14 +50,14 @@ app.factory('promiseGet', ['$http','$q','toaster','$location', function($http,$q
 		var api = joinHost(url);
 		$http.get(api)
 		.success(function(result){
-			if(angular.isDefined(result.code)){				
+			if(angular.isDefined(result.code)){
 				if(result.code == 'access_notloggedin'){
 					$location.path("/access/signin");
 				}
 				deferred.reject(result);
 			}else if(angular.isObject(result)){
-				deferred.resolve(angular.fromJson(result));	
-			}else{			
+				deferred.resolve(angular.fromJson(result));
+			}else{
 				deferred.resolve(result);
 			}
 		})
@@ -65,8 +65,8 @@ app.factory('promiseGet', ['$http','$q','toaster','$location', function($http,$q
 			if(angular.isDefined(reason.code) && reason.code == 'access_notloggedin'){
 				$location.path("/access/signin");
 			}else{
-				toaster.pop('error', 'Server Error', reason);	
-			}						
+				toaster.pop('error', 'Server Error', reason);
+			}
 			deferred.reject(reason);
 		});
 		return deferred.promise;
@@ -85,8 +85,8 @@ app.factory('promisePost', ['$http','$q','toaster','$location', function($http,$
 				}
 				deferred.reject(result);
 			}else if(angular.isObject(result)){
-				deferred.resolve(angular.fromJson(result));	
-			}else{			
+				deferred.resolve(angular.fromJson(result));
+			}else{
 				deferred.resolve(result);
 			}
 		})
@@ -94,7 +94,7 @@ app.factory('promisePost', ['$http','$q','toaster','$location', function($http,$
 			if(angular.isDefined(reason.code) && reason.code == 'access_notloggedin'){
 				$location.path("/access/signin");
 			}else{
-				toaster.pop('error', 'Server Error', reason);	
+				toaster.pop('error', 'Server Error', reason);
 			}
 			deferred.reject(reason);
 		});
@@ -114,8 +114,8 @@ app.factory('promisePut', ['$http','$q','toaster','$location', function($http,$q
 				}
 				deferred.reject(result);
 			}else if(angular.isObject(result)){
-				deferred.resolve(angular.fromJson(result));	
-			}else{			
+				deferred.resolve(angular.fromJson(result));
+			}else{
 				deferred.resolve(result);
 			}
 		})
@@ -123,7 +123,7 @@ app.factory('promisePut', ['$http','$q','toaster','$location', function($http,$q
 			if(angular.isDefined(reason.code) && reason.code == 'access_notloggedin'){
 				$location.path("/access/signin");
 			}else{
-				toaster.pop('error', 'Server Error', reason);	
+				toaster.pop('error', 'Server Error', reason);
 			}
 			deferred.reject(reason);
 		});
@@ -181,7 +181,7 @@ app.factory('platforms', ['promisePost','promiseGet',function(promisePost,promis
 				}
 			});
 			return name;
-		}		
+		}
 	};
 }]);
 //不同平台的任务类型
@@ -228,7 +228,7 @@ app.factory('taskStatuss',['promisePost','promiseGet',function(promisePost,promi
 				{id : 3, name : "待处理"},
 				{id : 4, name : "进行中"}
 			];
-		}	
+		}
 	};
 }]);
 //子任务状态
@@ -238,9 +238,9 @@ app.factory('subTaskStatuss',['promisePost','promiseGet',function(promisePost,pr
 			return [
 				{id : 1, name : "待发货"},
 				{id : 2, name : "待退款"},
-				{id : 3, name : "待评选"}				
+				{id : 3, name : "待评选"}
 			];
-		}	
+		}
 	};
 }]);
 //任务流程 Service
@@ -248,15 +248,15 @@ app.factory('flowDatas',function(){
 	var flowData = null;
 	return {
 		create : function(platformId){
-			var taobao = { 		
-					"taskId" : -1,	
-					"status" : 2,		
-					"platformId" : 1, 
-					"shopId" : -1, 
+			var taobao = {
+					"taskId" : -1,
+					"status" : 2,
+					"platformId" : 1,
+					"shopId" : -1,
 					"taskTypeId" : 1,
 					"productId" : -1,
 					"productPrice" : 0,
-					"totalTasks" : 1,					
+					"totalTasks" : 1,
 				    "commission": 0,
 				    "bonus": 0,
 				    "terminal": null,
@@ -268,19 +268,19 @@ app.factory('flowDatas',function(){
 						"flowItem" : ['app.task.item1','app.task.item2','app.task.item3','app.task.item4','app.task.item5','app.task.item6'],
 						"taskId" : -1,
 						"status" : 2,
-						"platformId" : 1, 
-						"shopId" : -1, 
+						"platformId" : 1,
+						"shopId" : -1,
 						"shopName" : "",
 						"taskTypeId" : 1,
 						"productId" : -1,
-						"productPrice" : 0, 
+						"productPrice" : 0,
 						"productCount" : 1,
 						"searchProductKeywords" : [{"keyword":"", "totalTasks":"", "prodcutCategory1" : "", "prodcutCategory2" : "", "prodcutCategory3" : "", "prodcutCategory4" : ""}],
 						"searchMinPrice" : "",
 						"searchMaxPrice" : "",
 						"searchProductLocation" : "",
 						"includeShipping" : false,
-						"totalTasks" : "",					
+						"totalTasks" : "",
 						"orderMessages" : [""],
 						"agreeFastRefunds" : false,
 						"taskPriority" : -1,
@@ -292,7 +292,7 @@ app.factory('flowDatas',function(){
 						"paymentPiont" : false,
 						"paymentDeposit" : false,
 						"paymentBank" : false
-					}					
+					}
 				};
 			var tmall = { "platformId" : 1, "shopId" : 1, "taskTypeId" : 1 };
 			var jd = { "platformId" : 1, "shopId" : 1, "taskTypeId" : 1 };
@@ -318,7 +318,7 @@ app.factory('flowDatas',function(){
 					break;
 				case 6:
 					model = taobao;
-					break;				
+					break;
 				default:
 					model = taobao;
 					break;
@@ -337,7 +337,7 @@ app.factory('flowDatas',function(){
 app.factory('tasks', ['promisePost','promiseGet',function(promisePost,promiseGet){
 	return {
 		add : function(shopTask){
-			return promisePost('/shopTask', shopTask);	
+			return promisePost('/shopTask', shopTask);
 		},
 		pubishTask : function(shopTask){
 			return promisePost('/shopTask/publish', { taskJson : shopTask });
@@ -375,10 +375,10 @@ app.factory('tasks', ['promisePost','promiseGet',function(promisePost,promiseGet
 		},
 		queryCount : function(){
 			//return promiseGet('/query/count/?model=task');
-		}		
+		}
 	};
 }]);
-//TaskList Service 
+//TaskList Service
 app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promiseGet){
 	return {
 		queryByStatus : function(statusId){
@@ -411,7 +411,7 @@ app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promise
 app.factory('products', ['promisePost','promiseGet',function(promisePost,promiseGet){
 	return {
 		add : function(product){
-			return promisePost('/shopProduct', product);	
+			return promisePost('/shopProduct', product);
 		},
 		get : function(productId){
 			return promiseGet('/shopProduct?id=' + productId);
@@ -431,7 +431,7 @@ app.factory('products', ['promisePost','promiseGet',function(promisePost,promise
 				"productImage" : "",
 				"productExtID" : -1
 			};
-		}		
+		}
 	};
 }]);
 //User Type Service
@@ -455,11 +455,11 @@ app.factory('users', ['promisePost','promiseGet',function(promisePost,promiseGet
 		// },
 		logout : function(){
 			//TODO: 退出登录
-								
+
 		},
 		get : function(userId){
 			//TODO: 获取用户信息，根据userid
-			return promiseGet('/user?id=' + userId);			
+			return promiseGet('/user?id=' + userId);
 		},
 		save : function(userId, user){
 			//TODO: 保存用户编辑信息
@@ -467,7 +467,7 @@ app.factory('users', ['promisePost','promiseGet',function(promisePost,promiseGet
 		},
 		add : function(user){
 			//TODO: 添加一个用户
-			return promisePost('/user/', user);	
+			return promisePost('/user/', user);
 		},
 		resetPasswordRequest : function(email){
 			return promisePost('/user/resetPasswordRequest', {"email" : email});
@@ -477,14 +477,14 @@ app.factory('users', ['promisePost','promiseGet',function(promisePost,promiseGet
 		},
 		newEmpty : function(){
 			return {
-		        "userId": -1, 
-		        "userTypeId": 1, 
-		        "userLogin": "", 
-		        "password": "", 
-		        "payPassword": "", 
-		        "image": "", 
-		        "qq": "", 
-		        "email": "", 
+		        "userId": -1,
+		        "userTypeId": 1,
+		        "userLogin": "",
+		        "password": "",
+		        "payPassword": "",
+		        "image": "",
+		        "qq": "",
+		        "email": "",
 		        "mobile": "",
 		        "wechat": ""
 		    };
@@ -520,22 +520,22 @@ app.factory('userBanks',['promisePost','promiseGet',function(promisePost,promise
 			return promiseGet('/userBank/?userId=' + userId + '&bankType=' + bankType);
 		},
 		query : function(userId){
-			return promiseGet('/userBank/?userId=' + userId);	
+			return promiseGet('/userBank/?userId=' + userId);
 		},
 		add : function(userBank){
 			//TODO: 添加一条User Bank记录，可以是支付宝，财付通，银行卡等
-			return promisePost('/userBank', userBank);	
+			return promisePost('/userBank', userBank);
 		},
 		newEmpty : function(bankType){
 			//新建一个空对象
 			return {
-			      "userId": -1, 
-			      "userBankId": -1, 
-			      "bankType": bankType, 
-			      "accountName": "", 
-			      "accountNumber": "", 
-			      "branch": "", 
-			      "City": "", 
+			      "userId": -1,
+			      "userBankId": -1,
+			      "bankType": bankType,
+			      "accountName": "",
+			      "accountNumber": "",
+			      "branch": "",
+			      "City": "",
 			      "screenshot": ""
 			};
 		}
@@ -549,7 +549,7 @@ app.factory('buyerAccounts', ['promisePost','promiseGet',function(promisePost,pr
 		},
 		query : function(userId, platformId){
 			//TODO: 获取买号绑定信息，根据userid和platformid，返回的是一个数组
-			return promiseGet('/buyerAccount/?userId=' + userId + '&platformId=' + platformId);			
+			return promiseGet('/buyerAccount/?userId=' + userId + '&platformId=' + platformId);
 		},
 		add : function(buyerAccount){
 			//TODO: 添加买号信息
@@ -566,11 +566,11 @@ app.factory('buyerAccounts', ['promisePost','promiseGet',function(promisePost,pr
 		},
 		newEmpty : function(){
 			return {
-					    "buyerAccountId": -1, 
-					    "userId": -1, 
-					    "platformId": -1, 
-					    "accountLogin": "", 
-					    "wangwang": "", 
+					    "buyerAccountId": -1,
+					    "userId": -1,
+					    "platformId": -1,
+					    "accountLogin": "",
+					    "wangwang": "",
 					    "addressId" : null,
 					    "wwScreenshot": ""
 					};
@@ -584,7 +584,7 @@ app.factory('userAddresses',['promisePost','promiseGet',function(promisePost,pro
 			return promiseGet('/useraddress/'+addressId);
 		},
 		query : function(userId){
-			return promiseGet('/useraddress/?userId'+userId);	
+			return promiseGet('/useraddress/?userId'+userId);
 		},
 		add : function(userAddress){
 			return promisePost('/useraddress/', userAddress);
@@ -613,11 +613,11 @@ app.factory('sellerShops', ['promisePost','promiseGet',function(promisePost,prom
 		},
 		query : function(userId, platformId){
 			//TODO: 获取店铺绑定信息, 返回的是一个数组
-			return promiseGet('/sellerShop/?userId=' + userId + '&platformId=' + platformId);	
+			return promiseGet('/sellerShop/?userId=' + userId + '&platformId=' + platformId);
 		},
 		getAllShops : function(userId){
 			//TODO: 获取店铺绑定信息, 返回的是一个数组
-			return promiseGet('/sellerShop/?userId=' + userId);	
+			return promiseGet('/sellerShop/?userId=' + userId);
 		},
 		add : function(sellerShop){
 			//TODO: 添加店铺绑定信息
@@ -633,13 +633,13 @@ app.factory('sellerShops', ['promisePost','promiseGet',function(promisePost,prom
 		},
 		newEmpty : function(){
 			return {
-					    "shopId": -1, 
-					    "userId": -1, 
-					    "platformId": -1, 
-					    "url": "", 
-					    "wangwang": "", 
-					    "province": "", 
-					    "city": "", 
+					    "shopId": -1,
+					    "userId": -1,
+					    "platformId": -1,
+					    "url": "",
+					    "wangwang": "",
+					    "province": "",
+					    "city": "",
 					    "street": ""
 					} ;
 		}
@@ -658,7 +658,7 @@ app.factory('productLocations',function(){
 					,"海外"
 					,"江浙沪"
 					,"珠三角"
-					,"京津冀" 
+					,"京津冀"
 					,"东三省"
 					,"港澳台"
 					,"江浙沪皖"
@@ -742,7 +742,7 @@ app.factory('transType',function(){
 	return {
 		getAll : function(){
 			return [
-				{id : 1, name : "提现"},				
+				{id : 1, name : "提现"},
 				{id : 2, name : "充值现金"},
 				{id : 3, name : "充值押金"},
 				{id : 4, name : "充值赚点"},
@@ -754,15 +754,15 @@ app.factory('transType',function(){
 //提现 Service
 app.factory('cashouts',['promisePost','promiseGet',function(promisePost,promiseGet){
 	return {
-		get : function(userId,currentPage,pageSize){	
-			var skip = pageSize * (currentPage - 1);		
+		get : function(userId,currentPage,pageSize){
+			var skip = pageSize * (currentPage - 1);
 			return promiseGet('/cashout/?userId=' + userId + '&limit=' + pageSize + '&skip=' + skip);
 		},
 		add : function(cashout){
 			return promisePost('/trans/cashout', cashout);
 		},
 		queryCount : function(){
-			return promiseGet('/query/count/?model=cashout&where={"rechargetypeId":1}');
+			return promiseGet('/query/count/?model=cashout&where={"rechargeTypeId":1}');
 		},
 		newEmpty : function(){
 			return {
@@ -782,15 +782,15 @@ app.factory('cashouts',['promisePost','promiseGet',function(promisePost,promiseG
 //充值 Service
 app.factory('recharges',['promisePost','promiseGet',function(promisePost,promiseGet){
 	return {
-		get : function(userId,currentPage,pageSize){	
-			var skip = pageSize * (currentPage - 1);		
+		get : function(userId,currentPage,pageSize){
+			var skip = pageSize * (currentPage - 1);
 			return promiseGet('/recharge/?userId=' + userId + '&limit=' + pageSize + '&skip=' + skip);
 		},
 		add : function(recharge){
 			return promisePost('/trans/recharge', recharge);
 		},
 		queryCount : function(){
-			return promiseGet('/query/count/?model=recharge&where={"rechargetypeId":1}');
+			return promiseGet('/query/count/?model=recharge&where={"rechargeTypeId":1}');
 		},
 		newEmpty : function(){
 			return {
@@ -817,7 +817,7 @@ app.factory('points2cashs',['promisePost','promiseGet',function(promisePost,prom
 			return promisePost('/trans/points2cash', points2cash);
 		},
 		queryCount : function(){
-			return promiseGet('/query/count/?model=points2cash&where={"rechargetypeId":1}');
+			return promiseGet('/query/count/?model=points2cash&where={"rechargeTypeId":1}');
 		},
 		newEmpty : function(){
 			return {
@@ -843,11 +843,11 @@ app.factory('transactions',['promisePost','promiseGet','restAPIGet',function(pro
 			window.open("/transaction/csv");
 		},
 		queryCount : function(){
-			return promiseGet('/query/count/?model=transaction&where={"rechargetypeId":1}');
+			return promiseGet('/query/count/?model=transaction&where={"rechargeTypeId":1}');
 		}
 	};
 }]);
-//余额查询 Service 
+//余额查询 Service
 app.factory('balances', ['promiseGet','promisePost',function(promiseGet,promisePost){
 	return {
 		get : function(userId){
