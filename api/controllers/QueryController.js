@@ -29,6 +29,8 @@ module.exports = {
 
     count: function (req, res){
       var strMode = req.param('model');
+      var strWhere = req.param('where');
+
       var count = 0;
       var  criteria = actionUtil.parseCriteria(req);
 
@@ -36,7 +38,13 @@ module.exports = {
       delete criteria.model;
 
       // add user Id to the criteria
-      criteria.where = criteria.where || {};
+      var objWhere;
+      try {
+        objWhere = JSON.parse(strWhere);
+      }catch (e) {
+        console.log(e);
+      }
+      criteria.where = objWhere || {};
 
       if (req.userData) {
         criteria.where.userId = req.userData.userId;
@@ -72,6 +80,7 @@ module.exports = {
               res.ok({count: total})});
           break;
         case 'task':
+         // console.log('in task:', criteria);
           VWShopTask.count(criteria)
             .exec(function(err, total){
               if (err) return res.serverError(err);

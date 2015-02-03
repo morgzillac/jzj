@@ -9,7 +9,7 @@
 module.exports = {
   connection: 'localDiskDb',
   //connection: 'redis',
-  migrate: 'drop',
+  //migrate: 'drop',
   attributes: {
         userId: {
             type: 'string',
