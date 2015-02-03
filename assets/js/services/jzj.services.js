@@ -762,7 +762,7 @@ app.factory('cashouts',['promisePost','promiseGet',function(promisePost,promiseG
 			return promisePost('/trans/cashout', cashout);
 		},
 		queryCount : function(){
-			return promiseGet('/query/count/?model=cashout&where={"rechargeTypeId":1}');
+			return promiseGet('/query/count/?model=cashout');
 		},
 		newEmpty : function(){
 			return {
@@ -817,7 +817,7 @@ app.factory('points2cashs',['promisePost','promiseGet',function(promisePost,prom
 			return promisePost('/trans/points2cash', points2cash);
 		},
 		queryCount : function(){
-			return promiseGet('/query/count/?model=points2cash&where={"rechargeTypeId":1}');
+			return promiseGet('/query/count/?model=points2cash');
 		},
 		newEmpty : function(){
 			return {
@@ -843,7 +843,7 @@ app.factory('transactions',['promisePost','promiseGet','restAPIGet',function(pro
 			window.open("/transaction/csv");
 		},
 		queryCount : function(){
-			return promiseGet('/query/count/?model=transaction&where={"rechargeTypeId":1}');
+			return promiseGet('/query/count/?model=transaction');
 		}
 	};
 }]);
