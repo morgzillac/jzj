@@ -37,9 +37,13 @@ angular.module('app')
           container: false
         }
       }
+      $scope.userLogin = "";
       $scope.platforms = [];
       $scope.$on('$viewContentLoaded',function(){
         $scope.platforms = platforms.getAll();
+        if(angular.isDefined(app.userSession.userLogin) && app.userSession.userLogin != null){
+          $scope.userLogin = app.userSession.userLogin;
+        }
       });
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {

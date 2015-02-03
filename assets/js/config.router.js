@@ -15,7 +15,7 @@ angular.module('app')
               app.userSession = angular.fromJson($window.localStorage.getItem("userSession"));
             }else{
               app.userSession = null;
-            }            
+            }      
           };  
           //在注册一个路由事件，监听ui-route stats的改变
           $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -266,9 +266,9 @@ angular.module('app')
                   url: '/doing/:status',
                   templateUrl: 'tpl/doing_task_list.html'                  
               })
-              .state('app.tasklist.pendding', {
-                  url: '/pendding/:platformId',
-                  templateUrl: 'tpl/pendding_task_list.html'                  
+              .state('app.tasklist.pending', {
+                  url: '/pending/:platformId',
+                  templateUrl: 'tpl/pending_task_list.html'                  
               })
               .state('app.tasklist.unpublish', {
                   url: '/unpublish/:status',

@@ -110,7 +110,8 @@ app.controller('TaskFlowCtrl',['$scope','$state','flowDatas','$stateParams','$lo
 			$scope.flowData = result;
 			$scope.flowData.taskDetail = angular.fromJson($scope.flowData.taskDetail);
 			//发布task
-			tasks.pubishTask($scope.flowData).then(function(result){
+			var jsonFlowData = angular.toJson($scope.flowData);
+			tasks.pubishTask(jsonFlowData).then(function(result){
 				//TODO: 处理支付事件
 				$location.url('/app/tasklist/4');
 			});			
@@ -503,42 +504,30 @@ app.controller('TaskFlowItem6Ctrl',['$scope','$timeout', function($scope,$timeou
 	};
 }]);
 //待处理的任务
-app.controller('PeddingTaskCtrl',['$scope','$stateParams','platforms','tasks','$modal',function($scope,$stateParams,platforms,tasks,$modal){
+app.controller('PendingTaskCtrl',['$scope','$stateParams','platforms','taskLists','$modal',function($scope,$stateParams,platforms,taskLists,$modal){
 	$scope.platformName = "";
 	$scope.platformId = -1;
-	$scope.statusId = 3;
+	$scope.statusId = 4;
 	$scope.taskList = [];
 	$scope.$watch('$viewContentLoaded',function(){
 		$scope.platformId = $stateParams.platformId;
 		$scope.platformName = platforms.getPlatformName($scope.platformId);
-		filterTasks(1,4);
+		pendingTaskList(1,4);
 		queryCount();
 	});
-	$scope.filterByStatus = function(statusId){
-		$scope.statusId = statusId;
-		filterTasks(1,4);
-	};
 	$scope.$on('pageChanged',function(event,data){
-	    filterTasks(data.currentPage,data.pageSize);
+	    pendingTaskList(data.currentPage,data.pageSize);
 	});
-	$scope.getShopName = function(json){
-		return angular.fromJson(json).shopName;
-	};
-	$scope.getTaskTotalCach = function(json){
-		return angular.fromJson(json).totalCash;
-	};
-	$scope.getTaskTotalPoint = function(json){
-		return angular.fromJson(json).totalPoint;
-	};
-	var filterTasks = function(currentPage,pageSize){
-		tasks.filter($scope.statusId,{'platformId' : $scope.platformId},currentPage,pageSize).then(function(result){
+	var pendingTaskList = function(currentPage,pageSize){
+		taskLists.pending($scope.platformId,currentPage,pageSize).then(function(result){
 			$scope.taskList = result;
-		});		
+		});
 	};
 	var queryCount = function(){
-	    // tasks.queryCount().then(function(result){
-	    //   $scope.$broadcast('resultsLoaded', result);
-	    // });
+		var condition = "{\"platformId\":" + $scope.platformId + ",\"status\":" + $scope.statusId + ",\"assigned\":{\">\":1}}";
+	    taskLists.queryCount(condition).then(function(result){
+	      $scope.$broadcast('resultsLoaded', result);
+	    });
 	};
 	$scope.viewDetail = function (taskId) {
       var modalInstance = $modal.open({
@@ -552,10 +541,27 @@ app.controller('PeddingTaskCtrl',['$scope','$stateParams','platforms','tasks','$
       });
     };
 }]);
-app.controller('AccordingCtrl',['$scope',function($scope){
+app.controller('TaskBuyerCtrl',['$scope','taskBuyers',function($scope,taskBuyers){
+	$scope.statusId = 1;
+	$scope.taskId = -1;
 	$scope.expanded = false;
-	$scope.toggleOpen = function(){
+	$scope.taskBuyerList= [];
+	$scope.toggleOpen = function(taskId){
 		$scope.expanded = !$scope.expanded;
+		$scope.taskId = taskId;
+		filterTaskBuyer(1,10);
+	};
+	$scope.toggleClose = function(){
+		$scope.expanded = !$scope.expanded;
+	};
+	$scope.filterTaskBuyer = function(statusId){
+		$scope.statusId = statusId;
+		filterTaskBuyer(1,10);
+	};
+	var filterTaskBuyer = function(currentPage,pageSize){
+		taskBuyers.filter($scope.taskId,$scope.statusId,currentPage,pageSize).then(function(result){
+			$scope.taskBuyerList = result;
+		});
 	};
 }]);
 //进行中的任务
@@ -574,6 +580,7 @@ app.controller('VTaskListCtrl',['$scope','$stateParams','platforms','taskStatuss
 			}
 		});
 		filterTasksByCondition($scope.condition,1,4);
+		queryCount();
 	});
 	//查询已完成的任务
 	var filterTasksByCondition = function(condition,currentPage,pageSize){		
@@ -586,9 +593,10 @@ app.controller('VTaskListCtrl',['$scope','$stateParams','platforms','taskStatuss
 		filterTasksByCondition(data,1,4);
 	});
 	var queryCount = function(){
-	    // tasks.queryCount().then(function(result){
-	    //   $scope.$broadcast('resultsLoaded', result);
-	    // });
+		var condition = "{\"status\":" + $scope.statusId + "}";
+	    taskLists.queryCount(condition).then(function(result){
+	      $scope.$broadcast('resultsLoaded', result);
+	    });
 	};
 	$scope.$on('pageChanged',function(event,data){
 	    filterTasksByCondition($scope.condition,data.currentPage,data.pageSize);
@@ -636,7 +644,7 @@ app.controller('TaskListCtrl',['$scope','$stateParams','taskStatuss','tasks',fun
 	$scope.condition = { platformId : -1,shopId : -1,taskTypeId : -1,terminalId : -1 };
 	$scope.$watch('$viewContentLoaded',function(){
 		//TODO:统计不同状态下任务的数量
-		$scope.taskStats = { all : 8, doing : 2, finish : 6 };		
+		$scope.taskStats = { all : 8, doing : 2, finish : 6 };	
 	});
 	$scope.initTaskByStatus = function(){
 		$scope.statusId = $stateParams.status;
@@ -647,10 +655,12 @@ app.controller('TaskListCtrl',['$scope','$stateParams','taskStatuss','tasks',fun
 			}
 		});
 		filterTasksByCondition($scope.condition,1,4);
+		queryCount();
 	};
 	$scope.initTaskByPlatform = function(){
 		$scope.platformId = $stateParams.platformId;
 		queryTasksByPlatform($scope.platformId);
+		queryCount();
 	};
 	//查询平台下所有任务
 	var queryTasksByPlatform = function(platformId){
@@ -682,11 +692,13 @@ app.controller('TaskListCtrl',['$scope','$stateParams','taskStatuss','tasks',fun
 	$scope.$on('filterTaskLoaded',function(event,data){
 		$scope.condition = data;
 		filterTasksByCondition(data,1,4);
+		queryCount();
 	});
 	var queryCount = function(){
-	    // tasks.queryCount().then(function(result){
-	    //   $scope.$broadcast('resultsLoaded', result);
-	    // });
+		var condition = "{\"status\":" + $scope.statusId + "}";
+	    tasks.queryCount(condition).then(function(result){
+	      $scope.$broadcast('resultsLoaded', result);
+	    });
 	};
 	$scope.$on('pageChanged',function(event,data){
 	    filterTasksByCondition($scope.condition,data.currentPage,data.pageSize);
@@ -735,10 +747,10 @@ app.controller('TaskFilterCtrl',['$scope','$stateParams','platforms','sellerShop
 	};
 }]);
 //分页 controller
-app.controller('PaginationCtrl',['$scope', function($scope){
+app.controller('TaskPaginationCtrl',['$scope', function($scope){
     $scope.pageSize = 4;
     $scope.maxSize = 10;
-    $scope.totalItems = 50;
+    $scope.totalItems = 0;
     $scope.currentPage = 1;
     $scope.setPage = function (pageNo) {
         $scope.currentPage = pageNo;
