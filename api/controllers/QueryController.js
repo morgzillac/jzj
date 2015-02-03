@@ -29,25 +29,14 @@ module.exports = {
 
     count: function (req, res){
       var strMode = req.param('model');
-      var strWhere = req.param('where');
-
       var count = 0;
       var  criteria = actionUtil.parseCriteria(req);
 
       // remove the model attribute from query string
       delete criteria.model;
 
-      // add user Id to the criteria
-      var objWhere;
-      try {
-        objWhere = JSON.parse(strWhere);
-      }catch (e) {
-        console.log(e);
-      }
-      criteria.where = objWhere || {};
-
       if (req.userData) {
-        criteria.where.userId = req.userData.userId;
+        criteria.userId = req.userData.userId;
       } else {
         // send not logged in msg
         return res.customError('403', sails.config.errs.access_notloggedin);

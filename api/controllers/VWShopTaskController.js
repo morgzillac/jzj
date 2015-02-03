@@ -31,14 +31,14 @@ module.exports = {
  pending: function (req, res) {
 
    var criteria = actionUtil.parseCriteria(req);
-   criteria.where = criteria.where || {};
-   criteria.where.pending = { '>': 0 };;
-
+   criteria.pending = { '>': 0 };
    var query = VWShopTask.find()
-    .where( criteria )
-    .limit( actionUtil.parseLimit(req) )
-    .skip( actionUtil.parseSkip(req) )
-    .sort( actionUtil.parseSort(req) );
+     .where(criteria)
+     .limit(actionUtil.parseLimit(req))
+     .skip(actionUtil.parseSkip(req))
+     .sort(actionUtil.parseSort(req));
+
+   console.log("criteria = " + JSON.stringify(criteria));
 
    query.exec(function(err, results) {
     if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
@@ -55,14 +55,22 @@ module.exports = {
 
   assigned: function (req, res) {
     var criteria = actionUtil.parseCriteria(req);
-    criteria.where = criteria.where || {};
-    criteria.where.pending = { '>': 0 };
+    criteria.pending = { '>': 0 };
     var query = VWShopTask.find()
       .where(criteria)
       .limit(actionUtil.parseLimit(req))
       .skip(actionUtil.parseSkip(req))
       .sort(actionUtil.parseSort(req));
 
+    console.log("criteria = " + JSON.stringify(criteria));
+    criteria.where.pending = { '>': 0 };
+    var query = VWShopTask.find()
+      .where(criteria.where)
+      .limit(actionUtil.parseLimit(req))
+      .skip(actionUtil.parseSkip(req))
+      .sort(actionUtil.parseSort(req));
+
+console.log("criteria = " + JSON.stringify(criteria));
     query.exec(function (err, results) {
       if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
 
