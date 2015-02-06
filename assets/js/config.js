@@ -1,11 +1,11 @@
 // config
 
-var app =
+var app =  
 angular.module('app')
   .config(
     [        '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
     function ($controllerProvider,   $compileProvider,   $filterProvider,   $provide) {
-
+        
         // lazy controller, directive and service
         app.controller = $controllerProvider.register;
         app.directive  = $compileProvider.directive;
@@ -32,6 +32,6 @@ angular.module('app')
 
   //初始化global变量
   app.global = {
-    "host" : ""
+    "host" : "http://119.29.22.94:1337"
   };
 
