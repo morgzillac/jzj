@@ -5,38 +5,6 @@
 var moment = require('moment');
 
 
-var dateStr =   moment().format('YYYYMMDDHHMMSS');
-
-var bill99 = {
-  merchantAcctId:'1002421178901',
-  key:"ZRF336TLNR62AXJH",
-  inputCharset:"3",
-  pageUrl:"http:/119.29.22.94:1337/bill/rec",
-  bgUrl:"http:/119.29.22.94:1337/bill/rec",
-  version:"v2.0",
-  language:"1",
-  signMsg:"",
-  signType:"1",
-  payerName:"TestUser",
-  payerContactType:"1",
-  payerContact:"mchengcat@hotmail.com",
-  orderId:dateStr,
-  orderAmount:"2",
-  orderTime:dateStr,
-  productName:"productName",
-  productNum:"1",
-  productId:"55558888",
-  productDesc:"test",
-  ext1:"jzj1",
-  ext2:"jzj2",
-  payType:"00",
-// following is for bank direct payment, payType : 10
-  bankId:"",
-//whether to allow repeat submission, 0 for real product, 1 for virtual
-  redoFlag:"0",
-  pid:""
-  }
-
 function md5params (bill99) {
   var crypto = require('crypto');
   var md5sum = crypto.createHash('md5');
@@ -76,6 +44,38 @@ function md5params (bill99) {
 module.exports = {
 
   send: function (req, res) {
+
+    var dateStr =   moment().format('YYYYMMDDHHMMSS');
+
+    var bill99 = {
+      merchantAcctId:'1002421178901',
+      key:"ZRF336TLNR62AXJH",
+      inputCharset:"3",
+      pageUrl:"http:/119.29.22.94:1337/bill/rec",
+      bgUrl:"http:/119.29.22.94:1337/bill/rec",
+      version:"v2.0",
+      language:"1",
+      signMsg:"",
+      signType:"1",
+      payerName:"TestUser",
+      payerContactType:"1",
+      payerContact:"mchengcat@hotmail.com",
+      orderId:dateStr,
+      orderAmount:"2",
+      orderTime:dateStr,
+      productName:"productName",
+      productNum:"1",
+      productId:"55558888",
+      productDesc:"test",
+      ext1:"jzj1",
+      ext2:"jzj2",
+      payType:"00",
+// following is for bank direct payment, payType : 10
+      bankId:"",
+//whether to allow repeat submission, 0 for real product, 1 for virtual
+      redoFlag:"0",
+      pid:""
+    }
 
     console.log(JSON.stringify(bill99));
     md5params(bill99);
