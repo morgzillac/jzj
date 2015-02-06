@@ -45,7 +45,7 @@ module.exports = {
 
   send: function (req, res) {
 
-    var dateStr =   moment().format('YYYYMMDDHHMMSS');
+    var dateStr =   moment().format('YYYYMMDDHHmmss');
 
     var bill99 = {
       merchantAcctId:'1002421178901',
