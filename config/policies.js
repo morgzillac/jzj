@@ -24,7 +24,13 @@ module.exports.policies = {
     'create': true,
     'resetPasswordRequest': true,
     'resetPassword': true
+    //
+  },
 
+  Bill: {
+    // no need to be logged in
+    'send': true,
+    'rec':true
     //
   },
 
