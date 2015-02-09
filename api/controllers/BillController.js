@@ -110,6 +110,7 @@ module.exports = {
     var payResult = req.param('payResult') || '';
     var errCode = req.param('errCode') || '';
     var signMsg = req.param('signMsg') || '';
+    var key = "ZRF336TLNR62AXJH";
 
     var crypto = require('crypto');
     var md5sum = crypto.createHash('md5');
@@ -141,9 +142,9 @@ module.exports = {
     var rtnUrl="http://219.233.173.50:8804/yixiao/show.asp?msg=false!";
 
     console.log('in - ', merchantSignMsg.toUpperCase());
-    console.log('in - ', signMsg);
+    console.log('out - ', signMsg);
 
-    if (signMsg.equals(merchantSignMsg.toUpperCase())) {
+    if (signMsg == merchantSignMsg.toUpperCase()) {
         if (payResult == 10){
           rtnOk=1;
           rtnUrl= rtnUrl + "?msg=success!";
