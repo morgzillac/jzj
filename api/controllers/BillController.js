@@ -5,39 +5,15 @@
 var moment = require('moment');
 
 
-function md5params (bill99) {
+function md5params (msg) {
   var crypto = require('crypto');
   var md5sum = crypto.createHash('md5');
 
-  var signMsgVal = "inputCharset=" + bill99.inputCharset;
-  signMsgVal=signMsgVal + "&" + "pageUrl=" + bill99.pageUrl;
-  signMsgVal=signMsgVal + "&" + "bgUrl=" + bill99.bgUrl;
-  signMsgVal=signMsgVal + "&" + "version=" + bill99.version;
-  signMsgVal=signMsgVal + "&" + "language=" + bill99.language;
-  signMsgVal=signMsgVal + "&" + "signType=" + bill99.signType
-  signMsgVal=signMsgVal + "&" + "merchantAcctId=" + bill99.merchantAcctId;
-  signMsgVal=signMsgVal + "&" + "payerName=" + bill99.payerName;
-  signMsgVal=signMsgVal + "&" + "payerContactType=" + bill99.payerContactType;
-  signMsgVal=signMsgVal + "&" + "payerContact=" + bill99.payerContact;
-  signMsgVal=signMsgVal + "&" + "orderId=" + bill99.orderId;
-  signMsgVal=signMsgVal + "&" + "orderAmount=" + bill99.orderAmount;
-  signMsgVal=signMsgVal + "&" + "orderTime=" + bill99.orderTime;
-  signMsgVal=signMsgVal + "&" + "productName=" + bill99.productName;
-  signMsgVal=signMsgVal + "&" + "productNum=" + bill99.productNum;
-  signMsgVal=signMsgVal + "&" + "productId=" + bill99.productId;
-  signMsgVal=signMsgVal + "&" + "productDesc=" + bill99.productDesc;
-  signMsgVal=signMsgVal + "&" + "ext1=" + bill99.ext1;
-  signMsgVal=signMsgVal + "&" + "ext2=" + bill99.ext2;
-  signMsgVal=signMsgVal + "&" + "payType=" + bill99.payType;
-  if(bill99.bankId) signMsgVal=signMsgVal + "&" + "bankId=" + bill99.bankId;
-  signMsgVal=signMsgVal + "&" + "redoFlag=" + bill99.redoFlag;
-  if(bill99.pid) signMsgVal=signMsgVal + "&" + "pid=" + bill99.pid;
-  signMsgVal=signMsgVal + "&" + "key=" + bill99.key;
-
-  bill99.signMsgVal = signMsgVal;
-  console.log(signMsgVal);
-  md5sum.update(signMsgVal);
-  bill99.signMsg = md5sum.digest('hex').toUpperCase();
+  console.log(msg);
+  md5sum.update(msg);
+  var result = md5sum.digest('hex').toUpperCase();
+  console.log(result);
+  return result;
 }
 
 
@@ -61,7 +37,7 @@ module.exports = {
       payerContactType:"1",
       payerContact:"mchengcat@hotmail.com",
       orderId:dateStr,
-      orderAmount:"2",
+      orderAmount:"1",
       orderTime:dateStr,
       productName:"productName",
       productNum:"1",
@@ -77,8 +53,35 @@ module.exports = {
       pid:""
     }
 
-    console.log(JSON.stringify(bill99));
-    md5params(bill99);
+    var signMsgVal = "inputCharset=" + bill99.inputCharset;
+    signMsgVal=signMsgVal + "&" + "pageUrl=" + bill99.pageUrl;
+    signMsgVal=signMsgVal + "&" + "bgUrl=" + bill99.bgUrl;
+    signMsgVal=signMsgVal + "&" + "version=" + bill99.version;
+    signMsgVal=signMsgVal + "&" + "language=" + bill99.language;
+    signMsgVal=signMsgVal + "&" + "signType=" + bill99.signType
+    signMsgVal=signMsgVal + "&" + "merchantAcctId=" + bill99.merchantAcctId;
+    signMsgVal=signMsgVal + "&" + "payerName=" + bill99.payerName;
+    signMsgVal=signMsgVal + "&" + "payerContactType=" + bill99.payerContactType;
+    signMsgVal=signMsgVal + "&" + "payerContact=" + bill99.payerContact;
+    signMsgVal=signMsgVal + "&" + "orderId=" + bill99.orderId;
+    signMsgVal=signMsgVal + "&" + "orderAmount=" + bill99.orderAmount;
+    signMsgVal=signMsgVal + "&" + "orderTime=" + bill99.orderTime;
+    signMsgVal=signMsgVal + "&" + "productName=" + bill99.productName;
+    signMsgVal=signMsgVal + "&" + "productNum=" + bill99.productNum;
+    signMsgVal=signMsgVal + "&" + "productId=" + bill99.productId;
+    signMsgVal=signMsgVal + "&" + "productDesc=" + bill99.productDesc;
+    signMsgVal=signMsgVal + "&" + "ext1=" + bill99.ext1;
+    signMsgVal=signMsgVal + "&" + "ext2=" + bill99.ext2;
+    signMsgVal=signMsgVal + "&" + "payType=" + bill99.payType;
+    if(bill99.bankId) signMsgVal=signMsgVal + "&" + "bankId=" + bill99.bankId;
+    signMsgVal=signMsgVal + "&" + "redoFlag=" + bill99.redoFlag;
+    if(bill99.pid) signMsgVal=signMsgVal + "&" + "pid=" + bill99.pid;
+    signMsgVal=signMsgVal + "&" + "key=" + bill99.key;
+
+    bill99.signMsg = md5params(signMsgVal);
+//    bill99.signMsgVal = signMsgVal;
+
+    console.log(signMsgVal);
     console.log(bill99.signMsg);
     req.bill99 = bill99;
     res.view();
@@ -86,9 +89,74 @@ module.exports = {
 
   rec: function (req, res) {
 
-    console.log('in rec:', req.url);
+    var rtnUrl = 'http://119.29.22.94:1337/bill/result';
 
+    var merchantAcctId = req.param('merchantAcctId') || '';
+    var version = req.param('version') || '';
+    var language = req.param('language') || '';
+    var signType = req.param('signType') || '';
+    var payType = req.param('payType') || '';
+    var bankId = req.param('bankId') || '';
+    var orderId = req.param('orderId') || '';
+    var orderTime = req.param('orderTime') || '';
+    var orderAmount = req.param('orderAmount') || '';
+    var dealId = req.param('dealId') || '';
+    var bankDealId = req.param('bankDealId') || '';
+    var dealTime = req.param('dealTime') || '';
+    var payAmount = req.param('payAmount') || '';
+    var fee = req.param('fee') || '';
+    var ext1 = req.param('ext1') || '';
+    var ext2 = req.param('ext2') || '';
+    var payResult = req.param('payResult') || '';
+    var errCode = req.param('errCode') || '';
+    var signMsg = req.param('signMsg') || '';
+
+    var crypto = require('crypto');
+    var md5sum = crypto.createHash('md5');
+
+    var merchantSignMsgVal= "merchantAcctId=" + merchantAcctId.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "version=" + version.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "language=" + language.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "signType=" + signType.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "payType=" + payType.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "bankId=" + bankId.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "orderId=" + orderId.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "orderTime=" + orderTime.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "orderAmount=" + orderAmount.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "dealId=" + dealId.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "bankDealId=" + bankDealId.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "dealTime=" + dealTime.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "payAmount=" + payAmount.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "fee=" + fee.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "ext1=" + ext1.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "ext2=" + ext2.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "payResult=" + payResult.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "errCode=" + errCode.trim();
+    merchantSignMsgVal= merchantSignMsgVal + '&' + "key=" + key.trim();
+
+
+    var merchantSignMsg = md5params(merchantSignMsgVal);
+
+    var rtnOk=0;
+    var rtnUrl="http://219.233.173.50:8804/yixiao/show.asp?msg=false!";
+
+    console.log('in - ', merchantSignMsg.toUpperCase());
+    console.log('in - ', signMsg);
+
+    if (signMsg.equals(merchantSignMsg.toUpperCase())) {
+        if (payResult == 10){
+          rtnOk=1;
+          rtnUrl= rtnUrl + "?msg=success!";
+        }
+    }
+
+    var result ='<result>' + rtnOk + '</result><redirecturl>' + rtnUrl + '</redirecturl>';
+    res.ok(result);
+  },
+
+  result: function (req, res) {
     res.view();
   }
+
 
 };
