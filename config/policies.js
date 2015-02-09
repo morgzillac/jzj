@@ -30,7 +30,8 @@ module.exports.policies = {
   Bill: {
     // no need to be logged in
     'send': true,
-    'rec':true
+    'rec':true,
+    'result':true
     //
   },
 

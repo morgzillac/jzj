@@ -139,7 +139,7 @@ module.exports = {
     var merchantSignMsg = md5params(merchantSignMsgVal);
 
     var rtnOk=0;
-    var rtnUrl="http://219.233.173.50:8804/yixiao/show.asp?msg=false!";
+    var rtnUrl="http://119.29.22.94:1337/bill/result";
 
     console.log('in - ', merchantSignMsg.toUpperCase());
     console.log('out - ', signMsg);
@@ -151,7 +151,7 @@ module.exports = {
         }
     }
 
-     req.result ='<result>' + rtnOk + '</result><redirecturl>' + rtnUrl + '</redirecturl>';
+    req.result ='<result>' + rtnOk + '</result><redirecturl>' + rtnUrl + '</redirecturl>';
     res.view();
   },
 
