@@ -51,8 +51,8 @@ module.exports = {
       merchantAcctId:'1002421178901',
       key:"ZRF336TLNR62AXJH",
       inputCharset:"3",
-      pageUrl:"http:/119.29.22.94:1337/bill/rec",
-      bgUrl:"http:/119.29.22.94:1337/bill/rec",
+      pageUrl:"http://119.29.22.94:1337/bill/rec",
+      bgUrl:"http://119.29.22.94:1337/bill/rec",
       version:"v2.0",
       language:"1",
       signMsg:"",
@@ -85,6 +85,9 @@ module.exports = {
   },
 
   rec: function (req, res) {
+
+    console.log('in rec:', req.url);
+
     res.view();
   }
 
