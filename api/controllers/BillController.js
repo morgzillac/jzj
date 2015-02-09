@@ -91,49 +91,49 @@ module.exports = {
 
     var rtnUrl = 'http://119.29.22.94:1337/bill/result';
 
-    var merchantAcctId = req.param('merchantAcctId') || '';
-    var version = req.param('version') || '';
-    var language = req.param('language') || '';
-    var signType = req.param('signType') || '';
-    var payType = req.param('payType') || '';
-    var bankId = req.param('bankId') || '';
-    var orderId = req.param('orderId') || '';
-    var orderTime = req.param('orderTime') || '';
-    var orderAmount = req.param('orderAmount') || '';
-    var dealId = req.param('dealId') || '';
-    var bankDealId = req.param('bankDealId') || '';
-    var dealTime = req.param('dealTime') || '';
-    var payAmount = req.param('payAmount') || '';
-    var fee = req.param('fee') || '';
-    var ext1 = req.param('ext1') || '';
-    var ext2 = req.param('ext2') || '';
-    var payResult = req.param('payResult') || '';
-    var errCode = req.param('errCode') || '';
-    var signMsg = req.param('signMsg') || '';
+    var merchantAcctId = req.param('merchantAcctId');
+    var version = req.param('version');
+    var language = req.param('language');
+    var signType = req.param('signType');
+    var payType = req.param('payType');
+    var bankId = req.param('bankId');
+    var orderId = req.param('orderId');
+    var orderTime = req.param('orderTime');
+    var orderAmount = req.param('orderAmount');
+    var dealId = req.param('dealId');
+    var bankDealId = req.param('bankDealId');
+    var dealTime = req.param('dealTime');
+    var payAmount = req.param('payAmount');
+    var fee = req.param('fee');
+    var ext1 = req.param('ext1');
+    var ext2 = req.param('ext2');
+    var payResult = req.param('payResult');
+    var errCode = req.param('errCode');
+    var signMsg = req.param('signMsg');
     var key = "ZRF336TLNR62AXJH";
 
     var crypto = require('crypto');
     var md5sum = crypto.createHash('md5');
 
     var merchantSignMsgVal= "merchantAcctId=" + merchantAcctId.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "version=" + version.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "language=" + language.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "signType=" + signType.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "payType=" + payType.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "bankId=" + bankId.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "orderId=" + orderId.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "orderTime=" + orderTime.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "orderAmount=" + orderAmount.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "dealId=" + dealId.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "bankDealId=" + bankDealId.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "dealTime=" + dealTime.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "payAmount=" + payAmount.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "fee=" + fee.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "ext1=" + ext1.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "ext2=" + ext2.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "payResult=" + payResult.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "errCode=" + errCode.trim();
-    merchantSignMsgVal= merchantSignMsgVal + '&' + "key=" + key.trim();
+    if (version) merchantSignMsgVal= merchantSignMsgVal + '&' + "version=" + version.trim();
+    if (language) merchantSignMsgVal= merchantSignMsgVal + '&' + "language=" + language.trim();
+    if (signType) merchantSignMsgVal= merchantSignMsgVal + '&' + "signType=" + signType.trim();
+    if (payType) merchantSignMsgVal= merchantSignMsgVal + '&' + "payType=" + payType.trim();
+    if (bankId) merchantSignMsgVal= merchantSignMsgVal + '&' + "bankId=" + bankId.trim();
+    if (orderId) merchantSignMsgVal= merchantSignMsgVal + '&' + "orderId=" + orderId.trim();
+    if (orderTime) merchantSignMsgVal= merchantSignMsgVal + '&' + "orderTime=" + orderTime.trim();
+    if (orderAmount) merchantSignMsgVal= merchantSignMsgVal + '&' + "orderAmount=" + orderAmount.trim();
+    if (dealId) merchantSignMsgVal= merchantSignMsgVal + '&' + "dealId=" + dealId.trim();
+    if (bankDealId) merchantSignMsgVal= merchantSignMsgVal + '&' + "bankDealId=" + bankDealId.trim();
+    if (dealTime) merchantSignMsgVal= merchantSignMsgVal + '&' + "dealTime=" + dealTime.trim();
+    if (payAmount) merchantSignMsgVal= merchantSignMsgVal + '&' + "payAmount=" + payAmount.trim();
+    if (fee) merchantSignMsgVal= merchantSignMsgVal + '&' + "fee=" + fee.trim();
+    if (ext1) merchantSignMsgVal= merchantSignMsgVal + '&' + "ext1=" + ext1.trim();
+    if (ext2) merchantSignMsgVal= merchantSignMsgVal + '&' + "ext2=" + ext2.trim();
+    if (payResult) merchantSignMsgVal= merchantSignMsgVal + '&' + "payResult=" + payResult.trim();
+    if (errCode) merchantSignMsgVal= merchantSignMsgVal + '&' + "errCode=" + errCode.trim();
+    if (key) merchantSignMsgVal= merchantSignMsgVal + '&' + "key=" + key.trim();
 
 
     var merchantSignMsg = md5params(merchantSignMsgVal);
@@ -151,8 +151,8 @@ module.exports = {
         }
     }
 
-    var result ='<result>' + rtnOk + '</result><redirecturl>' + rtnUrl + '</redirecturl>';
-    res.ok(result);
+     req.result ='<result>' + rtnOk + '</result><redirecturl>' + rtnUrl + '</redirecturl>';
+    res.view();
   },
 
   result: function (req, res) {
