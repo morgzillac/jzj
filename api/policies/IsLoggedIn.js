@@ -19,7 +19,6 @@ module.exports = function(req, res, next) {
       req.userData = userData;
       AccessToken.update({token:tokenIn},{updatedAt:new Date()}).exec(function cb (err, updated){
         if (err) sails.log.error(err);
-
         console.log('IsLoggedIn.js token:' + tokenIn + updated[0].updatedAt);
       })
       next();

@@ -35,13 +35,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
- // '/bill99': 'bill99.send',
-
-    /*
-  {
-    controller: 'bill99.send',
-    view: 'bill99'
-  },*/
+  // '/UserBank': '{}',
 
 
   '/test': {

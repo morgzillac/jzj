@@ -8,6 +8,16 @@
 module.exports = {
 
 
+  create: function (req, res) {
+    ModelService.create(req, res, SellerShop,{});
+
+  },
+
+// read only model, edit through Trans controller
+  update: function (req, res) {
+    ModelService.update(req, res, SellerShop,{});
+  }
+
 
 };
 

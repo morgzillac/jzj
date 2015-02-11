@@ -10,6 +10,15 @@ var util = require('util'),
 module.exports = {
 
 
+  create: function (req, res) {
+    var ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    ModelService.create(req, res, TaskBuyer,{ipAddress:ipAddress});
+  },
+
+  update: function (req, res) {
+    ModelService.update(req, res, TaskBuyer, {});
+  },
+
 
   list: function (req, res) {
     var query = TaskBuyer.find({select:['taskBuyerId','userId', 'taskId','statusId','createdAt']})

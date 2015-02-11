@@ -56,31 +56,13 @@ module.exports = {
       "columnName": "updated_by",
       "type": "string",
       "size": 45
-    },
-
-    beforeCreate: function (attrs, next) {
-
-      if (req.userData && req.userData.userId) {
-        attrs.userId = req.userData.userId;
-        next();
-      } else {
-        return next(new Error('未登陆'));
-      }
-    },
-
-    beforeUpdate: function (attrs, next) {
-      if (req.userData && req.userData.userId) {
-        attrs.userId = req.userData.userId;
-        next();
-      } else {
-        return next(new Error('未登陆'));
-      }
     }
+
   },
 
   afterCreate: function (rec, next) {
     //update assigned count in ShopTask
-    console.log('after create' + rec);
+    console.log('after create' + JSON.stringify(rec));
     if (rec) {
       //todo: get rid of sql execution
       UtilsService.updateShopTaskCounts (rec.taskId);
@@ -104,7 +86,8 @@ module.exports = {
     }
     next();
 
-  }
-,
+  },
+
   "tableName": "t_task_buyer"
-}
+};
+

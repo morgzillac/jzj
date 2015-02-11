@@ -7,11 +7,11 @@
 
 module.exports = {
   "schema": true,
-//  migrate:'drop',
+  migrate:'drop',
   "attributes": {
     "tbActivityId": {
       "columnName": "tb_activity_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },

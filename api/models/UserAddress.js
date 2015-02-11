@@ -73,25 +73,6 @@ module.exports = {
       "size": 45
     }
   },
-  "tableName": "t_user_address",
+  "tableName": "t_user_address"
 
-
-  beforeCreate: function (attrs, next) {
-
-      if (req.userData && req.userData.userId) {
-        attrs.userId = req.userData.userId;
-        next();
-      } else {
-        return next(new Error('未登陆'));
-      }
-  },
-
-  beforeUpdate: function (attrs, next) {
-    if (req.userData && req.userData.userId) {
-      attrs.userId = req.userData.userId;
-      next();
-    } else {
-      return next(new Error('未登陆'));
-    }
-  }
 }

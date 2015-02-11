@@ -6,6 +6,15 @@
  */
 
 module.exports = {
-	
+
+  create: function (req, res) {
+    ModelService.create(req, res, UserAddress,{});
+
+  },
+
+  update: function (req, res) {
+    ModelService.update(req, res, UserAddress,{});
+  }
+
 };
 
