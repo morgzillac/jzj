@@ -81,8 +81,22 @@ console.log("criteria = " + JSON.stringify(criteria));
         res.customError('500', sails.config.errs.db_userdata_not_found);
       }
     });
-  }
+  },
 
+  getTaskForBuyer: function (req, res) {
+
+    var query = VWShopTask.find();
+    query.limit(5);
+
+    query.exec(function (err, task) {
+      if (err) return res.customError('500', sails.config.errs.systemError('硬盘数据出错'));
+      if (task) {
+        res.json(task);
+      } else {
+        res.customError('403', sails.config.errs.access_notloggedin);
+      }
+    });
+  }
 
 };
 

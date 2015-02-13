@@ -14,7 +14,7 @@ module.exports = {
 
   update: function (req, res) {
     ModelService.update(req, res, TaskBuyerActivity, {});
-  },
+  }
 
 };
 
