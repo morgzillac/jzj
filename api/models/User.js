@@ -186,16 +186,14 @@ var User = {
     },
 
   beforeCreate: function (attrs, next) {
-
     try {
-      delete attrs.userId;
-
-      attrs.password = UtilsService.encrypt(attrs.password);
-      attrs.payPassword = UtilsService.encrypt(attrs.payPassword);
-    } catch (err) {
+          delete attrs.userId;
+          attrs.password = UtilsService.encrypt(attrs.password);
+          attrs.payPassword = UtilsService.encrypt(attrs.payPassword);
+          next();
+     } catch (err) {
       return next (err);
     }
-    next();
   },
 
   beforeUpdate: function (attrs, next) {

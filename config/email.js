@@ -3,8 +3,8 @@
  */module.exports.email = {
 
   transport: {
-    service: 'gmail',
-    auth: {user: "jzj@hyperbridge.com", pass: "juzhuanjie"},
+    service: 'QQ',
+    auth: {user: "master@juzhuanjie.com", pass: "mas8qqcom"},
     templateDir: '../services/email_tpls',
     from: '',
     testMode: true

@@ -15,14 +15,14 @@ module.exports = {
   sendEmail4: function (opts) {
     var nodemailer = require('nodemailer');
     var transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: 'QQ',
       auth: {
-        user: 'jzj@hyperbridge.com',
-        pass: 'juzhuanjie'
+        user: 'morgan@saimonet.com',
+        pass: 'mc8saimo'
       }
     });
     transporter.sendMail({
-      from: 'jzj@hyperbridge.com',
+      from: 'morgan@saimonet.com',
       to: opts.to,
       subject: opts.subject,
       text: opts.text
@@ -59,7 +59,7 @@ module.exports = {
             console.log(err);
           } else {
             transporter.sendMail({
-              from: '聚赚届 <jzj@hyperbridge.com>',
+              from: '聚赚届 <master@juzhuanjie.com>',
               to: locals.to,
               subject: locals.subject,
               html: html

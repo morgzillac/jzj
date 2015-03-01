@@ -11,6 +11,16 @@ module.exports.errs = {
   },
 
 
+  user_email_found:{
+    code: "user_email_found",
+    message: "输入的邮箱已存在！"
+  },
+
+  user_login_found:{
+    code: "user_login_found",
+    message: "输入的登陆名已存在！"
+  },
+
   user_email_notfound:{
     code: "user_email_notfound",
     message: "输入的邮箱不存在！"

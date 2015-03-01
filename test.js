@@ -1,4 +1,10 @@
 console.log("this is a test");
+
+
+var e = new Error("test");
+
+
+
 var https = require('https');
 var http = require('http');
 

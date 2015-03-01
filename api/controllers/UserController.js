@@ -4,11 +4,59 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
+var util = require('util'),
+  actionUtil = require('../../node_modules/sails/lib/hooks/blueprints/actionUtil');
 
   module.exports = {
 
+    create: function (req, res) {
 
-  login: function (req, res) {
+      var email = req.param('email') || '';
+      var login = req.param('userLogin') || '';
+
+      UtilsService.checkEmail(email, function(err, found) {
+        if (err) return res.serverError(err);
+        //console.log('error:',sails.config.errs.user_email_found);
+        if (found) return res.serverError(sails.config.errs.user_email_found);
+        UtilsService.checkLogin(login, function (err, found) {
+          if (err) return res.serverError(err);
+          if (found) return res.serverError(sails.config.errs.user_login_found);
+
+          var Model = actionUtil.parseModel(req);
+
+          // Create data object (monolithic combination of all parameters)
+          // Omit the blacklisted params (like JSONP callback param, etc.)
+          var data = actionUtil.parseValues(req);
+
+          // Create new instance of model using data from params
+          User.create(data).exec(function created(err, newInstance) {
+
+            // Differentiate between waterline-originated validation errors
+            // and serious underlying issues. Respond with badRequest if a
+            // validation error is encountered, w/ validation info.
+            if (err) return res.negotiate(err);
+
+            // If we have the pubsub hook, use the model class's publish method
+            // to notify all subscribers about the created item
+            if (req._sails.hooks.pubsub) {
+              if (req.isSocket) {
+                Model.subscribe(req, newInstance);
+                Model.introduce(newInstance);
+              }
+              Model.publishCreate(newInstance, !req.options.mirror && req);
+            }
+
+            // Send JSONP-friendly response if it's supported
+            // (HTTP 201: Created)
+            res.status(201);
+            res.ok(newInstance.toJSON());
+          });
+        });
+      });
+    },
+
+
+    login: function (req, res) {
 
     var password = req.param('password');
     var username = req.param('login');
@@ -81,26 +129,30 @@
       var email = req.param('email');
       if (!email) return res.serverError(sails.config.errs.param_email_notfound);
 
-      if (!checkEmail(email)) {
-        if (!email) return res.serverError(sails.config.errs.user_email_notfound);
-      }
+      UtilsService.checkEmail(email, function(err, found){
 
-      var code = UtilsService.encrypt(email);
-      var port = "";
-      if (req.port) port = ":" + req.port;
-      var url = req.host + port + '/#/access/resetpwd?code=' + code;
+        if (err) return res.customError('500', res.serverError("系统错误"));
+        if (!found) return res.serverError(sails.config.errs.user_email_notfound);
 
-      var locals = {
-        templateName: sails.config.email.resetPW.templateName,
-        subject: sails.config.email.resetPW.subject,
-        to: req.param('email'),
-        data: {
-          url: url
-        }
-      };
-      EmailService.sendEmail(locals);
+        var code = UtilsService.encrypt(email);
+        var port = "";
+        if (req.port) port = ":" + req.port;
+        var url = 'https://' + req.host + port + '/#/access/resetpwd?code=' + code;
 
-      res.ok();
+        var locals = {
+          templateName: sails.config.email.resetPW.templateName,
+          subject: sails.config.email.resetPW.subject,
+          to: req.param('email'),
+          data: {
+            url: url
+          }
+        };
+        EmailService.sendEmail(locals);
+
+        res.ok();
+
+      });
+
 
     },
 
@@ -111,52 +163,39 @@
       } else {
         var thecode = req.param('thecode');
         var email = req.param('email');
+        if (!email) return res.serverError(sails.config.errs.user_email_notfound);
 
-        if (!checkEmail(email)) {
-          if (!email) return res.serverError(sails.config.errs.user_email_notfound);
-        }
-
-        var bcrypt = require('bcrypt');
-
-        bcrypt.compare(email, thecode, function (err, match) {
+        UtilsService.checkEmail(email, function(err, found) {
           if (err) return res.customError('500', res.serverError("系统错误"));
-          if (match) {
-            var record = {};
-            if (req.param('password')) {
-              record.password = req.param('password');
-              console.log(record);
-            }
-            if (req.param('payPassword')) {
-              record.payPassword = req.param('payPassword');
-            }
-            User.update({"email": email}, record).exec(function (err, userData) {
-              if (err) {
-                console.log(err);
-                res.customError('500', sails.config.errs.systemError(sails.config.errs.db_reset_password_err));
-              } else {
-                console.log(userData);
+          if (!found) return res.serverError(sails.config.errs.user_email_notfound);
+          var bcrypt = require('bcrypt');
+          bcrypt.compare(email, thecode, function (err, match) {
+            if (err) return res.customError('500', res.serverError("系统错误"));
+            if (match) {
+              var record = {};
+              if (req.param('password')) {
+                record.password = req.param('password');
+                console.log(record);
               }
-              res.ok();
-            });
-          } else {
-            console.log('no match');
-            res.serverError("重置密码错误");
-          }
+              if (req.param('payPassword')) {
+                record.payPassword = req.param('payPassword');
+              }
+              User.update({"email": email}, record).exec(function (err, userData) {
+                if (err) {
+                  console.log(err);
+                  res.customError('500', sails.config.errs.systemError(sails.config.errs.db_reset_password_err));
+                } else {
+                  console.log(userData);
+                }
+                res.ok();
+              });
+            } else {
+              console.log('no match');
+              res.serverError("重置密码错误");
+            }
+          });
         });
-
       }
     }
-
 };
 
-function checkEmail (email) {
-
-  User.findOne({email:email}).exec(function(err, results) {
-    if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
-    if (results) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-}

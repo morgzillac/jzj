@@ -89,9 +89,40 @@ module.exports = {
           console.log(err);
         }
       });
+  },
+
+
+  checkEmail: function (email, callback) {
+
+    User.findOne({email:email}).exec(function(err, results) {
+      if (err) callback(err, false);
+      if (results) {
+        console.log('check email:',results);
+        callback(false, true);
+      } else {
+        callback(false, false);
+      }
+    });
+  },
+
+  checkLogin: function (login, callback) {
+
+    User.findOne({userLogin:login}).exec(function(err, results) {
+      if (err) callback(err, false);
+      if (results) {
+        console.log('check login:',results);
+        callback(false, true);
+      } else {
+        callback(false, false);
+      }
+    });
   }
 
 };
+
+
+
+
 
 /**
  * Return a random int, used by `UtilsService.uid()`
