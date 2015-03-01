@@ -97,7 +97,6 @@ module.exports = {
     User.findOne({email:email}).exec(function(err, results) {
       if (err) callback(err, false);
       if (results) {
-        console.log('check email:',results);
         callback(false, true);
       } else {
         callback(false, false);
@@ -110,7 +109,6 @@ module.exports = {
     User.findOne({userLogin:login}).exec(function(err, results) {
       if (err) callback(err, false);
       if (results) {
-        console.log('check login:',results);
         callback(false, true);
       } else {
         callback(false, false);

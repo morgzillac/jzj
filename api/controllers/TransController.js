@@ -35,13 +35,13 @@ module.exports = {
       // Error handling
       if (err) {
         console.log(err);
-        res.customError(comment + "失败！");
+        res.customError('508',comment + "失败！");
       } else {
         if (data[0][0].outSuccess == 1) {
           console.log(comment, data);
           res.ok(comment + "成功！");
         }else {
-          res.customError(comment + "失败！");
+          res.customError('508',comment + "失败！");
         }
       }
     });
@@ -72,13 +72,13 @@ module.exports = {
       console.log(sql);
       if (err) {
         console.log(err);
-        res.customError("操作失败！");
+        res.customError('508',"操作失败！");
       } else {
         if (data[0][0].outSuccess == 1) {
           console.log("提现成功！", data);
           res.ok("提现成功！");
         }else{
-          res.customError("操作失败！");
+          res.customError('508',"操作失败！");
         }
       }
     });
@@ -108,25 +108,17 @@ module.exports = {
       console.log(sql);
       if (err) {
         console.log(err);
-        res.customError("操作失败！");
+        res.customError('508',"操作失败！");
       } else {
         if (data[0][0].outSuccess == 1) {
           console.log("变现成功！", data);
           res.ok("变现成功！");
         }else{
-          res.customError("操作失败！");
+          res.customError('508',"操作失败！");
         }
       }
 
     });
-
-    /*
-     if (UtilsService.executeSQL(Transaction, sql)) {
-       res.ok();
-     } else {
-       res.customError("操作失败！");
-     }
-     */
 
   },
 

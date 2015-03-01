@@ -14,12 +14,12 @@ module.exports = {
 
 
     User.findOne({userId:req.userData.userId}).exec(function (err, user) {
-      if (err) return res.customError('500', sails.config.errs.systemError('硬盘数据出错'));
+      if (err) return res.customError('508', sails.config.errs.systemError('硬盘数据出错'));
 
       if (user) {
         bcrypt.compare(payPassword, user.payPassword, function (err, match) {
           if (err) {
-            res.customError('500', sails.config.errs.systemError());
+            res.customError('508', sails.config.errs.systemError());
           } else {
             res.json({result:match});
           }

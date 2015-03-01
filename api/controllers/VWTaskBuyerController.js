@@ -42,13 +42,13 @@ module.exports = {
     console.log("criteria = " + JSON.stringify(criteria));
 
     query.exec(function(err, results) {
-      if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
+      if (err) res.customError('508', sails.config.errs.systemError('数据库错误'));
 
       if (results) {
         res.json(results);
 //        res.jsonx(results);
       } else {
-        res.customError('500', sails.config.errs.db_userdata_not_found);
+        res.customError('508', sails.config.errs.db_userdata_not_found);
       }
     });
 
@@ -73,13 +73,13 @@ module.exports = {
 
     console.log("criteria = " + JSON.stringify(criteria));
     query.exec(function (err, results) {
-      if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
+      if (err) res.customError('508', sails.config.errs.systemError('数据库错误'));
 
       if (results) {
         res.json(results);
 //        res.jsonx(results);
       } else {
-        res.customError('500', sails.config.errs.db_userdata_not_found);
+        res.customError('508', sails.config.errs.db_userdata_not_found);
       }
     });
   }

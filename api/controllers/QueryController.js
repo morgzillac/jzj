@@ -16,12 +16,12 @@ module.exports = {
       if (req.userData.userId && req.userData.userId) userId = req.userData.userId;
 
       UserBalance.findOne({userId:userId}).exec(function (err, bal) {
-        if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
+        if (err) res.customError('508', sails.config.errs.systemError('数据库错误'));
 
         if (bal) {
               res.json(bal);
         } else {
-          res.customError('500', sails.config.errs.db_userdata_not_found);
+          res.customError('508', sails.config.errs.db_userdata_not_found);
         }
 
       })

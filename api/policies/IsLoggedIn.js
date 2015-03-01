@@ -14,7 +14,7 @@ module.exports = function(req, res, next) {
   var tokenIn = req.get('token');
 
   AccessToken.findOne({token:tokenIn}).exec(function (err, userData) {
-    if (err) return res.customError('500', sails.config.errs.systemError('硬盘数据出错'));
+    if (err) return res.customError('508', sails.config.errs.systemError('硬盘数据出错'));
     if (userData) {
       req.userData = userData;
       AccessToken.update({token:tokenIn},{updatedAt:new Date()}).exec(function cb (err, updated){

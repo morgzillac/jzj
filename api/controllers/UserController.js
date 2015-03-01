@@ -64,11 +64,11 @@ var util = require('util'),
     var bcrypt = require('bcrypt');
 
     User.findOne({userLogin:username}).exec(function (err, user) {
-      if (err) res.customError('500', sails.config.errs.systemError('数据库错误'));
+      if (err) res.customError('508', sails.config.errs.systemError('数据库错误'));
 
       if (user) {
         bcrypt.compare(password, user.password, function (err, match) {
-          if (err) res.customError('500', sails.config.errs.systemError());
+          if (err) res.customError('508', sails.config.errs.systemError());
 
           if (match) {
             // password match
@@ -82,7 +82,7 @@ var util = require('util'),
                                   payPassword:user.payPassword })
                 .exec(function createCB(err) {
               if (err) {
-                res.customError('500', sails.config.errs.systemError('写入Token错误'));
+                res.customError('508', sails.config.errs.systemError('写入Token错误'));
                 console.log(err);
               }
               //console.log(AccessToken);
@@ -101,11 +101,11 @@ var util = require('util'),
             res.json(user);
           } else {
             // invalid password
-            res.customError('500', sails.config.errs.login_password_wrong);
+            res.customError('508', sails.config.errs.login_password_wrong);
           }
         });
       } else {
-        res.customError('500', sails.config.errs.login_username_notfound);
+        res.customError('508', sails.config.errs.login_username_notfound);
       }
     });
   },
@@ -128,15 +128,14 @@ var util = require('util'),
 
       var email = req.param('email');
       if (!email) return res.serverError(sails.config.errs.param_email_notfound);
-
       UtilsService.checkEmail(email, function(err, found){
-
-        if (err) return res.customError('500', res.serverError("系统错误"));
-        if (!found) return res.serverError(sails.config.errs.user_email_notfound);
+        if (err) return res.serverError("系统错误");
+        if (!found) return res.customError('508',sails.config.errs.user_email_notfound);
 
         var code = UtilsService.encrypt(email);
         var port = "";
-        if (req.port) port = ":" + req.port;
+        //if (req.port) port = ":" + req.port;
+
         var url = 'https://' + req.host + port + '/#/access/resetpwd?code=' + code;
 
         var locals = {
@@ -163,14 +162,14 @@ var util = require('util'),
       } else {
         var thecode = req.param('thecode');
         var email = req.param('email');
-        if (!email) return res.serverError(sails.config.errs.user_email_notfound);
+        if (!email) return res.customError('508', sails.config.errs.user_email_notfound);
 
         UtilsService.checkEmail(email, function(err, found) {
-          if (err) return res.customError('500', res.serverError("系统错误"));
-          if (!found) return res.serverError(sails.config.errs.user_email_notfound);
+          if (err) return res.serverError("系统错误");
+          if (!found) return res.customError('508', sails.config.errs.user_email_notfound);
           var bcrypt = require('bcrypt');
           bcrypt.compare(email, thecode, function (err, match) {
-            if (err) return res.customError('500', res.serverError("系统错误"));
+            if (err) return res.serverError("系统错误");
             if (match) {
               var record = {};
               if (req.param('password')) {
@@ -182,8 +181,7 @@ var util = require('util'),
               }
               User.update({"email": email}, record).exec(function (err, userData) {
                 if (err) {
-                  console.log(err);
-                  res.customError('500', sails.config.errs.systemError(sails.config.errs.db_reset_password_err));
+                  if (err) return res.serverError("重置密码错误");
                 } else {
                   console.log(userData);
                 }
@@ -191,7 +189,7 @@ var util = require('util'),
               });
             } else {
               console.log('no match');
-              res.serverError("重置密码错误");
+              return res.serverError("重置密码错误");
             }
           });
         });
