@@ -1,31 +1,27 @@
 /**
-* tTaskBuyerActivity.js
+* TaskBuyerActivityDetail.js
 *
-* @description :: TODO: Write a short summary of how this model works and what it represents here.
+* @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
 module.exports = {
   "schema": true,
-  migrate:'alter',
+  migrate:'drop',
   "attributes": {
-    "tbActivityId": {
-      "columnName": "tb_activity_id",
+    "tbaDetailId": {
+      "columnName": "tba_detail_id",
       autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },
-    "taskBuyerId": {
+    "tbActivityId": {
       "model":"user",
-      "columnName": "task_buyer_id",
+      "columnName": "tb_activity_id",
       "type": "integer"
     },
-    "statusId": {
-      "columnName": "status_id",
-      "type": "integer"
-    },
-    "comment": {
-      "columnName": "comment",
+    "stepData": {
+      "columnName": "step_data",
       "type": "string"
     },
     "ipAddress": {
@@ -43,5 +39,6 @@ module.exports = {
       "size": 45
     }
   },
-  "tableName": "t_task_buyer_activity"
-}
+  "tableName": "t_task_buyer_activity_detail"
+};
+
