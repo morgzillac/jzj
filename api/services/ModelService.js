@@ -23,7 +23,7 @@ module.exports = {
     model.create(data)
       .exec(function createCB(err, result) {
         if (err) {
-          res.customError('508', sails.config.errs.systemError('写入数据库错误'));
+          res.customError('508', sails.config.errs.systemError('写入数据库错误:' + err.details ));
           console.log(err);
         } else {
           res.ok(result.toJSON());
@@ -43,7 +43,7 @@ module.exports = {
     model.update({userId:req.userData.userId},data)
       .exec(function createCB(err, result) {
         if (err) {
-          res.customError('508', sails.config.errs.systemError('写入数据库错误'));
+          res.customError('508', sails.config.errs.systemError('写入数据库错误:' + err.details ));
           console.log(err);
         } else {
           res.ok(result[0].toJSON());

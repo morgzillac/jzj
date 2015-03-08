@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-//  migrate: 'drop',
+  migrate: 'alter',
 
   "attributes": {
     "buyerAccountId": {
@@ -32,6 +32,7 @@ module.exports = {
     },
     "wangwang": {
       "type": "string",
+      unique: true,
       "size": 45
     },
     "wwScreenshot": {
