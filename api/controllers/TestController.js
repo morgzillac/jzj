@@ -7,6 +7,16 @@
 
 module.exports = {
 
+  gitpull: function(req, res) {
+
+    var exec = require('child_process').exec;
+    function puts(error, stdout, stderr) {
+      console.log(stdout);
+      res.ok(stdout);
+    }
+    exec("git pull", puts);
+  },
+
   "isLoggedIn": function(req,res){
       res.ok('passed');
   },

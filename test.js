@@ -1,8 +1,20 @@
+//var sys = require('sys');
+var exec = require('child_process').exec;
+
 console.log("this is a test");
 
 
 var e = new Error("test");
 
+
+function puts(error, stdout, stderr) {
+//  sys.puts(stdout);
+
+console.log(stdout);
+
+}
+exec("ls -la", puts);
+return;
 
 
 var https = require('https');
