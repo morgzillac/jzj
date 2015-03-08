@@ -163,6 +163,15 @@ app.factory('platforms', ['promisePost','promiseGet',function(promisePost,promis
 		getDefault : function(){
 			return {id : 1, name: '淘宝', filter:'taobao', color:'#23b7e5', active : false};
 		},
+		getPlatform : function(platformId){
+			var platform = {};
+			angular.forEach(platformList,function(value){
+				if(value.id == platformId){
+					platform = value;
+				}
+			});
+			return platform;
+		},
 		getAllWithShopCount : function(){
 			//TODO: 需要从后台的API来获取
 			return [
@@ -191,19 +200,19 @@ app.factory('taskTypes',['promisePost','promiseGet',function(promisePost,promise
 		//TODO: 根据平台查询任务类型
 		query : function(platformId){
 			return [
-				{id : 1, name : "文字好评订单", point : 10.5},
-				{id : 2, name : "图文好评订单", point : 14.5},
-				{id : 3, name : "聚划算", point : 10.5},
-				{id : 4, name : "直通车订单", point : 10.5}
+				{id : 1, name : "文字好评订单", point : 10.5}
+				// {id : 2, name : "图文好评订单", point : 14.5},
+				// {id : 3, name : "聚划算", point : 10.5},
+				// {id : 4, name : "直通车订单", point : 10.5}
 			];
 		},
 		//获取所有的任务类型
 		getAll : function(){
 			return [
-				{id : 1, name : "文字好评订单", point : 10.5},
-				{id : 2, name : "图文好评订单", point : 14.5},
-				{id : 3, name : "聚划算", point : 10.5},
-				{id : 4, name : "直通车订单", point : 10.5}
+				 {id : 1, name : "文字好评订单", point : 10.5}
+				// {id : 2, name : "图文好评订单", point : 14.5},
+				// {id : 3, name : "聚划算", point : 10.5},
+				// {id : 4, name : "直通车订单", point : 10.5}
 			];
 		}
 	};
@@ -295,11 +304,11 @@ app.factory('flowDatas',function(){
 						"paymentBank" : false
 					}					
 				};
-			var tmall = { "platformId" : 1, "shopId" : 1, "taskTypeId" : 1 };
-			var jd = { "platformId" : 1, "shopId" : 1, "taskTypeId" : 1 };
-			var yhd = { "platformId" : 1, "shopId" : 1, "taskTypeId" : 1 };
-			var dangdang = { "platformId" : 1, "shopId" : 1, "taskTypeId" : 1 };
-			var amazon = { "platformId" : 1, "shopId" : 1, "taskTypeId" : 1 };
+			var tmall = { "platformId" : 2, "shopId" : -1, "taskTypeId" : 1 };
+			var jd = { "platformId" : 3, "shopId" : -1, "taskTypeId" : 1 };
+			var yhd = { "platformId" : 4, "shopId" : -1, "taskTypeId" : 1 };
+			var dangdang = { "platformId" : 5, "shopId" : -1, "taskTypeId" : 1 };
+			var amazon = { "platformId" : 6, "shopId" : -1, "taskTypeId" : 1 };
 			var model;
 			switch(platformId){
 				case 1:
@@ -520,7 +529,10 @@ app.factory('bankTypes',['promisePost','promiseGet',function(promisePost,promise
 			return [
 				{id : 1, name : "支付宝"},
 				{id : 2, name : "财富通"},
-				{id : 3, name : "银行卡"}
+				{id : 3, name : "中国工商银行"},
+				{id : 4, name : "中国建设银行"},
+				{id : 5, name : "中国农业银行"},
+				{id : 6, name : "中国银行"}
 			];
 		},
 		getZFB : function(){
@@ -529,8 +541,13 @@ app.factory('bankTypes',['promisePost','promiseGet',function(promisePost,promise
 		getCFT : function(){
 			return {id : 2, name : "财富通"};
 		},
-		getYHK : function(){
-			return {id : 3, name : "银行卡"};
+		getYHKTypes: function(){
+			return [
+				{id : 3, name : "中国工商银行"},
+				{id : 4, name : "中国建设银行"},
+				{id : 5, name : "中国农业银行"},
+				{id : 6, name : "中国银行"}
+			];
 		}
 	};
 }]);
@@ -540,6 +557,10 @@ app.factory('userBanks',['promisePost','promiseGet',function(promisePost,promise
 		get : function(userId, bankType){
 			//TODO: 获取一条User Bank记录，根据userid 和 banktype
 			return promiseGet('/userBank/?userId=' + userId + '&bankType=' + bankType);
+		},
+		getAllYHKBanks : function(userId){
+			//TODO: 获取一条User Bank记录，根据userid 和 banktype
+			return promiseGet('/userBank/?userId=' + userId);
 		},
 		query : function(userId){
 			return promiseGet('/userBank/?userId=' + userId);	
@@ -557,7 +578,7 @@ app.factory('userBanks',['promisePost','promiseGet',function(promisePost,promise
 			      "accountName": "", 
 			      "accountNumber": "", 
 			      "branch": "", 
-			      "City": "", 
+			      "city": "", 
 			      "screenshot": ""
 			};
 		}
@@ -569,9 +590,9 @@ app.factory('buyerAccounts', ['promisePost','promiseGet',function(promisePost,pr
 		get : function(buyerAccountId){
 			return promiseGet('/buyerAccount/'+buyerAccountId);
 		},
-		query : function(userId, platformId){
+		query : function(platformId){
 			//TODO: 获取买号绑定信息，根据userid和platformid，返回的是一个数组
-			return promiseGet('/buyerAccount/?userId=' + userId + '&platformId=' + platformId);			
+			return promiseGet('/buyerAccount/?platformId=' + platformId);			
 		},
 		add : function(buyerAccount){
 			//TODO: 添加买号信息
@@ -580,6 +601,16 @@ app.factory('buyerAccounts', ['promisePost','promiseGet',function(promisePost,pr
 		update : function(buyerAccountId,buyerAccount){
 			//TODO: 添加买号信息
 			return promisePost('/buyerAccount/'+buyerAccountId, buyerAccount);
+		},
+		checkAccount : function(platformId,accountLogin){
+			var para = { "platformId" : platformId, "accountLogin" : accountLogin };
+			//TODO: 检查买号信息
+			return promisePost('/buyerAccount/checkAccount/', para);
+		},
+		checkww : function(platformId,wangwang){
+			var para = { "platformId" : platformId, "wangwang" : wangwang };
+			//TODO: 检查买号信息
+			return promisePost('/buyerAccount/checkww/', para);
 		},
 		count : function(userId, platformId){
 			//TODO: 统计某个平台下的买号绑定数量，不能拿超过3个
@@ -633,9 +664,9 @@ app.factory('sellerShops', ['promisePost','promiseGet',function(promisePost,prom
 		get : function(shopId){
 			return promiseGet('/sellerShop/'+shopId);
 		},
-		query : function(userId, platformId){
+		query : function(platformId){
 			//TODO: 获取店铺绑定信息, 返回的是一个数组
-			return promiseGet('/sellerShop/?userId=' + userId + '&platformId=' + platformId);	
+			return promiseGet('/sellerShop/?platformId=' + platformId);	
 		},
 		getAllShops : function(userId){
 			//TODO: 获取店铺绑定信息, 返回的是一个数组

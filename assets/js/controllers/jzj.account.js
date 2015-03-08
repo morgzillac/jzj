@@ -190,7 +190,7 @@ app.controller('HeadImageUploadCtrl', ['$scope', 'FileUploader', '$modalInstance
     };
 }]);
 //支付宝设置Controller
-app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes', function($scope, userBanks,bankTypes){
+app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster', function($scope, userBanks,bankTypes,toaster){
   var userId = app.userSession.userId;
   var bankType = bankTypes.getZFB().id;
   $scope.isEdit = true;
@@ -200,7 +200,8 @@ app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes', function($sco
     userBanks.get(userId, bankType).then(function(result){
       if(result.length > 0){
         $scope.account = result[0];  
-        $scope.isEdit = true;  
+        $scope.isEdit = true; 
+        $scope.getUserBankName(result[0]); 
       }  
       else{
         $scope.isEdit = false;
@@ -209,7 +210,11 @@ app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes', function($sco
       $scope.isEdit = false;
     });   
   });
-  $scope.save = function(){
+  $scope.save = function(isValid){
+    if (!isValid) {
+      toaster.pop('error','错误','表单填写不正确' );
+      return;
+    }
     //TODO: 验证逻辑处理
     $scope.account.userId = userId;
     $scope.account.bankType = bankType;
@@ -217,8 +222,10 @@ app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes', function($sco
       $scope.account = result;
       $scope.isShow = false;
       $scope.isEdit = true; 
+
     }, function(reason){
       $scope.isEdit = false; 
+
     });
   };
   $scope.showDetails = function(){
@@ -227,9 +234,18 @@ app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes', function($sco
   $scope.hideDetails = function(){
     $scope.isShow = false;
   };
+  $scope.bankName = "";
+  $scope.getUserBankName = function(account){
+    var banksTypeList = bankTypes.getAll();
+    angular.forEach(banksTypeList,function(value){
+      if(value.id == account.bankType){
+        $scope.bankName = value.name+ '【姓名：' + account.accountName + '】';
+      }
+    });
+  };
 }]);
 //财付通设置Controller
-app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes', function($scope,userBanks,bankTypes){
+app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster', function($scope,userBanks,bankTypes,toaster){
   var userId = app.userSession.userId;
   var bankType = bankTypes.getCFT().id;
   $scope.isEdit = true;
@@ -240,6 +256,7 @@ app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes', function($sco
       if(result.length > 0){
         $scope.account = result[0];  
         $scope.isEdit = true;  
+        $scope.getUserBankName(result[0]); 
       }  
       else{
         $scope.isEdit = false;
@@ -248,7 +265,11 @@ app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes', function($sco
       $scope.isEdit = false;
     });
   });
-  $scope.save = function(){
+  $scope.save = function(isValid){
+    if (!isValid) {
+      toaster.pop('error','错误','表单填写不正确' );
+      return;
+    }
     //TODO: 验证逻辑处理
     $scope.account.userId = userId;
     $scope.account.bankType = bankType;
@@ -266,19 +287,36 @@ app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes', function($sco
   $scope.hideDetails = function(){
     $scope.isShow = false;
   };
+  $scope.bankName = "";
+  $scope.getUserBankName = function(account){
+    var banksTypeList = bankTypes.getAll();
+    angular.forEach(banksTypeList,function(value){
+      if(value.id == account.bankType){
+        $scope.bankName = value.name+ '【姓名：' + account.accountName + '】';
+      }
+    });
+  };
 }]);
 //银行卡设置Controller
-app.controller('YinHangKaCtrl', ['$scope','userBanks','bankTypes', function($scope,userBanks,bankTypes){
+app.controller('YinHangKaCtrl', ['$scope','userBanks','bankTypes','toaster', function($scope,userBanks,bankTypes,toaster){
   var userId = app.userSession.userId;
-  var bankType = bankTypes.getYHK().id;
+  var bankType = bankTypes.getYHKTypes()[0].id;
+  $scope.bankYHKList = bankTypes.getYHKTypes();
   $scope.isEdit = true;
   $scope.account = userBanks.newEmpty(bankType);
   $scope.isShow = false;  
   $scope.$watch('$viewContentLoaded',function(){
-    userBanks.get(userId, bankType).then(function(result){
+    userBanks.getAllYHKBanks(userId).then(function(result){
       if(result.length > 0){
-        $scope.account = result[0];  
-        $scope.isEdit = true;  
+        angular.forEach(result,function(userBank){
+          if(parseInt(userBank.bankType) != 1 && parseInt(userBank.bankType) != 2){
+            $scope.account = userBank;  
+            $scope.isEdit = true; 
+            $scope.getUserBankName(userBank); 
+          }else{
+            $scope.isEdit = false;    
+          }          
+        });         
       }  
       else{
         $scope.isEdit = false;
@@ -287,10 +325,13 @@ app.controller('YinHangKaCtrl', ['$scope','userBanks','bankTypes', function($sco
       $scope.isEdit = false;
     });
   });
-  $scope.save = function(){
+  $scope.save = function(isValid){
+    if (!isValid) {
+      toaster.pop('error','错误','表单填写不正确' );
+      return;
+    }
     //TODO: 验证逻辑处理
     $scope.account.userId = userId;
-    $scope.account.bankType = bankType;
     userBanks.add($scope.account).then(function(result){
       $scope.account = result;
       $scope.isShow = false;
@@ -304,6 +345,15 @@ app.controller('YinHangKaCtrl', ['$scope','userBanks','bankTypes', function($sco
   };
   $scope.hideDetails = function(){
     $scope.isShow = false;
+  };
+  $scope.bankName = "";
+  $scope.getUserBankName = function(account){
+    var banksTypeList = bankTypes.getAll();
+    angular.forEach(banksTypeList,function(value){
+      if(value.id == account.bankType){
+        $scope.bankName = value.name+ '【姓名：' + account.accountName + '】';
+      }
+    });
   };
 }]);
 //绑定买手页父Controller
@@ -314,6 +364,9 @@ app.controller('BuyerCtrl', ['$scope','platforms', function($scope,platforms) {
     var result = platforms.getAll(); 
     if(angular.isObject(result)){
       $scope.platforms = result;
+      angular.forEach($scope.platforms,function(value){
+          value.active = false;          
+      });
     }
     $scope.currPlatform = result[0];
     $scope.platforms[0].active = true;
@@ -330,7 +383,7 @@ app.controller('BuyerCtrl', ['$scope','platforms', function($scope,platforms) {
   };
 }]);
 //绑定买手详细Controller
-app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAddresses', function($scope,buyerAccounts,platforms,userAddresses) {
+app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAddresses','toaster', function($scope,buyerAccounts,platforms,userAddresses,toaster) {
   var userId = app.userSession.userId;
   $scope.platform = {};
   $scope.buyerAccountBinds = [];
@@ -363,8 +416,11 @@ app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAd
   $scope.cancel = function(){
     $scope.isShow = false;
   };
-  $scope.save = function(){
-
+  $scope.save = function(isValid){
+    if (!isValid) {
+      toaster.pop('error','错误','表单填写不正确' );
+      return;
+    }
     if($scope.isEdit){
       var buyerAccount = $scope.currEditBuyerAccount;
       $scope.userAddress.province = $scope.province;
@@ -380,23 +436,30 @@ app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAd
 
       });  
     }else{
-      $scope.buyerAccount.userId = userId; 
+      //$scope.buyerAccount.userId = userId; 
       $scope.buyerAccount.platformId = $scope.platform.id; 
       $scope.buyerAccount.accountLogin = $scope.userAddress.recipient; 
       $scope.userAddress.province = $scope.province;
       $scope.userAddress.city = $scope.city;
       $scope.userAddress.district = $scope.district;
-      $scope.userAddress.userId = userId;
+      //$scope.userAddress.userId = userId;
       $scope.buyerAccount.addressId = $scope.userAddress;
-      buyerAccounts.add($scope.buyerAccount).then(function(result){
-        if(angular.isObject(result)){
-          initBuyerAccountList();
-          $scope.isShow = false;
-          clear();
-        } 
-      },function(reason){
+      buyerAccounts.checkAccount($scope.platform.id,$scope.userAddress.recipient).then(function(data){
+        if(data.result){
+          toaster.pop('error','错误','旺旺ID（'+$scope.userAddress.recipient+'）已经存在，请换一个试试！' );
+        }else{
+          buyerAccounts.add($scope.buyerAccount).then(function(result){
+            if(angular.isObject(result)){
+              initBuyerAccountList();
+              $scope.isShow = false;
+              clear();
+            } 
+          },function(reason){
 
-      });       
+          });
+        }
+      });
+             
     }        
   };
   var clear = function(){
@@ -426,22 +489,33 @@ app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAd
     clear();
   });
   var initBuyerAccountList = function(){
-    buyerAccounts.query(userId, $scope.platform.id).then(function(result){
+    buyerAccounts.query($scope.platform.id).then(function(result){
       $scope.buyerAccountBinds = result;
     });
   };
 }]);
 //绑定卖手店铺父Controller
-app.controller('SellerCtrl', ['$scope','platforms', function($scope, platforms) {
+app.controller('SellerCtrl', ['$scope','platforms','$stateParams', function($scope, platforms,$stateParams) {
   $scope.currPlatform = {};
   $scope.platforms = [];  
   $scope.$watch('$viewContentLoaded',function(){
     var result = platforms.getAll(); 
     if(angular.isObject(result)){
       $scope.platforms = result;
-    }
-    $scope.currPlatform = result[0];
-    $scope.platforms[0].active = true;
+      if(angular.isDefined($stateParams.platformId) && $stateParams.platformId!=null && $stateParams.platformId!=''){
+        angular.forEach($scope.platforms,function(value){
+          if($stateParams.platformId == value.id){
+            $scope.currPlatform = value;
+            value.active = true;
+          }else{
+            value.active = false;
+          }          
+        });        
+      }else{
+        $scope.currPlatform = result[0];
+        $scope.platforms[0].active = true;
+      }      
+    }    
   });
   $scope.selectPlatform = function(platformId){
     angular.forEach($scope.platforms, function(value){
@@ -455,7 +529,7 @@ app.controller('SellerCtrl', ['$scope','platforms', function($scope, platforms) 
   };
 }]);
 //绑定卖手店铺详细Controller
-app.controller('SellerShopCtrl', ['$scope','sellerShops','platforms', function($scope,sellerShops,platforms) {
+app.controller('SellerShopCtrl', ['$scope','sellerShops','platforms','$stateParams','toaster', function($scope,sellerShops,platforms,$stateParams,toaster) {
   var userId = app.userSession.userId;
   $scope.platform = {};
   $scope.sellerShopBinds = [];
@@ -487,7 +561,11 @@ app.controller('SellerShopCtrl', ['$scope','sellerShops','platforms', function($
   $scope.cancel = function(){
     $scope.isShow = false;
   };
-  $scope.save = function(){
+  $scope.save = function(isValid){
+    if (!isValid) {
+      toaster.pop('error','错误','表单填写不正确' );
+      return;
+    }
     if($scope.isEdit){
       var sellerShop = $scope.currEditSellerShop;      
       sellerShop.province = $scope.province;
@@ -528,7 +606,12 @@ app.controller('SellerShopCtrl', ['$scope','sellerShops','platforms', function($
     $scope.district = "";
   };
   $scope.$watch('$viewContentLoaded',function(){
-    $scope.platform = platforms.getDefault();
+    var platformId = $stateParams.platformId;
+    if(angular.isDefined(platformId)&&platformId!=null&&platformId!=''){
+      $scope.platform = platforms.getPlatform(platformId);
+    }else{
+      $scope.platform = platforms.getDefault();  
+    }    
     initSellerShopList();
   });
   $scope.$on('select_platform',function(event,data){
@@ -539,7 +622,7 @@ app.controller('SellerShopCtrl', ['$scope','sellerShops','platforms', function($
     clear();
   });
   var initSellerShopList = function(){
-    sellerShops.query(userId, $scope.platform.id).then(function(result){
+    sellerShops.query($scope.platform.id).then(function(result){
       $scope.sellerShopBinds = result;
     });
   };
