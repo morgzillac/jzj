@@ -86,7 +86,7 @@ console.log("criteria = " + JSON.stringify(criteria));
   getTaskForBuyer: function (req, res) {
 
     var query = VWShopTask.find();
-    query.limit(5);
+    //query.limit(5);
 
     query.exec(function (err, task) {
       if (err) return res.customError('508', sails.config.errs.systemError('硬盘数据出错'));

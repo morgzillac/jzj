@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  migrate:'drop',
+  migrate:'alter',
   "attributes": {
     "tbaDetailId": {
       "columnName": "tba_detail_id",
