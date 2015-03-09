@@ -10,7 +10,7 @@ module.exports = {
   "attributes": {
     "activityId": {
       "columnName": "activity_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },

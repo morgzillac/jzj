@@ -79,7 +79,7 @@ var util = require('util'),
             token = 123;  //user.userId;
 
             AccessToken.create({userId:user.userId, token:token,
-                                  payPassword:user.payPassword })
+                                  payPassword:user.payPassword, userTypeId:user.userTypeId })
                 .exec(function createCB(err) {
               if (err) {
                 res.customError('508', sails.config.errs.systemError('写入Token错误'));
