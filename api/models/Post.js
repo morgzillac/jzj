@@ -7,10 +7,11 @@
 
 module.exports = {
   "schema": true,
+  migrate: 'drop',
   "attributes": {
     "postId": {
       "columnName": "post_id",
-      "required": true,
+      autoIncrement: true,
       "type": "integer",
       "primaryKey": true
     },
@@ -23,8 +24,15 @@ module.exports = {
       "type": "string",
       "size": 45
     },
+    "filePath": {
+      "columnName": "file_path",
+      "type": "string",
+      "size": 500
+    },
     "content": {
-      "type": "integer"
+      "columnName": "content",
+      "type": "string",
+      "size": 4000
     },
     "statusId": {
       "columnName": "status_id",
