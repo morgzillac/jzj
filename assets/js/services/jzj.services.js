@@ -246,9 +246,11 @@ app.factory('subTaskStatuss',['promisePost','promiseGet',function(promisePost,pr
 	return {
 		getAll : function(){
 			return [
-				{id : 1, name : "待发货"},
-				{id : 2, name : "待退款"},
-				{id : 3, name : "待评选"}				
+				{id : 1, name : "已接单"},
+				{id : 2, name : "待发货"},
+				{id : 3, name : "待退款"},
+				{id : 4, name : "待评选"},
+				{id : 5, name : "已完成"}				
 			];
 		}	
 	};

@@ -10,7 +10,7 @@
 <div class="wrapper-md bg-white">
     <!--过滤条件-->
     <div class="row" ng-controller="TaskFilterCtrl" ng-init="initTaskByStatus()">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <label class="font-bold">平台：</label>
         <div class="btn-group">
           <select class="form-control" ng-model="condition.platformId">
@@ -19,7 +19,7 @@
           </select>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <label class="font-bold">店铺：</label>      
         <div class="btn-group">
           <select class="form-control" ng-model="condition.shopId">
@@ -37,7 +37,7 @@
           </select>
         </div>
       </div>
-      <div class="col-md-2 hide">
+      <!-- <div class="col-md-2 hide">
         <label class="font-bold">终端：</label>      
         <div class="btn-group">
           <select class="form-control" ng-model="condition.terminalId">
@@ -45,7 +45,7 @@
             <option ng-repeat="t in terminals" value="{{t.id}}">{{t.name}}</option>
           </select>
         </div>
-      </div>
+      </div> -->
       <div class="col-md-2">
         <button class="btn btn-jzj" ng-click="query()">查询</button>
       </div>
