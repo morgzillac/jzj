@@ -118,6 +118,10 @@ module.exports = {
     "userId": {
       "columnName": "user_id",
       "type": "integer"
+    },
+    "createdAt": {
+      "columnName": "created_at",
+      "type": "integer"
     }
   },
   "tableName": "v_shop_task"
