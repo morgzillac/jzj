@@ -19,7 +19,7 @@ app.controller('ForgotpwdController', ['$scope', '$state','users', function($sco
 }]);
 
 // signin controller
-app.controller('SigninFormController', ['$scope', 'users', '$state', '$window','$http','jsonFilter', function($scope, users, $state, $window, $http,jsonFilter) {
+app.controller('SigninFormController', ['$scope', 'users', '$state', '$window','$http', function($scope, users, $state, $window, $http) {
     $scope.user = {};
     $scope.authError = null;
     $scope.login = function() {
@@ -29,9 +29,8 @@ app.controller('SigninFormController', ['$scope', 'users', '$state', '$window','
       $http.post(api, para).success(function(result, status, headers, config) {
           $window.localStorage.setItem("userSession", angular.toJson(result));
           app.userSession = result;
-          console.log(jsonFilter(headers()));
-          //$window.localStorage.setItem("token", config.headers.token);
-          //$state.go('app.dashboard-v1');
+          $window.localStorage.setItem("token", headers('token'));
+          $state.go('app.dashboard-v1');
       }).error(function(reason, status, headers, config) {
           $scope.authError = reason.message;
       });
