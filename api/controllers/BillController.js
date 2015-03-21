@@ -181,7 +181,7 @@ module.exports = {
           rtnUrl= rtnUrl + "?msg=success!";
           // update balance
 
-          var bankType = "快钱";
+          var bankType = "bill99";
           var arrExt1 = ext1.split('-');
 
           recharge (arrExt1[2], payAmount, arrExt1[1], bankType, arrExt1[0], function () {
@@ -215,10 +215,10 @@ module.exports = {
 function recharge (points, amount, type, bankType, userId, cb) {
 
   if (type == 3) {
-      var comment = "充值押金";
+      var comment = "deposit";
       var isFrozen = true;
   } else {
-    var comment = "充值赚点";
+    var comment = "buy points";
     var isFrozen = false;
   }
 
