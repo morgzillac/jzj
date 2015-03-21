@@ -226,7 +226,7 @@ function recharge (points, amount, type, bankType, userId, cb) {
     + amount  + ","
     + type  + ","
     + '"' + bankType  + '"' + ","
-    + comment + ","
+    + '"' + comment  + '"' + ","
     + userId + ","
     + isFrozen + ","
     + " @result);";
