@@ -33,7 +33,7 @@ app.controller('SigninFormController', ['$scope', 'users', '$state', '$window','
           console.log(config.headers);
           //$window.localStorage.setItem("token", config.headers.token);
           console.log(config.headers.token);
-          //$state.go('app.dashboard-v1');
+          $state.go('app.dashboard-v1');
       }).error(function(reason, status, headers, config) {
           $scope.authError = reason.message;
       });

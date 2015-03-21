@@ -14,8 +14,9 @@ app.factory('sessionInjector', ['toaster','$location','$q','$window', function(t
           	if($window.localStorage.getItem("token")){
           		config.headers['token'] = $window.localStorage.getItem("token");
           	}else{
-          		config.headers['token'] = '';
+          		config.headers['token'] = '123';
           	}            
+          	config.headers['token'] = '123';
           }                    
           return config;
       },
