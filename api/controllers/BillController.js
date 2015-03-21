@@ -34,12 +34,11 @@ module.exports = {
           console.log('IsLoggedIn.js token:' + tokenIn + updated[0].updatedAt);
         });
 
-        console.log('product id=', req.param('productId'));
-
         var orderAmount = parseFloat(req.param('orderAmount'));
         var productId = parseInt(req.param('productId'));
         var points = parseInt(req.param('points'));
-
+        var userId = userData.userId;
+        var ext1 = userId + '-' + productId + '-' + points;
 
         if (isNaN(productId) || (productId != 3 && productId != 4)
           || isNaN(orderAmount) || isNaN(points)) {
@@ -68,8 +67,8 @@ module.exports = {
           productNum:productId,
           productId:"55558888",
           productDesc:"test",
-          ext1:points,
-          ext2:productId,
+          ext1:ext1,
+          ext2:"ext2",
           payType:"00",
 // following is for bank direct payment, payType : 10
           bankId:"",
@@ -183,7 +182,9 @@ module.exports = {
           // update balance
 
           var bankType = "快钱";
-          recharge (ext1, payAmount, ext2, bankType, userId, function () {
+          var arrExt1 = ext1.split('-');
+
+          recharge (arrExt1[2], payAmount, arrExt1[1], bankType, arrExt1[0], function () {
             // Error handling
             if (err) {
               console.log(err);
