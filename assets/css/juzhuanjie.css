@@ -16,7 +16,7 @@
     margin:0 10px;
 }
 .bg-remind{
-    background-color: #ffffe0;
+    background-color: #faebcc;
     color: #000;
 }
 .bg-jzj{
@@ -90,4 +90,16 @@
 .status-filter a.filter-active:hover 
 {
     color:#fff;   
+}
+.point-panel
+{
+    cursor: pointer;
+}
+.point-panel:hover
+{
+    background: #faebcc;
+}
+.recharge-count
+{
+    height: 40px;
 }

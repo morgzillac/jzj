@@ -13,26 +13,18 @@
 		<tabset class="tab-container">
           <!--充值押金-->
           <tab heading="充值押金" ng-init="activeDeposit = (transType==3)" active="activeDeposit" ng-click="transType=3">
-          	<form role="form" name="rechargeDepositForm" class="form-horizontal" method="post" target="_blank" action="/bill/send">
-			    <input type="hidden" name="orderAmount" value="100">
-			    <input type="hidden" name="productId" value="1">
-	          	<div class="m-t">
-					<label>充值账号：</label>
-					<div ng-if="!isBindUserBank" class="btn-group"><label>暂未添加提现账号，请先<a ui-sref="app.account.userbank" class="text-info">添加</a></label></div>
-					<div ng-if="isBindUserBank" class="btn-group">
-						<select class="form-control" ng-model="bankType" required>
-							<option ng-repeat="b in userBankList" value="{{b.bankType}}" ng-selected="bankType == b.bankType">{{getBankName(b.bankType)}} - {{b.accountNumber}}</option>
-						</select>
-					</div>
-				</div>
+          	<form role="form" name="rechargeDepositForm" class="form-horizontal" method="post" target="_blank" action="http://119.29.22.94:1337/bill/send">
+			    <input type="hidden" name="productId" value="3">
+			    <input type="hidden" name="points" value="0">
+			    <input type="hidden" name="token" value="{{token}}">
 				<div class="m-t">
 					<label class="control-label text-left">充值金额：</label>
-					<div class="btn-group"><input type="number" class="form-control" ng-model="deposit.amount" ng-pattern="/^\d{3,9}/" required/></div>
+					<!-- <div class="btn-group"><input type="number" class="form-control" name="orderAmount" ng-model="deposit.amount" ng-pattern="/^[1-9]\d{2,9}|0.d*[1-9]d*$/" required/></div> -->
+					<div class="btn-group"><input type="number" class="form-control" name="orderAmount" ng-model="depositAmount" required/></div>
 					<label class="control-label text-left"><span class="text-muted">单次最少提现100元 </span></label>
 				</div>		
 				<div class="m-t m-b">
-					<!-- <button class="btn btn-jzj" ng-disabled="rechargeDepositForm.$invalid" ng-click="rechargeDeposit(rechargeDepositForm.$valid)">确认</button> -->
-					<button type="submit" class="btn btn-jzj" ng-disabled="rechargeDepositForm.$invalid">确认</button>
+					<button type="submit" class="btn btn-jzj" ng-disabled="rechargeDepositForm.$invalid" ng-click="openConfirmModal()">确认</button>
 				</div>
 				<div class="line b-b"></div> 
 				<div class="m-t">
@@ -43,53 +35,43 @@
 					<p class="text-muted">4. 如果充值金额没有及时到账。请联系客服。</p>
 					<p class="text-muted">5. 关于商家<span class="text-danger font-bold">押金</span>提现，平台是按照“<span class="text-danger font-bold">原路返回</span>”的原则给商家返还押金。</p>
 			     </div>
+			     
 		     </form>
           </tab>
 
-
           <!--充值赚点-->
           <tab heading="充值赚点" ng-init="activePoint = (transType==4)" active="activePoint" ng-click="transType=4">
-          	<form role="form" name="rechargePointForm" class="form-horizontal" method="post" target="_bland" action="https://www.99bill.com/gateway/recvMerchantInfoAction.htm">
-          		<input type="hidden" name="inputCharset" value="3">
-			    <input type="hidden" name="bgUrl" value="http://119.29.22.94:1337/bill/rec">
-			    <input type="hidden" name="pageUrl" value="http://119.29.22.94:1337/bill/rec">
-			    <input type="hidden" name="version" value="v2.0">
-			    <input type="hidden" name="language" value="1">
-			    <input type="hidden" name="signType" value="1">
-			    <input type="hidden" name="signMsg" value="BBF108CE577666A4488D725B6EE4A2BD">
-			    <input type="hidden" name="merchantAcctId" value="1002421178901">
-			    <input type="hidden" name="payerName" value="TestUser">
-			    <input type="hidden" name="payerContactType" value="1">
-			    <input type="hidden" name="payerContact" value="mchengcat@hotmail.com">
-			    <input type="hidden" name="orderId" value="20150321114604">
-			    <input type="hidden" name="orderAmount" value="1">
-			    <input type="hidden" name="orderTime" value="20150321114604">
-			    <input type="hidden" name="productName" value="productName">
-			    <input type="hidden" name="productNum" value="1">
-			    <input type="hidden" name="productId" value="55558888">
-			    <input type="hidden" name="productDesc" value="test">
-			    <input type="hidden" name="ext1" value="jzj1">
-			    <input type="hidden" name="ext2" value="jzj2">
-			    <input type="hidden" name="payType" value="00">
-			    <input type="hidden" name="bankId" value="">
-			    <input type="hidden" name="redoFlag" value="0">
-			    <input type="hidden" name="pid" value="">
-	          	<div class="m-t">
-					<label>充值账号：</label>
-					<div ng-if="!isBindUserBank" class="btn-group"><label>暂未添加提现账号，请先<a ui-sref="app.account.userbank" class="text-info">添加</a></label></div>
-					<div ng-if="isBindUserBank" class="btn-group">
-						<select class="form-control" ng-model="bankType" required>
-							<option ng-repeat="b in userBankList" value="{{b.bankType}}" ng-selected="bankType == b.bankType">{{getBankName(b.bankType)}} - {{b.accountNumber}}</option>
-						</select>
+          	<form role="form" name="rechargePointForm" class="form-horizontal" method="post" target="_blank" action="http://119.29.22.94:1337/bill/send">
+			    <input type="hidden" name="productId" value="4">
+			    <input type="hidden" name="points" value="{{points}}">
+			    <input type="hidden" name="orderAmount" value="{{amount}}" >
+			    <input type="hidden" name="token" value="{{token}}">
+				<!-- <div class="m-t hide">
+					<label class="control-label text-left ">充值点数：</label>
+					<div class="btn-group">
+						<input type="number" class="form-control" name="orderAmount" ng-model="point.points" ng-pattern="/^[1-9]*[1-9][0-9]*$/" required/>
 					</div>
-				</div>
-				<div class="m-t">
-					<label class="control-label text-left">充值点数：</label>
-					<div class="btn-group"><input type="number" class="form-control" ng-model="point.points" ng-pattern="/^\d{3,9}/" required/></div>
 					<label class="control-label text-left"></label>
-				</div>		
-				<div class="m-t m-b">
-					<button class="btn btn-jzj" ng-disabled="rechargePointForm.$invalid" ng-click="rechargePoint(rechargePointForm.$valid)">确认</button>
+				</div> -->	
+				<div class="m-t">
+				 	<h5 class="m-t-none">请选择赚点包</h5>
+				</div>	
+				<div class="m-t">					
+					<div class="row text-center">
+			            <div class="col-xs-3" ng-repeat="p in packages">
+			              <div ng-class="{'bg-remind':(p.id==selectedPackage.id)}" class="panel padder-v item b point-panel" ng-click="selectPackage(p.id)">
+			                <span class="text-jzj h4">{{p.name}}</span>
+			                <div class="h1 text-danger font-thin h2 wrapper">{{p.amount}}元</div>
+			                <span class="text-muted text-xs">{{p.remark}}</span>			
+			              </div>
+			            </div>			            
+			          </div>
+				</div>
+				<div ng-show="isSelectPackage" class="wrapper-sm bg-remind m-t recharge-count">      
+			      <span class="pull-left">您已选择<span class="text-danger m-l-sm m-r-sm">{{selectedPackage.name}}</span></span> <span class="pull-right">需要支付<span class="text-danger m-l-sm m-r-sm">{{selectedPackage.amount}}</span>元</span> 
+			    </div>
+				<div class="m-t m-b text-center">
+					<button type="submit" class="btn btn-jzj btn-lg" ng-disabled="!isSelectPackage" ng-click="openConfirmModal()">确认付款</button>
 				</div>
 				<div class="line b-b"></div> 
 				<div class="m-t">

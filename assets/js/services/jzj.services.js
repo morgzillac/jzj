@@ -918,3 +918,29 @@ app.factory('balances', ['promiseGet','promisePost',function(promiseGet,promiseP
 		}
 	};
 }]);
+/*赚点套餐定义*/
+app.factory('pointsPackages',['promiseGet',function(promiseGet){
+	return {
+		getAll : function(){
+			return [
+				{id:1,name:"0.01赚点迷你包",amount:0.01,points:1,remark:"接手任务时会被冻结，完成后自动解冻"},
+				{id:2,name:"20赚点标准包",amount:20,points:20,remark:"接手任务时会被冻结，完成后自动解冻"},
+				{id:3,name:"50赚点高级包",amount:50,points:50,remark:"接手任务时会被冻结，完成后自动解冻"},
+				{id:4,name:"100赚点豪华包",amount:100,points:100,remark:"接手任务时会被冻结，完成后自动解冻"}
+			];
+		}
+	}; 
+}]);
+/*附件类型*/
+app.factory('attachmentType',['promiseGet',function(promiseGet){
+	return {
+		getAll : function(){
+			return [
+				{id:1,name:"userImg",remark:"头像信息和账号截图信息"},
+				{id:2,name:"taskImg",remark:"任务截图信息"},
+				{id:3,name:"productImg",remark:"产品截图信息"},
+				{id:4,name:"otherImg",remark:"其他"}
+			];
+		}
+	};
+}]);
