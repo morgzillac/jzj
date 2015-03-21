@@ -32,7 +32,7 @@ angular.module('app')
 
   //初始化global变量
   app.global = {
-    "host" : "http://119.29.22.94:1337"
-    //"host" : ""
+    //"host" : "http://119.29.22.94:1337"
+    "host" : ""
   };
 
