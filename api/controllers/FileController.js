@@ -12,8 +12,7 @@ module.exports = {
     res.writeHead(200, {'content-type': 'text/html'});
     res.end(
       '<form action="/file/upload" enctype="multipart/form-data" method="post">'+
-      '<input type="text" name="title"><br>'+
-      '<input type="text" name="type"><br>'+
+      'type: <input type="text" name="type"><br>'+
       '<input type="file" name="thefile" multiple="multiple"><br>'+
       '<input type="submit" value="Upload">'+
       '</form>'
@@ -21,13 +20,27 @@ module.exports = {
   },
 
   upload: function  (req, res) {
-    var type = req.param('type');
+    var arrTypes = [
+      {id:1,name:"userImg",remark:"头像信息和账号截图信息"},
+      {id:2,name:"taskImg",remark:"任务截图信息"},
+      {id:3,name:"productImg",remark:"产品截图信息"},
+      {id:4,name:"otherImg",remark:"其他"}
+    ];
 
-    var uploadPath = '../../uploads/' + type;
+    var type = parseInt(req.param('type'));
+    if (isNaN(type) || type < 1 || type > 4) {
+      type = 4;
+    }
+    var uploadPath = '../../assets/uploads/' + arrTypes[type-1].name;
     if (req.method.toUpperCase()=='GET') return res.serverError('文件提交错误');
     req.file('thefile').upload({ dirname: uploadPath },function (err, files) {
       if (err)
         return res.serverError(err);
+
+      for (var i=0;i<files.length;i++) {
+        var fd = files[i].fd;
+        files[i].fd = fd.substr(fd.indexOf('uploads'));
+      }
 
       return res.json({
         message: files.length + ' file(s) uploaded successfully!',

@@ -26,8 +26,9 @@ module.exports = {
       if (err) console.log(err);
       // Send a CSV response
       var config = {
-        fields : ['transact_id','user_id', 'cash_in', 'cash_out', 'points_in',
-            'points_out', 'points_balance', 'cash_balance', 'frozen_balance'],
+        fields : ['transactId','userId', 'cashIn', 'cashOut', 'pointsIn',
+            'pointsOut', 'pointsBalance', 'cashBalance', 'frozenBalance'],
+        fieldNames: ['编号','用户编号','现金收入','现金支出','赚点收入','赚点支出','赚点余额','现金余额','押金余额'],
         data: list
       };
 

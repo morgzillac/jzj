@@ -20,77 +20,106 @@ function md5params (msg) {
 module.exports = {
 
   send: function (req, res) {
+    // get user ID of the current logged in user
+    var userId = 0;
+    if (req.userData && req.userData.userId) userId = req.userData.userId;
+    var tokenIn = req.param('token');
 
-    var orderAmount = req.param('orderAmount');
-    var productId = req.param('productId');
+    AccessToken.findOne({token:tokenIn}).exec(function (err, userData) {
+      if (err) return res.customError('508', sails.config.errs.systemError('硬盘数据出错'));
+      if (userData) {
+        req.userData = userData;
+        AccessToken.update({token:tokenIn},{updatedAt:new Date()}).exec(function cb (err, updated){
+          if (err) sails.log.error(err);
+          console.log('IsLoggedIn.js token:' + tokenIn + updated[0].updatedAt);
+        });
 
-    var dateStr =   moment().format('YYYYMMDDHHmmss');
+        console.log('product id=', req.param('productId'));
 
-    var bill99 = {
-      merchantAcctId:'1002421178901',
-      key:"ZRF336TLNR62AXJH",
-      inputCharset:"3",
-      pageUrl:"http://119.29.22.94:1337/bill/rec",
-      bgUrl:"http://119.29.22.94:1337/bill/rec",
-      version:"v2.0",
-      language:"1",
-      signMsg:"",
-      signType:"1",
-      payerName:"TestUser",
-      payerContactType:"1",
-      payerContact:"mchengcat@hotmail.com",
-      orderId:dateStr,
-      orderAmount:orderAmount,
-      orderTime:dateStr,
-      productName:"productName",
-      productNum:productId,
-      productId:"55558888",
-      productDesc:"test",
-      ext1:"jzj1",
-      ext2:"jzj2",
-      payType:"00",
+        var orderAmount = parseFloat(req.param('orderAmount'));
+        var productId = parseInt(req.param('productId'));
+        var points = parseInt(req.param('points'));
+
+
+        if (isNaN(productId) || (productId != 3 && productId != 4)
+          || isNaN(orderAmount) || isNaN(points)) {
+          return res.customError('508', "参数错误！");
+        }
+        orderAmount = orderAmount * 100;
+
+        var dateStr =   moment().format('YYYYMMDDHHmmss');
+        var bill99 = {
+          merchantAcctId:'1002421178901',
+          key:"ZRF336TLNR62AXJH",
+          inputCharset:"3",
+          pageUrl:"http://119.29.22.94:1337/bill/rec",
+          bgUrl:"http://119.29.22.94:1337/bill/rec",
+          version:"v2.0",
+          language:"1",
+          signMsg:"",
+          signType:"1",
+          payerName:userId,
+          payerContactType:"1",
+          payerContact:"mchengcat@hotmail.com",
+          orderId:dateStr,
+          orderAmount:orderAmount,
+          orderTime:dateStr,
+          productName:"productName",
+          productNum:productId,
+          productId:"55558888",
+          productDesc:"test",
+          ext1:points,
+          ext2:productId,
+          payType:"00",
 // following is for bank direct payment, payType : 10
-      bankId:"",
+          bankId:"",
 //whether to allow repeat submission, 0 for real product, 1 for virtual
-      redoFlag:"0",
-      pid:""
-    }
+          redoFlag:"0",
+          pid:""
+        }
 
-    var signMsgVal = "inputCharset=" + bill99.inputCharset;
-    signMsgVal=signMsgVal + "&" + "pageUrl=" + bill99.pageUrl;
-    signMsgVal=signMsgVal + "&" + "bgUrl=" + bill99.bgUrl;
-    signMsgVal=signMsgVal + "&" + "version=" + bill99.version;
-    signMsgVal=signMsgVal + "&" + "language=" + bill99.language;
-    signMsgVal=signMsgVal + "&" + "signType=" + bill99.signType
-    signMsgVal=signMsgVal + "&" + "merchantAcctId=" + bill99.merchantAcctId;
-    signMsgVal=signMsgVal + "&" + "payerName=" + bill99.payerName;
-    signMsgVal=signMsgVal + "&" + "payerContactType=" + bill99.payerContactType;
-    signMsgVal=signMsgVal + "&" + "payerContact=" + bill99.payerContact;
-    signMsgVal=signMsgVal + "&" + "orderId=" + bill99.orderId;
-    signMsgVal=signMsgVal + "&" + "orderAmount=" + bill99.orderAmount;
-    signMsgVal=signMsgVal + "&" + "orderTime=" + bill99.orderTime;
-    signMsgVal=signMsgVal + "&" + "productName=" + bill99.productName;
-    signMsgVal=signMsgVal + "&" + "productNum=" + bill99.productNum;
-    signMsgVal=signMsgVal + "&" + "productId=" + bill99.productId;
-    signMsgVal=signMsgVal + "&" + "productDesc=" + bill99.productDesc;
-    signMsgVal=signMsgVal + "&" + "ext1=" + bill99.ext1;
-    signMsgVal=signMsgVal + "&" + "ext2=" + bill99.ext2;
-    signMsgVal=signMsgVal + "&" + "payType=" + bill99.payType;
-    if(bill99.bankId) signMsgVal=signMsgVal + "&" + "bankId=" + bill99.bankId;
-    signMsgVal=signMsgVal + "&" + "redoFlag=" + bill99.redoFlag;
-    if(bill99.pid) signMsgVal=signMsgVal + "&" + "pid=" + bill99.pid;
-    signMsgVal=signMsgVal + "&" + "key=" + bill99.key;
+        var signMsgVal = "inputCharset=" + bill99.inputCharset;
+        signMsgVal=signMsgVal + "&" + "pageUrl=" + bill99.pageUrl;
+        signMsgVal=signMsgVal + "&" + "bgUrl=" + bill99.bgUrl;
+        signMsgVal=signMsgVal + "&" + "version=" + bill99.version;
+        signMsgVal=signMsgVal + "&" + "language=" + bill99.language;
+        signMsgVal=signMsgVal + "&" + "signType=" + bill99.signType
+        signMsgVal=signMsgVal + "&" + "merchantAcctId=" + bill99.merchantAcctId;
+        signMsgVal=signMsgVal + "&" + "payerName=" + bill99.payerName;
+        signMsgVal=signMsgVal + "&" + "payerContactType=" + bill99.payerContactType;
+        signMsgVal=signMsgVal + "&" + "payerContact=" + bill99.payerContact;
+        signMsgVal=signMsgVal + "&" + "orderId=" + bill99.orderId;
+        signMsgVal=signMsgVal + "&" + "orderAmount=" + bill99.orderAmount;
+        signMsgVal=signMsgVal + "&" + "orderTime=" + bill99.orderTime;
+        signMsgVal=signMsgVal + "&" + "productName=" + bill99.productName;
+        signMsgVal=signMsgVal + "&" + "productNum=" + bill99.productNum;
+        signMsgVal=signMsgVal + "&" + "productId=" + bill99.productId;
+        signMsgVal=signMsgVal + "&" + "productDesc=" + bill99.productDesc;
+        signMsgVal=signMsgVal + "&" + "ext1=" + bill99.ext1;
+        signMsgVal=signMsgVal + "&" + "ext2=" + bill99.ext2;
+        signMsgVal=signMsgVal + "&" + "payType=" + bill99.payType;
+        if(bill99.bankId) signMsgVal=signMsgVal + "&" + "bankId=" + bill99.bankId;
+        signMsgVal=signMsgVal + "&" + "redoFlag=" + bill99.redoFlag;
+        if(bill99.pid) signMsgVal=signMsgVal + "&" + "pid=" + bill99.pid;
+        signMsgVal=signMsgVal + "&" + "key=" + bill99.key;
 
-    bill99.signMsg = md5params(signMsgVal);
+        bill99.signMsg = md5params(signMsgVal);
 //    bill99.signMsgVal = signMsgVal;
 
-    console.log(signMsgVal);
-    console.log(bill99.signMsg);
-    req.bill99 = bill99;
-    res.view();
+        console.log(signMsgVal);
+        console.log(bill99.signMsg);
+        req.bill99 = bill99;
+        res.view();
+
+      } else {
+        return res.customError('403', sails.config.errs.access_notloggedin);
+      }
+    });
+
   },
 
   rec: function (req, res) {
+
 
     var rtnUrl = 'http://119.29.22.94:1337/bill/result';
 
@@ -151,7 +180,24 @@ module.exports = {
         if (payResult == 10){
           rtnOk=1;
           rtnUrl= rtnUrl + "?msg=success!";
-        }
+          // update balance
+
+          var bankType = "快钱";
+          recharge (ext1, payAmount, ext2, bankType, userId, function () {
+            // Error handling
+            if (err) {
+              console.log(err);
+              res.customError('508', "失败！");
+            } else {
+              if (data[0][0].outSuccess == 1) {
+                console.log(data);
+                res.ok("成功！");
+              } else {
+                res.customError('508', "失败！");
+              }
+            }
+          });
+      }
     }
 
     req.result ='<result>' + rtnOk + '</result><redirecturl>' + rtnUrl + '</redirecturl>';
@@ -164,3 +210,27 @@ module.exports = {
 
 
 };
+
+function recharge (points, amount, type, bankType, userId, cb) {
+
+  if (type == 3) {
+      var comment = "充值押金";
+      var isFronzen = true;
+  } else {
+    var comment = "充值赚点";
+    var isFronzen = false;
+  }
+
+  var sql = "call sp_recharge(" + points + ","
+    + amount  + ","
+    + type  + ","
+    + '"' + bankType  + '"' + ","
+    + comment + ","
+    + userId + ","
+    + isFrozen + ","
+    + " @result);";
+
+  console.log(sql);
+  User.query(sql, cb);
+
+}
