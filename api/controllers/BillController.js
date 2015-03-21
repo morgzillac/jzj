@@ -20,12 +20,22 @@ function md5params (msg) {
 module.exports = {
 
   send: function (req, res) {
+    // get user ID of the current logged in user
+    var userId = 0;
+    if (req.userData && req.userData.userId) userId = req.userData.userId;
 
-    var orderAmount = req.param('orderAmount');
-    var productId = req.param('productId');
+    var orderAmount = parseFloat(req.param('orderAmount'));
+    var productId = parseInt(req.param('productId'));
+    var points = parseInt(req.param('points'));
+
+
+    if (isNaN(productId) || (productId != 3 && productId != 4)
+        || isNaN(orderAmount) || isNaN(points)) {
+      return res.customError('508', "参数错误！");
+    }
+    orderAmount = orderAmount * 100;
 
     var dateStr =   moment().format('YYYYMMDDHHmmss');
-
     var bill99 = {
       merchantAcctId:'1002421178901',
       key:"ZRF336TLNR62AXJH",
@@ -36,7 +46,7 @@ module.exports = {
       language:"1",
       signMsg:"",
       signType:"1",
-      payerName:"TestUser",
+      payerName:userId,
       payerContactType:"1",
       payerContact:"mchengcat@hotmail.com",
       orderId:dateStr,
@@ -46,8 +56,8 @@ module.exports = {
       productNum:productId,
       productId:"55558888",
       productDesc:"test",
-      ext1:"jzj1",
-      ext2:"jzj2",
+      ext1:points,
+      ext2:productId,
       payType:"00",
 // following is for bank direct payment, payType : 10
       bankId:"",
@@ -91,6 +101,7 @@ module.exports = {
   },
 
   rec: function (req, res) {
+
 
     var rtnUrl = 'http://119.29.22.94:1337/bill/result';
 
@@ -151,7 +162,24 @@ module.exports = {
         if (payResult == 10){
           rtnOk=1;
           rtnUrl= rtnUrl + "?msg=success!";
-        }
+          // update balance
+
+          var bankType = "快钱";
+          recharge (ext1, payAmount, ext2, bankType, userId, function () {
+            // Error handling
+            if (err) {
+              console.log(err);
+              res.customError('508', "失败！");
+            } else {
+              if (data[0][0].outSuccess == 1) {
+                console.log(data);
+                res.ok("成功！");
+              } else {
+                res.customError('508', "失败！");
+              }
+            }
+          });
+      }
     }
 
     req.result ='<result>' + rtnOk + '</result><redirecturl>' + rtnUrl + '</redirecturl>';
@@ -164,3 +192,27 @@ module.exports = {
 
 
 };
+
+function recharge (points, amount, type, bankType, userId, cb) {
+
+  if (type == 3) {
+      var comment = "充值押金";
+      var isFronzen = true;
+  } else {
+    var comment = "充值赚点";
+    var isFronzen = false;
+  }
+
+  var sql = "call sp_recharge(" + points + ","
+    + amount  + ","
+    + type  + ","
+    + '"' + bankType  + '"' + ","
+    + comment + ","
+    + userId + ","
+    + isFrozen + ","
+    + " @result);";
+
+  console.log(sql);
+  User.query(sql, cb);
+
+}

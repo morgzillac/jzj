@@ -81,8 +81,11 @@ module.exports.policies = {
     // must be logged in and have userId in criteria
     'find': ['IsLoggedIn', 'UserFilter'],
     'findOne': ['IsLoggedIn', 'UserFilter']
+  },
 
-
+  Bill : {
+    // must be logged in and have userId in criteria
+    'send': ['IsLoggedIn', 'UserFilter']
   },
 
   //* test only
