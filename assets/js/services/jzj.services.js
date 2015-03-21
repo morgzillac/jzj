@@ -9,8 +9,7 @@ app.factory('sessionInjector', ['toaster','$location','$q','$window', function(t
 	return {
       request: function (config) {
           //如果User Session信息已经保存了，包在request的header发回去给服务器
-          if (angular.isObject(app.userSession)) {      
-          	console.log($window.localStorage.getItem("token"));      
+          if (angular.isObject(app.userSession)) {         
           	if($window.localStorage.getItem("token")){
           		config.headers['token'] = $window.localStorage.getItem("token");
           	}else{
