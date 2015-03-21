@@ -13,7 +13,7 @@
 		<tabset class="tab-container">
           <!--充值押金-->
           <tab heading="充值押金" ng-init="activeDeposit = (transType==3)" active="activeDeposit" ng-click="transType=3">
-          	<form role="form" name="rechargeDepositForm" class="form-horizontal" method="post" target="_blank" action="http://119.29.22.94:1337/bill/send">
+          	<form role="form" name="rechargeDepositForm" class="form-horizontal" method="post" target="_blank" action="/bill/send">
 			    <input type="hidden" name="productId" value="3">
 			    <input type="hidden" name="points" value="0">
 			    <input type="hidden" name="token" value="{{token}}">
@@ -41,7 +41,7 @@
 
           <!--充值赚点-->
           <tab heading="充值赚点" ng-init="activePoint = (transType==4)" active="activePoint" ng-click="transType=4">
-          	<form role="form" name="rechargePointForm" class="form-horizontal" method="post" target="_blank" action="http://119.29.22.94:1337/bill/send">
+          	<form role="form" name="rechargePointForm" class="form-horizontal" method="post" target="_blank" action="/bill/send">
 			    <input type="hidden" name="productId" value="4">
 			    <input type="hidden" name="points" value="{{points}}">
 			    <input type="hidden" name="orderAmount" value="{{amount}}" >
