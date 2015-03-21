@@ -225,8 +225,8 @@ function recharge (points, amount, type, bankType, userId, cb) {
   var sql = "call sp_recharge(" + points + ","
     + amount  + ","
     + type  + ","
-    + '"' + bankType  + '"' + ","
-    + '"' + comment  + '"' + ","
+    + "'" + bankType  + "'" + ","
+    + "'" + comment  + "'" + ","
     + userId + ","
     + isFrozen + ","
     + " @result);";
