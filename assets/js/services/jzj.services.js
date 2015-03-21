@@ -5,13 +5,17 @@ function joinHost(url){
 }
 
 //request 拦截器，为http请求加上header信息
-app.factory('sessionInjector', ['toaster','$location','$q', function(toaster,$location,$q){
+app.factory('sessionInjector', ['toaster','$location','$q','$window', function(toaster,$location,$q,$window){
 	return {
       request: function (config) {
           //如果User Session信息已经保存了，包在request的header发回去给服务器
-          if (angular.isObject(app.userSession)) {            
-            //config.headers['token'] = app.userSession.Tokan;
-            config.headers['token'] = '123';
+          if (angular.isObject(app.userSession)) {      
+          	console.log($window.localStorage.getItem("token"));      
+          	if($window.localStorage.getItem("token")){
+          		config.headers['token'] = $window.localStorage.getItem("token");
+          	}else{
+          		config.headers['token'] = '';
+          	}            
           }                    
           return config;
       },
@@ -73,6 +77,19 @@ app.factory('sessionInjector', ['toaster','$location','$q', function(toaster,$lo
 			return deferred.promise;
         }
     };
+}]);
+//下载文件
+app.factory('httpDownloadCsv', ['$http', function($http){
+	return function(url){
+		var api = joinHost(url);
+		$http.get(api,{headers:{"Accept":"text/csv"}})
+		.success(function(result){
+			
+		})
+		.error(function(reason){					
+			
+		});
+	};
 }]);
 //Promise Get的公共请求方式
 app.factory('promiseGet', ['$http','$q', function($http,$q){
@@ -892,7 +909,7 @@ app.factory('points2cashs',['promisePost','promiseGet',function(promisePost,prom
 	};
 }]);
 //变现 Service
-app.factory('transactions',['promisePost','promiseGet','restAPIGet',function(promisePost,promiseGet,restAPIGet){
+app.factory('transactions',['promisePost','promiseGet','restAPIGet','httpDownloadCsv',function(promisePost,promiseGet,restAPIGet,httpDownloadCsv){
 	return {
 		get : function(currentPage,pageSize){
 			var skip = pageSize * (currentPage - 1);
@@ -900,7 +917,8 @@ app.factory('transactions',['promisePost','promiseGet','restAPIGet',function(pro
 		},
 		downloadCSV : function(userId){
 			//TODO: 导出交易记录CSV
-			window.open("/transaction/csv");
+			httpDownloadCsv("/transaction/csv");
+			//window.open("/transaction/csv");
 		},
 		queryCount : function(){
 			return promiseGet('/query/count/?model=transaction');

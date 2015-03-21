@@ -29,9 +29,11 @@ app.controller('SigninFormController', ['$scope', 'users', '$state', '$window','
       $http.post(api, para).success(function(result, status, headers, config) {
           $window.localStorage.setItem("userSession", angular.toJson(result));
           app.userSession = result;
-          //app.userTokan = "";
-          //console.log(headers('token'));
-          $state.go('app.dashboard-v1');
+          console.log(headers('tokan'));
+          console.log(config.headers);
+          //$window.localStorage.setItem("token", config.headers.token);
+          console.log(config.headers.token);
+          //$state.go('app.dashboard-v1');
       }).error(function(reason, status, headers, config) {
           $scope.authError = reason.message;
       });
