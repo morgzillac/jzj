@@ -21,6 +21,9 @@ module.exports = {
 
   send: function (req, res) {
 
+    var orderAmount = req.param('orderAmount');
+    var productId = req.param('productId');
+
     var dateStr =   moment().format('YYYYMMDDHHmmss');
 
     var bill99 = {
@@ -37,10 +40,10 @@ module.exports = {
       payerContactType:"1",
       payerContact:"mchengcat@hotmail.com",
       orderId:dateStr,
-      orderAmount:"1",
+      orderAmount:orderAmount,
       orderTime:dateStr,
       productName:"productName",
-      productNum:"1",
+      productNum:productId,
       productId:"55558888",
       productDesc:"test",
       ext1:"jzj1",
