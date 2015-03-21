@@ -110,7 +110,7 @@ module.exports = {
         console.log(bill99.signMsg);
         req.bill99 = bill99;
         res.view();
-        
+
       } else {
         return res.customError('403', sails.config.errs.access_notloggedin);
       }
