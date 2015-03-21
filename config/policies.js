@@ -83,6 +83,12 @@ module.exports.policies = {
     'findOne': ['IsLoggedIn', 'UserFilter']
 
 
+  },
+
+  //* test only
+  File: {
+    'index': true,
+    'upload': true
   }
 
 

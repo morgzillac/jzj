@@ -13,6 +13,7 @@ module.exports = {
     res.end(
       '<form action="/file/upload" enctype="multipart/form-data" method="post">'+
       '<input type="text" name="title"><br>'+
+      '<input type="text" name="type"><br>'+
       '<input type="file" name="thefile" multiple="multiple"><br>'+
       '<input type="submit" value="Upload">'+
       '</form>'
@@ -20,8 +21,11 @@ module.exports = {
   },
 
   upload: function  (req, res) {
+    var type = req.param('type');
+
+    var uploadPath = '../../uploads/' + type;
     if (req.method.toUpperCase()=='GET') return res.serverError('文件提交错误');
-    req.file('thefile').upload(function (err, files) {
+    req.file('thefile').upload({ dirname: uploadPath },function (err, files) {
       if (err)
         return res.serverError(err);
 
