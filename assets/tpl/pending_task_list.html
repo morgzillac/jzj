@@ -71,9 +71,9 @@
               <div class="line text-danger b-b"></div>
               <div class="row padder-md l-h-3x">
                 <ul class="ul-t status-filter">
-                  <li><a class="text-danger" ng-class="{'filter-active wrapper-xs text-white bg-danger':statusId==1}" ng-click="filterTaskBuyer(1)">买手已付款，待发货<span>(1)</span></a></li>  
-                  <li><a class="text-danger" ng-class="{'filter-active wrapper-xs text-white bg-danger':statusId==2}" ng-click="filterTaskBuyer(2)">买手已收货，待退款<span>(1)</span></a></li>  
-                  <li><a class="text-danger" ng-class="{'filter-active wrapper-xs text-white bg-danger':statusId==3}" ng-click="filterTaskBuyer(3)">买手已好评，待评选<span>(0)</span></a></li>    
+                  <li><a class="text-danger" ng-class="{'filter-active wrapper-xs text-white bg-danger':statusId==2}" ng-click="filterTaskBuyer(2)">买手已付款，待发货<span>(2)</span></a></li>  
+                  <li><a class="text-danger" ng-class="{'filter-active wrapper-xs text-white bg-danger':statusId==4}" ng-click="filterTaskBuyer(4)">买手已收货，待退款<span>(4)</span></a></li>  
+                  <li><a class="text-danger" ng-class="{'filter-active wrapper-xs text-white bg-danger':statusId==6}" ng-click="filterTaskBuyer(6)">买手已好评，待评选<span>(6)</span></a></li>    
                 </ul>    
               </div>                
               <div class="line text-danger b-b"></div>
@@ -82,9 +82,9 @@
                 <li class="list-group-item" ng-repeat="b in taskBuyerList">
                   {{b.taskDetail}}
                   <a class="text-info">查看</a>
-                  <a ng-if="statusId==1" class="text-info">已发货</a>
-                  <a ng-if="statusId==2" class="text-info">已退款</a>
-                  <a ng-if="statusId==3" class="text-info">已评价</a>
+                  <a ng-if="statusId==2" class="text-info" ng-click="updateTaskBuyerStatus(b.taskBuyerId,3)">已发货</a>
+                  <a ng-if="statusId==4" class="text-info" ng-click="updateTaskBuyerStatus(b.taskBuyerId,5)">已退款</a>
+                  <a ng-if="statusId==6" class="text-info" ng-click="updateTaskBuyerStatus(b.taskBuyerId,7)">已评选</a>
                 </li>
               </ul>
               <!--子项-->

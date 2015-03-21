@@ -576,7 +576,7 @@ app.controller('PendingTaskCtrl',['$scope','$stateParams','platforms','taskLists
     };
 }]);
 app.controller('TaskBuyerCtrl',['$scope','taskBuyers',function($scope,taskBuyers){
-	$scope.statusId = 1;
+	$scope.statusId = 2;//待发货
 	$scope.taskId = -1;
 	$scope.expanded = false;
 	$scope.taskBuyerList= [];
@@ -591,6 +591,11 @@ app.controller('TaskBuyerCtrl',['$scope','taskBuyers',function($scope,taskBuyers
 	$scope.filterTaskBuyer = function(statusId){
 		$scope.statusId = statusId;
 		filterTaskBuyer(1,10);
+	};
+	$scope.updateTaskBuyerStatus = function(taskBuyerId,statusId){		
+		taskBuyers.updateStatus(taskBuyerId,statusId).then(function(result){
+			filterTaskBuyer(1,10);
+		});
 	};
 	var filterTaskBuyer = function(currentPage,pageSize){
 		taskBuyers.filter($scope.taskId,$scope.statusId,currentPage,pageSize).then(function(result){

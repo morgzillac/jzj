@@ -246,11 +246,13 @@ app.factory('subTaskStatuss',['promisePost','promiseGet',function(promisePost,pr
 	return {
 		getAll : function(){
 			return [
-				{id : 1, name : "已接单"},
+				{id : 1, name : "待付款"},
 				{id : 2, name : "待发货"},
-				{id : 3, name : "待退款"},
-				{id : 4, name : "待评选"},
-				{id : 5, name : "已完成"}				
+				{id : 3, name : "待收货"},
+				{id : 4, name : "待退款"},
+				{id : 5, name : "待评价"},
+				{id : 6, name : "待评选"},
+				{id : 7, name : "已完成"}				
 			];
 		}	
 	};
@@ -427,7 +429,7 @@ app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promise
 	};
 }]);
 //TaskBuyer 买手接单子任务 Service
-app.factory('taskBuyers',['promisePost','promiseGet',function(promisePost,promiseGet){
+app.factory('taskBuyers',['promisePost','promiseGet','promisePut',function(promisePost,promiseGet,promisePut){
 	return {
 		filter : function(taskId,statusId,currentPage,pageSize){
 			var queryPara = '?taskId=' + taskId + '&statusId=' + statusId;
@@ -437,6 +439,9 @@ app.factory('taskBuyers',['promisePost','promiseGet',function(promisePost,promis
 		},
 		queryCount : function(condition){
 			return promiseGet('/query/count/?model=TaskBuyer&where=' + condition);
+		},
+		updateStatus : function(taskId,statusId){
+			return promisePut('/TaskBuyer/' + taskId, {"statusId":statusId});
 		}
 	};
 }]);

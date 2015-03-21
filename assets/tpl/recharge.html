@@ -11,98 +11,95 @@
 	<div class="line b-b"></div> 
 	<div class="form-horizontal m-t">
 		<tabset class="tab-container">
-		  <!--充值现金-->
-          <tab heading="充值现金" ng-init="activeCash = (transType==2)" active="activeCash" ng-click="transType=2">
-          	<form role="form" name="rechargeCashForm" class="form-horizontal">
-			<div class="m-t">
-				<label>充值账号：</label>
-				<div ng-if="!isBindUserBank" class="btn-group"><label>暂未添加提现账号，请先<a ui-sref="app.account.userbank" class="text-info">添加</a></label></div>
-				<div ng-if="isBindUserBank" class="btn-group">
-					<select class="form-control" ng-model="bankType" required>
-						<option ng-repeat="b in userBankList" value="{{b.bankType}}" ng-selected="bankType == b.bankType">{{getBankName(b.bankType)}} - {{b.accountNumber}}</option>
-					</select>
-				</div>
-			</div>
-			<div class="m-t">
-				<label class="control-label text-left">充值金额：</label>
-				<div class="btn-group"><input type="number" class="form-control" ng-model="cash.amount" ng-pattern="/^\d{3,9}/" required/></div>
-				<label class="control-label text-left"><span class="text-muted">单次最少提现100元 </span></label>
-			</div>		
-
-			<div class="m-t m-b">
-				<button class="btn btn-jzj" ng-disabled="rechargeCashForm.$invalid" ng-click="rechargeCash(rechargeCashForm.$valid)">确认</button>
-			</div>
-			<div class="line b-b"></div> 
-			<div class="m-t">
-		        <h4 class="m-t-none font-bold">温馨提示：</h4>
-		        <p class="text-muted">1. 充值现金可以使用 商品押金 运费押金 退款保证金  三部分。</p>
-		        <p class="text-muted">2. 请注意您的银行卡充值限制，以免造成不便。<a class="text-info" href="#">查看如何提高充值限额</a></p>
-				<p class="text-muted">3. 禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账号的使用。</p>
-				<p class="text-muted">4. 如果充值金额没有及时到账。请联系客服。</p>
-				<p class="text-muted">5. 关于商家<span class="text-danger font-bold">押金</span>提现，平台是按照“<span class="text-danger font-bold">原路返回</span>”的原则给商家返还押金。</p>
-		     </div>
-		     </form>
-          </tab>
           <!--充值押金-->
           <tab heading="充值押金" ng-init="activeDeposit = (transType==3)" active="activeDeposit" ng-click="transType=3">
-          	<form role="form" name="rechargeDepositForm" class="form-horizontal">
-          	<div class="m-t">
-				<label>充值账号：</label>
-				<div ng-if="!isBindUserBank" class="btn-group"><label>暂未添加提现账号，请先<a ui-sref="app.account.userbank" class="text-info">添加</a></label></div>
-				<div ng-if="isBindUserBank" class="btn-group">
-					<select class="form-control" ng-model="bankType" required>
-						<option ng-repeat="b in userBankList" value="{{b.bankType}}" ng-selected="bankType == b.bankType">{{getBankName(b.bankType)}} - {{b.accountNumber}}</option>
-					</select>
+          	<form role="form" name="rechargeDepositForm" class="form-horizontal" method="post" target="_blank" action="/bill/send">
+			    <input type="hidden" name="orderAmount" value="100">
+			    <input type="hidden" name="productId" value="1">
+	          	<div class="m-t">
+					<label>充值账号：</label>
+					<div ng-if="!isBindUserBank" class="btn-group"><label>暂未添加提现账号，请先<a ui-sref="app.account.userbank" class="text-info">添加</a></label></div>
+					<div ng-if="isBindUserBank" class="btn-group">
+						<select class="form-control" ng-model="bankType" required>
+							<option ng-repeat="b in userBankList" value="{{b.bankType}}" ng-selected="bankType == b.bankType">{{getBankName(b.bankType)}} - {{b.accountNumber}}</option>
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class="m-t">
-				<label class="control-label text-left">充值金额：</label>
-				<div class="btn-group"><input type="number" class="form-control" ng-model="deposit.amount" ng-pattern="/^\d{3,9}/" required/></div>
-				<label class="control-label text-left"><span class="text-muted">单次最少提现100元 </span></label>
-			</div>		
-			<div class="m-t m-b">
-				<button class="btn btn-jzj" ng-disabled="rechargeDepositForm.$invalid" ng-click="rechargeDeposit(rechargeDepositForm.$valid)">确认</button>
-			</div>
-			<div class="line b-b"></div> 
-			<div class="m-t">
-		        <h4 class="m-t-none font-bold">温馨提示：</h4>
-		        <p class="text-muted">1. 充值押金可以使用 商品押金 运费押金 退款保证金  三部分。</p>
-		        <p class="text-muted">2. 请注意您的银行卡充值限制，以免造成不便。<a class="text-info" href="#">查看如何提高充值限额</a></p>
-				<p class="text-muted">3. 禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账号的使用。</p>
-				<p class="text-muted">4. 如果充值金额没有及时到账。请联系客服。</p>
-				<p class="text-muted">5. 关于商家<span class="text-danger font-bold">押金</span>提现，平台是按照“<span class="text-danger font-bold">原路返回</span>”的原则给商家返还押金。</p>
-		     </div>
+				<div class="m-t">
+					<label class="control-label text-left">充值金额：</label>
+					<div class="btn-group"><input type="number" class="form-control" ng-model="deposit.amount" ng-pattern="/^\d{3,9}/" required/></div>
+					<label class="control-label text-left"><span class="text-muted">单次最少提现100元 </span></label>
+				</div>		
+				<div class="m-t m-b">
+					<!-- <button class="btn btn-jzj" ng-disabled="rechargeDepositForm.$invalid" ng-click="rechargeDeposit(rechargeDepositForm.$valid)">确认</button> -->
+					<button type="submit" class="btn btn-jzj" ng-disabled="rechargeDepositForm.$invalid">确认</button>
+				</div>
+				<div class="line b-b"></div> 
+				<div class="m-t">
+			        <h4 class="m-t-none font-bold">温馨提示：</h4>
+			        <p class="text-muted">1. 充值押金可以使用 商品押金 运费押金 退款保证金  三部分。</p>
+			        <p class="text-muted">2. 请注意您的银行卡充值限制，以免造成不便。<a class="text-info" href="#">查看如何提高充值限额</a></p>
+					<p class="text-muted">3. 禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账号的使用。</p>
+					<p class="text-muted">4. 如果充值金额没有及时到账。请联系客服。</p>
+					<p class="text-muted">5. 关于商家<span class="text-danger font-bold">押金</span>提现，平台是按照“<span class="text-danger font-bold">原路返回</span>”的原则给商家返还押金。</p>
+			     </div>
 		     </form>
           </tab>
+
+
           <!--充值赚点-->
           <tab heading="充值赚点" ng-init="activePoint = (transType==4)" active="activePoint" ng-click="transType=4">
-          	<form role="form" name="rechargePointForm" class="form-horizontal">
-          	<div class="m-t">
-				<label>充值账号：</label>
-				<div ng-if="!isBindUserBank" class="btn-group"><label>暂未添加提现账号，请先<a ui-sref="app.account.userbank" class="text-info">添加</a></label></div>
-				<div ng-if="isBindUserBank" class="btn-group">
-					<select class="form-control" ng-model="bankType" required>
-						<option ng-repeat="b in userBankList" value="{{b.bankType}}" ng-selected="bankType == b.bankType">{{getBankName(b.bankType)}} - {{b.accountNumber}}</option>
-					</select>
+          	<form role="form" name="rechargePointForm" class="form-horizontal" method="post" target="_bland" action="https://www.99bill.com/gateway/recvMerchantInfoAction.htm">
+          		<input type="hidden" name="inputCharset" value="3">
+			    <input type="hidden" name="bgUrl" value="http://119.29.22.94:1337/bill/rec">
+			    <input type="hidden" name="pageUrl" value="http://119.29.22.94:1337/bill/rec">
+			    <input type="hidden" name="version" value="v2.0">
+			    <input type="hidden" name="language" value="1">
+			    <input type="hidden" name="signType" value="1">
+			    <input type="hidden" name="signMsg" value="BBF108CE577666A4488D725B6EE4A2BD">
+			    <input type="hidden" name="merchantAcctId" value="1002421178901">
+			    <input type="hidden" name="payerName" value="TestUser">
+			    <input type="hidden" name="payerContactType" value="1">
+			    <input type="hidden" name="payerContact" value="mchengcat@hotmail.com">
+			    <input type="hidden" name="orderId" value="20150321114604">
+			    <input type="hidden" name="orderAmount" value="1">
+			    <input type="hidden" name="orderTime" value="20150321114604">
+			    <input type="hidden" name="productName" value="productName">
+			    <input type="hidden" name="productNum" value="1">
+			    <input type="hidden" name="productId" value="55558888">
+			    <input type="hidden" name="productDesc" value="test">
+			    <input type="hidden" name="ext1" value="jzj1">
+			    <input type="hidden" name="ext2" value="jzj2">
+			    <input type="hidden" name="payType" value="00">
+			    <input type="hidden" name="bankId" value="">
+			    <input type="hidden" name="redoFlag" value="0">
+			    <input type="hidden" name="pid" value="">
+	          	<div class="m-t">
+					<label>充值账号：</label>
+					<div ng-if="!isBindUserBank" class="btn-group"><label>暂未添加提现账号，请先<a ui-sref="app.account.userbank" class="text-info">添加</a></label></div>
+					<div ng-if="isBindUserBank" class="btn-group">
+						<select class="form-control" ng-model="bankType" required>
+							<option ng-repeat="b in userBankList" value="{{b.bankType}}" ng-selected="bankType == b.bankType">{{getBankName(b.bankType)}} - {{b.accountNumber}}</option>
+						</select>
+					</div>
 				</div>
-			</div>
-			<div class="m-t">
-				<label class="control-label text-left">充值点数：</label>
-				<div class="btn-group"><input type="number" class="form-control" ng-model="point.points" ng-pattern="/^\d{3,9}/" required/></div>
-				<label class="control-label text-left"></label>
-			</div>		
-			<div class="m-t m-b">
-				<button class="btn btn-jzj" ng-disabled="rechargePointForm.$invalid" ng-click="rechargePoint(rechargePointForm.$valid)">确认</button>
-			</div>
-			<div class="line b-b"></div> 
-			<div class="m-t">
-		        <h4 class="m-t-none font-bold">温馨提示：</h4>
-		        <p class="text-muted">1. 充值赚点可以使用 商品押金 运费押金 退款保证金  三部分。</p>
-		        <p class="text-muted">2. 请注意您的银行卡充值限制，以免造成不便。<a class="text-info" href="#">查看如何提高充值限额</a></p>
-				<p class="text-muted">3. 禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账号的使用。</p>
-				<p class="text-muted">4. 如果充值金额没有及时到账。请联系客服。</p>
-				<p class="text-muted">5. 关于商家<span class="text-danger font-bold">押金</span>提现，平台是按照“<span class="text-danger font-bold">原路返回</span>”的原则给商家返还押金。</p>
-		     </div>
+				<div class="m-t">
+					<label class="control-label text-left">充值点数：</label>
+					<div class="btn-group"><input type="number" class="form-control" ng-model="point.points" ng-pattern="/^\d{3,9}/" required/></div>
+					<label class="control-label text-left"></label>
+				</div>		
+				<div class="m-t m-b">
+					<button class="btn btn-jzj" ng-disabled="rechargePointForm.$invalid" ng-click="rechargePoint(rechargePointForm.$valid)">确认</button>
+				</div>
+				<div class="line b-b"></div> 
+				<div class="m-t">
+			        <h4 class="m-t-none font-bold">温馨提示：</h4>
+			        <p class="text-muted">1. 充值赚点可以使用 商品押金 运费押金 退款保证金  三部分。</p>
+			        <p class="text-muted">2. 请注意您的银行卡充值限制，以免造成不便。<a class="text-info" href="#">查看如何提高充值限额</a></p>
+					<p class="text-muted">3. 禁止洗钱、信用卡套现、虚假交易等行为，一经发现并确认，将终止该账号的使用。</p>
+					<p class="text-muted">4. 如果充值金额没有及时到账。请联系客服。</p>
+					<p class="text-muted">5. 关于商家<span class="text-danger font-bold">押金</span>提现，平台是按照“<span class="text-danger font-bold">原路返回</span>”的原则给商家返还押金。</p>
+			     </div>
 		     </form>
           </tab>          
         </tabset>		

@@ -97,7 +97,7 @@ app.controller('CashoutHistoryCtrl',['$scope','cashouts',function($scope,cashout
   };
 }]);
 //充值 controller
-app.controller('RechargeCtrl',['$scope','recharges','bankTypes','toaster','userBanks','$stateParams',function($scope,recharges,bankTypes,toaster,userBanks,$stateParams){
+app.controller('RechargeCtrl',['$scope','recharges','bankTypes','toaster','userBanks','$stateParams','$modal',function($scope,recharges,bankTypes,toaster,userBanks,$stateParams,$modal){
   var userId = app.userSession.userId;
   $scope.isBindUserBank = false; 
   $scope.bankTypeList = [];
@@ -107,7 +107,7 @@ app.controller('RechargeCtrl',['$scope','recharges','bankTypes','toaster','userB
   $scope.cash = {};
   $scope.deposit = {};
   $scope.payPassword = "";
-  $scope.transType = 2;
+  $scope.transType = 3;
   $scope.$watch('$viewContentLoaded',function(){  
     $scope.transType = $stateParams.transType;
     $scope.point = recharges.newEmpty();
@@ -144,6 +144,9 @@ app.controller('RechargeCtrl',['$scope','recharges','bankTypes','toaster','userB
       toaster.pop('error','错误','表单填写不正确' );
       return;
     }
+    
+  };
+  var saveRechargeCash2History = function(){
     $scope.cash.userId = userId;
     $scope.cash.isFrozen = false;
     $scope.cash.points = 0;
