@@ -216,10 +216,10 @@ function recharge (points, amount, type, bankType, userId, cb) {
 
   if (type == 3) {
       var comment = "充值押金";
-      var isFronzen = true;
+      var isFrozen = true;
   } else {
     var comment = "充值赚点";
-    var isFronzen = false;
+    var isFrozen = false;
   }
 
   var sql = "call sp_recharge(" + points + ","
