@@ -27,7 +27,7 @@ function subForm(){
 
 <BODY onload="subForm()">
 
-<div align="center">
+<div align="center" style="display:none">
   <table width="259" border="0" cellpadding="1" cellspacing="1" bgcolor="#CCCCCC" >
     <tr bgcolor="#FFFFFF">
       <td width="80">支付方式:</td>
@@ -55,7 +55,7 @@ function subForm(){
     </tr>
   </table>
 </div>
-
+如果没有自动提交请按提交按钮
 <div align="center" style="font-size=12px;font-weight: bold;color=red;">
   <!--   <form name="kqPay" method="post" action="https://sandbox.99bill.com/gateway/recvMerchantInfoAction.htm"> -->
   <form name="kqPay" id="kqPayId" method="post" action="https://www.99bill.com/gateway/recvMerchantInfoAction.htm">
@@ -83,7 +83,7 @@ function subForm(){
     <input type="hidden" name="bankId" value="<%=bill99.bankId %>">
     <input type="hidden" name="redoFlag" value="<%=bill99.redoFlag %>">
     <input type="hidden" name="pid" value="<%=bill99.pid %>">
-    <input type="submit" name="submit" value=“提交”>
+    <input type="submit" name="btnSubmit" value=“提交”>
   </form>
 </div>
 
