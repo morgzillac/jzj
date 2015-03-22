@@ -103,3 +103,15 @@
 {
     height: 40px;
 }
+.userbank-screenshot
+{
+    max-width: 292px;
+    max-height: 200px;
+    padding: 0 0 20px 0;
+    cursor: pointer;
+}
+.img-view
+{
+    max-width: 865px;
+    max-height: 660px;
+}

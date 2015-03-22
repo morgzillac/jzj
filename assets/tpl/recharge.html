@@ -58,7 +58,7 @@
 				</div>	
 				<div class="m-t">					
 					<div class="row text-center">
-			            <div class="col-xs-3" ng-repeat="p in packages">
+			            <div class="col-xs-3" ng-repeat="p in packages | orderBy:id:desc">
 			              <div ng-class="{'bg-remind':(p.id==selectedPackage.id)}" class="panel padder-v item b point-panel" ng-click="selectPackage(p.id)">
 			                <span class="text-jzj h4">{{p.name}}</span>
 			                <div class="h1 text-danger font-thin h2 wrapper">{{p.amount}}元</div>

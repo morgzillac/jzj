@@ -1,13 +1,18 @@
 
-
-<div class="modal-header">
-    <h3 class="modal-title">{{title}}</h3>
-</div>
 <div class="modal-body" >
-	<label>请输入新的值：</label>
-    <div class="form-group">
-		<input type="text" class="form-control" ng-model="value">
+	<div class="m-b">
+		<h4>{{title}}</h4>
+	</div>	
+	<div class="line b-b"></div>
+	<br/>
+	<div>
+	    <div class="text-center">
+	    	<div>
+	    		<label>新的值:</label><input type="text" class="w-md input-control-xs" ng-model="value">	
+	    	</div>			
+		</div>
 	</div>
+	<br/>
 </div>
 <div class="modal-footer">                  
     <button class="btn btn-default" ng-click="cancel()">取消</button>

@@ -81,12 +81,12 @@ app.controller('UserCtrl', ['$scope', '$modal','users', function($scope, $modal,
     };
     $scope.openSetHeadImage = function () {
       var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/set_headimage.html',
-        controller: 'HeadImageUploadCtrl',
+        templateUrl: 'tpl/modal/file_upload.html',
+        controller: 'FileUploadCtrl',
         size: 'lg',
         resolve: {
           data: function () {
-            return { "title": "上传头像", "image": $scope.user.image};
+            return { "title": "上传头像", "image": $scope.user.image, "type":1};
           }
         }
       });
@@ -128,15 +128,15 @@ app.controller('SetValueCtrl', ['$scope', '$modalInstance','data', function($sco
     };
 }]);
 //头像上传
-app.controller('HeadImageUploadCtrl', ['$scope', 'FileUploader', '$modalInstance', 'data', function($scope, FileUploader, $modalInstance, data) {
-    
+app.controller('FileUploadCtrl', ['$scope', 'FileUploader', '$modalInstance','$window','data', function($scope, FileUploader, $modalInstance,$window,data) {    
     $scope.title = data.title;
-    $scope.image = data.image;
-
+    $scope.fildPath = data.image;
+    $scope.type = data.type;
     var uploader = $scope.uploader = new FileUploader({
-        url: 'js/controllers/upload.php'
+        url: joinHost('/file/upload?type='+$scope.type),
+        alias : "thefile",
+        headers :{"token":$window.localStorage.getItem("token")}
     });
-
     // FILTERS
     uploader.filters.push({
         name: 'customFilter',
@@ -144,53 +144,33 @@ app.controller('HeadImageUploadCtrl', ['$scope', 'FileUploader', '$modalInstance
             return this.queue.length < 10;
         }
     });
-
-    // CALLBACKS
-    uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
-        console.info('onWhenAddingFileFailed', item, filter, options);
-    };
-    uploader.onAfterAddingFile = function(fileItem) {
-        console.info('onAfterAddingFile', fileItem);
-    };
-    uploader.onAfterAddingAll = function(addedFileItems) {
-        console.info('onAfterAddingAll', addedFileItems);
-    };
-    uploader.onBeforeUploadItem = function(item) {
-        console.info('onBeforeUploadItem', item);
-    };
-    uploader.onProgressItem = function(fileItem, progress) {
-        console.info('onProgressItem', fileItem, progress);
-    };
-    uploader.onProgressAll = function(progress) {
-        console.info('onProgressAll', progress);
-    };
+    // CALLBACKS     
     uploader.onSuccessItem = function(fileItem, response, status, headers) {
-        console.info('onSuccessItem', fileItem, response, status, headers);
+        console.log('upload success');
+        $scope.fildPath = response.files[0].fd;
     };
     uploader.onErrorItem = function(fileItem, response, status, headers) {
-        console.info('onErrorItem', fileItem, response, status, headers);
+        console.log('upload error');
     };
     uploader.onCancelItem = function(fileItem, response, status, headers) {
-        console.info('onCancelItem', fileItem, response, status, headers);
+        console.log('upload cancel');
     };
     uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        console.info('onCompleteItem', fileItem, response, status, headers);
+        console.log('upload commplete item');
+        $scope.fildPath = response.files[0].fd;
     };
     uploader.onCompleteAll = function() {
-        console.info('onCompleteAll');
+        console.log('Complete All');
     };
-
-    console.info('uploader', uploader);
-
     $scope.ok = function () {
-      $modalInstance.close($scope.image);
+      $modalInstance.close($scope.fildPath);
     };
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
 }]);
 //支付宝设置Controller
-app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster', function($scope, userBanks,bankTypes,toaster){
+app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster','$modal', function($scope, userBanks,bankTypes,toaster,$modal){
   var userId = app.userSession.userId;
   var bankType = bankTypes.getZFB().id;
   $scope.isEdit = true;
@@ -243,9 +223,36 @@ app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster', fun
       }
     });
   };
+  $scope.openUploadModel = function () {
+    var modalInstance = $modal.open({
+      templateUrl: 'tpl/modal/file_upload.html',
+      controller: 'FileUploadCtrl',
+      size: 'lg',
+      resolve: {
+        data: function () {
+          return { "title": "上传支付宝截图", "image": $scope.account.screenshot, "type": 1};
+        }
+      }
+    });
+    modalInstance.result.then(function (data) {        
+      $scope.account.screenshot = data;      
+    });
+  };
+  $scope.viewShotDetails = function(url){
+     var modalInstance = $modal.open({
+      templateUrl: 'tpl/modal/view_ori_img.html',
+      controller: 'ImgViewDetailsCtrl',
+      size: 'lg',
+      resolve: {
+        data: function () {
+          return { "url":url };
+        }
+      }
+    });
+  };
 }]);
 //财付通设置Controller
-app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster', function($scope,userBanks,bankTypes,toaster){
+app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster','$modal', function($scope,userBanks,bankTypes,toaster,$modal){
   var userId = app.userSession.userId;
   var bankType = bankTypes.getCFT().id;
   $scope.isEdit = true;
@@ -293,6 +300,33 @@ app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster', fun
     angular.forEach(banksTypeList,function(value){
       if(value.id == account.bankType){
         $scope.bankName = value.name+ '【姓名：' + account.accountName + '】';
+      }
+    });
+  };
+  $scope.openUploadModel = function () {
+    var modalInstance = $modal.open({
+      templateUrl: 'tpl/modal/file_upload.html',
+      controller: 'FileUploadCtrl',
+      size: 'lg',
+      resolve: {
+        data: function () {
+          return { "title": "上传支付宝截图", "image": $scope.account.screenshot, "type": 1};
+        }
+      }
+    });
+    modalInstance.result.then(function (data) {        
+      $scope.account.screenshot = data;      
+    });
+  };
+  $scope.viewShotDetails = function(url){
+     var modalInstance = $modal.open({
+      templateUrl: 'tpl/modal/view_ori_img.html',
+      controller: 'ImgViewDetailsCtrl',
+      size: 'lg',
+      resolve: {
+        data: function () {
+          return { "url":url };
+        }
       }
     });
   };
@@ -354,6 +388,10 @@ app.controller('YinHangKaCtrl', ['$scope','userBanks','bankTypes','toaster', fun
       }
     });
   };
+}]);
+//查看图片详细
+app.controller('ImgViewDetailsCtrl',['$scope','data',function($scope,data){
+  $scope.url = data.url;
 }]);
 //绑定买手页父Controller
 app.controller('BuyerCtrl', ['$scope','platforms', function($scope,platforms) {
