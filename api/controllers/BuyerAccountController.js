@@ -47,7 +47,7 @@ module.exports = {
   count: function(req, res) {
 
     if (req.userData && req.userData.userId) var userId = req.userData.userId;
-    if (!userId) return res.forbidden;
+    if (!userId) return res.forbidden();
 
     BuyerAccount.count({userId:userId}, function(error, response) {
       if (error) {
