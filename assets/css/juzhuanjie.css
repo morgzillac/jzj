@@ -115,3 +115,13 @@
     max-width: 865px;
     max-height: 660px;
 }
+.buyer-ww-shot
+{
+    cursor: pointer;
+}
+.product-shot
+{
+    max-width: 200px;
+    max-height: 200px;
+    cursor: pointer;
+}

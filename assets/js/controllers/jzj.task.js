@@ -238,7 +238,7 @@ app.controller('TaskRuleCtrl',['$scope','$modalInstance',function($scope,$modalI
     };
 }]);
 //填写商品信息
-app.controller('TaskFlowItem2Ctrl',['$scope','products', function($scope,products){
+app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scope,products,$modal){
 	$scope.thisItem = "app.task.item2";
 	$scope.flowData = {};
 	$scope.product = {};	
@@ -291,6 +291,79 @@ app.controller('TaskFlowItem2Ctrl',['$scope','products', function($scope,product
 		$scope.flowData.taskDetail.productId = $scope.product;
 		$scope.$emit('prev-step', { "item" : $scope.thisItem, "flowData" : $scope.flowData });
 	};
+	$scope.openUploadModel = function () {
+	    var modalInstance = $modal.open({
+	      templateUrl: 'tpl/modal/file_upload.html',
+	      controller: 'FileUploadCtrl',
+	      size: 'lg',
+	      resolve: {
+	        data: function () {
+	          return { "title": "上传旺旺个人截图", "image": $scope.product.productImage, "type": 3};
+	        }
+	      }
+	    });
+	    modalInstance.result.then(function (data) {        
+	      $scope.product.productImage = data;      
+	    });
+	};
+	$scope.viewShotDetails = function(url){
+	    var modalInstance = $modal.open({
+		    templateUrl: 'tpl/modal/view_ori_img.html',
+		    controller: 'ImgViewDetailsCtrl',
+		    size: 'lg',
+		    resolve: {
+		        data: function () {
+		          return { "url":url };
+		        }
+		    }
+	    });
+	};
+}]);
+/*上传产品截图*/
+app.controller('FileUploadCtrl', ['$scope', 'FileUploader', '$modalInstance','$window','data', function($scope, FileUploader, $modalInstance,$window,data) {    
+    $scope.title = data.title;
+    $scope.fildPath = data.image;
+    $scope.type = data.type;
+    var uploader = $scope.uploader = new FileUploader({
+        url: joinHost('/file/upload?type='+$scope.type),
+        alias : "thefile",
+        headers :{"token":$window.localStorage.getItem("token")}
+    });
+    // FILTERS
+    uploader.filters.push({
+        name: 'customFilter',
+        fn: function(item /*{File|FileLikeObject}*/, options) {
+            return this.queue.length < 10;
+        }
+    });
+    // CALLBACKS     
+    uploader.onSuccessItem = function(fileItem, response, status, headers) {
+        console.log('upload success');
+        $scope.fildPath = response.files[0].fd;
+    };
+    uploader.onErrorItem = function(fileItem, response, status, headers) {
+        console.log('upload error');
+    };
+    uploader.onCancelItem = function(fileItem, response, status, headers) {
+        console.log('upload cancel');
+    };
+    uploader.onCompleteItem = function(fileItem, response, status, headers) {
+        console.log('upload commplete item');
+        $scope.fildPath = response.files[0].fd;
+    };
+    uploader.onCompleteAll = function() {
+        console.log('Complete All');
+    };
+    $scope.ok = function () {
+      $modalInstance.close($scope.fildPath);
+    };
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+}]);
+//查看图片详细
+app.controller('ImgViewDetailsCtrl',['$scope','data',function($scope,data){
+  $scope.url = data.url;
 }]);
 //选择刷单数量
 app.controller('TaskFlowItem3Ctrl',['$scope','platforms','sellerShops','productLocations', function($scope,platforms,sellerShops,productLocations){

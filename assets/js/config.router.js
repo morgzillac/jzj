@@ -223,9 +223,13 @@ angular.module('app')
                   url: '/taskflow/:id',
                   templateUrl: 'tpl/task_flow.html',
                   resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad ){
-                          return uiLoad.load( ['js/controllers/jzj.task.js'] );
+                      deps: ['uiLoad','$ocLazyLoad',
+                        function( uiLoad,$ocLazyLoad ){
+                          return $ocLazyLoad.load('angularFileUpload').then(
+                            function(){
+                              return uiLoad.load( ['js/controllers/jzj.task.js'] );
+                            }
+                          );                          
                       }]
                   }              
               })
