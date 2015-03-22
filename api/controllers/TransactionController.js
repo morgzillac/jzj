@@ -23,7 +23,7 @@ module.exports = {
       .sort( actionUtil.parseSort(req) );
 
     query.exec (function(err, list){
-      if (err) console.log(err);
+      if (err) sails.log.error(err);
       // Send a CSV response
       var config = {
         fields : ['transactId','userId', 'cashIn', 'cashOut', 'pointsIn',
@@ -33,7 +33,7 @@ module.exports = {
       };
 
       json2csv(config, function(err, csv) {
-        if (err) console.log(err);
+        if (err) sails.log.error(err);
         var filename = "report-" + moment().format("YYYY-MM-DD") + ".csv";
         res.attachment(filename);
         res.end(csv, 'UTF-8');

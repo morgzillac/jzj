@@ -31,14 +31,14 @@ module.exports = {
         + isFrozen + ","
       + " @result);";
     User.query(sql, function (err,data) {
-      console.log(sql);
+      sails.log.info(sql);
       // Error handling
       if (err) {
-        console.log(err);
+        sails.log.error(err);
         res.customError('508',comment + "失败！");
       } else {
         if (data[0][0].outSuccess == 1) {
-          console.log(comment, data);
+          sails.log.info(comment, data);
           res.ok(comment + "成功！");
         }else {
           res.customError('508',comment + "失败！");
@@ -69,13 +69,13 @@ module.exports = {
       + " @result);";
     User.query(sql, function (err,data) {
       // Error handling
-      console.log(sql);
+      sails.log.info(sql);
       if (err) {
-        console.log(err);
+        sails.log.error(err);
         res.customError('508',"操作失败！");
       } else {
         if (data[0][0].outSuccess == 1) {
-          console.log("提现成功！", data);
+          sails.log.info("提现成功！", data);
           res.ok("提现成功！");
         }else{
           res.customError('508',"操作失败！");
@@ -105,13 +105,13 @@ module.exports = {
 
     Transaction.query(sql, function (err,data) {
       // Error handling
-      console.log(sql);
+      sails.log.info(sql);
       if (err) {
-        console.log(err);
+        sails.log.error(err);
         res.customError('508',"操作失败！");
       } else {
         if (data[0][0].outSuccess == 1) {
-          console.log("变现成功！", data);
+          sails.log.info("变现成功！", data);
           res.ok("变现成功！");
         }else{
           res.customError('508',"操作失败！");
@@ -129,7 +129,7 @@ module.exports = {
       taskObj = taskObj.taskDetail;
      // console.log(taskObj);
     } catch (e) {
-      console.log(e);
+      sails.log.error(e);
     }
 
     var result = {};

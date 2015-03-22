@@ -73,7 +73,7 @@ var util = require('util'),
           if (match) {
             // password match
             var token = UtilsService.uid(5);
-            console.log('match found!!!' + token );
+            sails.log.info('match found!!!' + token );
 
             //todo: line below is for testing only, need to be removed
             token = 123;  //user.userId;
@@ -83,7 +83,7 @@ var util = require('util'),
                 .exec(function createCB(err) {
               if (err) {
                 res.customError('508', sails.config.errs.systemError('写入Token错误'));
-                console.log(err);
+                sails.log.error(err);
               }
               //console.log(AccessToken);
             });
@@ -115,9 +115,9 @@ var util = require('util'),
 
     AccessToken.destroy({token:req.userData.token}).exec(function (err, userData) {
       if (err) {
-        console.log(err);
+        sails.log.error(err);
       } else {
-        console.log(userData);
+        sails.log.info(userData);
       }
       res.ok();
     });
@@ -174,7 +174,7 @@ var util = require('util'),
               var record = {};
               if (req.param('password')) {
                 record.password = req.param('password');
-                console.log(record);
+                sails.log.debug(record);
               }
               if (req.param('payPassword')) {
                 record.payPassword = req.param('payPassword');
@@ -183,12 +183,12 @@ var util = require('util'),
                 if (err) {
                   if (err) return res.serverError("重置密码错误");
                 } else {
-                  console.log(userData);
+                  sails.log.debug(userData);
                 }
                 res.ok();
               });
             } else {
-              console.log('no match');
+              sails.log.info('resetPassword','no match');
               return res.serverError("重置密码错误");
             }
           });

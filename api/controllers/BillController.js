@@ -9,10 +9,10 @@ function md5params (msg) {
   var crypto = require('crypto');
   var md5sum = crypto.createHash('md5');
 
-  console.log(msg);
+  //console.log(msg);
   md5sum.update(msg);
   var result = md5sum.digest('hex').toUpperCase();
-  console.log(result);
+  //console.log(result);
   return result;
 }
 
@@ -31,7 +31,7 @@ module.exports = {
         req.userData = userData;
         AccessToken.update({token:tokenIn},{updatedAt:new Date()}).exec(function cb (err, updated){
           if (err) sails.log.error(err);
-          console.log('IsLoggedIn.js token:' + tokenIn + updated[0].updatedAt);
+          sails.log.info('IsLoggedIn.js token:' + tokenIn + updated[0].updatedAt);
         });
 
         var orderAmount = parseFloat(req.param('orderAmount'));
@@ -105,8 +105,8 @@ module.exports = {
         bill99.signMsg = md5params(signMsgVal);
 //    bill99.signMsgVal = signMsgVal;
 
-        console.log(signMsgVal);
-        console.log(bill99.signMsg);
+        sails.log.info(signMsgVal);
+        sails.log.info(bill99.signMsg);
         req.bill99 = bill99;
         res.view();
 
@@ -172,8 +172,8 @@ module.exports = {
     var rtnOk=0;
     var rtnUrl="http://119.29.22.94:1337/bill/result";
 
-    console.log('in - ', merchantSignMsg.toUpperCase());
-    console.log('out - ', signMsg);
+    sails.log.info('in - ', merchantSignMsg.toUpperCase());
+    sails.log.info('out - ', signMsg);
 
     if (signMsg == merchantSignMsg.toUpperCase()) {
         if (payResult == 10){
@@ -183,17 +183,7 @@ module.exports = {
           // update balance
           var bankType = "bill99";
           var arrExt1 = ext1.split('-');
-          recharge (arrExt1[2], payAmount, arrExt1[1], bankType, arrExt1[0], function (err, data) {
-            // Error handling
-            if (err) {
-              console.log('error occurred:',err);
-            } else {
-              if (data[0][0].outSuccess == 1) {
-                console.log(data);
-              } else {
-                console.log('sp execution failed!');
-              }
-            }
+          recharge (arrExt1[2], payAmount, arrExt1[1], bankType, arrExt1[0], function () {
           });
       }
     }
@@ -228,7 +218,18 @@ function recharge (points, amount, type, bankType, userId, cb) {
     + isFrozen + ","
     + " @result);";
 
-  console.log(sql);
-  User.query(sql, cb);
+  User.query(sql, function (err, data) {
+    // Error handling
+    if (err) {
+        sails.log.error('sp execution failed - ' + sql, err);
+    } else {
+      if (data[0][0].outSuccess == 1) {
+        sails.log.info(data);
+      } else {
+        sails.log.error('sp execution failed - return code=' + data[0][0].outSuccess, sql);
+      }
+    }
+    cb();
+  });
 
 }

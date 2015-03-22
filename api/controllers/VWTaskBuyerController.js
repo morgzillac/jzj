@@ -39,7 +39,7 @@ module.exports = {
       .skip(actionUtil.parseSkip(req))
       .sort(actionUtil.parseSort(req));
 
-    console.log("criteria = " + JSON.stringify(criteria));
+    sails.log.info("criteria = " + JSON.stringify(criteria));
 
     query.exec(function(err, results) {
       if (err) res.customError('508', sails.config.errs.systemError('数据库错误'));
@@ -63,7 +63,7 @@ module.exports = {
       .skip(actionUtil.parseSkip(req))
       .sort(actionUtil.parseSort(req));
 
-    console.log("criteria = " + JSON.stringify(criteria));
+    sails.log.info("criteria = " + JSON.stringify(criteria));
     criteria.where.pending = { '>': 0 };
     var query = VWTaskBuyer.find()
       .where(criteria.where)
@@ -71,7 +71,7 @@ module.exports = {
       .skip(actionUtil.parseSkip(req))
       .sort(actionUtil.parseSort(req));
 
-    console.log("criteria = " + JSON.stringify(criteria));
+    sails.log.info("criteria = " + JSON.stringify(criteria));
     query.exec(function (err, results) {
       if (err) res.customError('508', sails.config.errs.systemError('数据库错误'));
 
