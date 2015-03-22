@@ -54,7 +54,9 @@
         </div>
       </div>
       <div ng-if="product.productImage!=''" class="row m-t">
-        <img class="product-shot" ng-click="viewShotDetails(product.productImage)" src="/{{product.productImage}}" />
+        <div class="col-md-6">
+          <img class="product-shot" ng-click="viewShotDetails(product.productImage)" src="/{{product.productImage}}" />
+        </div>
       </div>
     </div>    
   </div>
