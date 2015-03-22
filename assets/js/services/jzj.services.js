@@ -78,19 +78,6 @@ app.factory('sessionInjector', ['toaster','$location','$q','$window', function(t
         }
     };
 }]);
-//下载文件
-app.factory('httpDownloadCsv', ['$http', function($http){
-	return function(url){
-		var api = joinHost(url);
-		$http.get(api,{headers:{"Accept":"text/csv"}})
-		.success(function(result){
-			
-		})
-		.error(function(reason){					
-			
-		});
-	};
-}]);
 //Promise Get的公共请求方式
 app.factory('promiseGet', ['$http','$q', function($http,$q){
 	return function(url){
@@ -267,7 +254,7 @@ app.factory('subTaskStatuss',['promisePost','promiseGet',function(promisePost,pr
 				{id : 2, name : "待发货"},
 				{id : 3, name : "待收货"},
 				{id : 4, name : "待退款"},
-				{id : 5, name : "待评价"},
+				{id : 5, name : "待好评"},
 				{id : 6, name : "待评选"},
 				{id : 7, name : "已完成"}				
 			];
@@ -383,7 +370,7 @@ app.factory('tasks', ['promisePost','promiseGet',function(promisePost,promiseGet
 			return promiseGet('/shopTask/?PlatformId=' + platformId);
 		},
 		filter : function(statusId,condition,currentPage,pageSize){
-			var queryPara = '?status=' + statusId;
+			var queryPara = '?sort=createdAt DESC&status=' + statusId;
 			if(angular.isDefined(condition.platformId) && condition.platformId != -1){
 				queryPara += '&platformId=' + condition.platformId;
 			}
@@ -419,7 +406,7 @@ app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promise
 			return promiseGet('/VWShopTask/?PlatformId=' + platformId);
 		},
 		filter : function(statusId,condition,currentPage,pageSize){
-			var queryPara = '?status=' + statusId;
+			var queryPara = '?sort=createdAt DESC&status=' + statusId;
 			if(angular.isDefined(condition.platformId) && condition.platformId != -1){
 				queryPara += '&platformId=' + condition.platformId;
 			}
@@ -438,7 +425,7 @@ app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promise
 			var queryPara = "where={\"platformId\":" + platformId + "}";
 			var skip = pageSize * (currentPage - 1);
 			queryPara += '&limit=' + pageSize + '&skip=' + skip;
-			return promiseGet('/VWShopTask/pending/?' + queryPara);
+			return promiseGet('/VWShopTask/pending/?sort=createdAt DESC&' + queryPara);
 		},
 		queryCount : function(condition){
 			return promiseGet('/query/count/?model=task&where=' + condition);
@@ -449,7 +436,7 @@ app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promise
 app.factory('taskBuyers',['promisePost','promiseGet','promisePut',function(promisePost,promiseGet,promisePut){
 	return {
 		filter : function(taskId,statusId,currentPage,pageSize){
-			var queryPara = '?taskId=' + taskId + '&statusId=' + statusId;
+			var queryPara = '?sort=createdAt DESC&taskId=' + taskId + '&statusId=' + statusId;
 			var skip = pageSize * (currentPage - 1);
 			queryPara += '&limit=' + pageSize + '&skip=' + skip;
 			return promiseGet('/TaskBuyer/' + queryPara);
@@ -609,7 +596,7 @@ app.factory('userBanks',['promisePost','promiseGet',function(promisePost,promise
 	};
 }]);
 //BuyerAccount 对象数据交互 Service
-app.factory('buyerAccounts', ['promisePost','promiseGet',function(promisePost,promiseGet){
+app.factory('buyerAccounts', ['promisePost','promiseGet','promisePut',function(promisePost,promiseGet,promisePut){
 	return {
 		get : function(buyerAccountId){
 			return promiseGet('/buyerAccount/'+buyerAccountId);
@@ -624,7 +611,7 @@ app.factory('buyerAccounts', ['promisePost','promiseGet',function(promisePost,pr
 		},
 		update : function(buyerAccountId,buyerAccount){
 			//TODO: 添加买号信息
-			return promisePost('/buyerAccount/'+buyerAccountId, buyerAccount);
+			return promisePut('/buyerAccount/'+buyerAccountId, buyerAccount);
 		},
 		checkAccount : function(platformId,accountLogin){
 			var para = { "platformId" : platformId, "accountLogin" : accountLogin };
@@ -655,7 +642,7 @@ app.factory('buyerAccounts', ['promisePost','promiseGet',function(promisePost,pr
 	};
 }]);
 //买手收货地址 Service
-app.factory('userAddresses',['promisePost','promiseGet',function(promisePost,promiseGet){
+app.factory('userAddresses',['promisePost','promiseGet','promisePut',function(promisePost,promiseGet,promisePut){
 	return {
 		get : function(addressId){
 			return promiseGet('/useraddress/'+addressId);
@@ -665,6 +652,9 @@ app.factory('userAddresses',['promisePost','promiseGet',function(promisePost,pro
 		},
 		add : function(userAddress){
 			return promisePost('/useraddress/', userAddress);
+		},
+		update : function(userAddress){
+			return promisePut('/useraddress/'+userAddress.addressId, userAddress);
 		},
 		newEmpty : function(){
 			return {
@@ -683,7 +673,7 @@ app.factory('userAddresses',['promisePost','promiseGet',function(promisePost,pro
 	};
 }]);
 //SellerShop 对象数据交互 Service
-app.factory('sellerShops', ['promisePost','promiseGet',function(promisePost,promiseGet){
+app.factory('sellerShops', ['promisePost','promiseGet','promisePut',function(promisePost,promiseGet,promisePut){
 	return {
 		get : function(shopId){
 			return promiseGet('/sellerShop/'+shopId);
@@ -701,7 +691,7 @@ app.factory('sellerShops', ['promisePost','promiseGet',function(promisePost,prom
 			return promisePost('/sellerShop', sellerShop);
 		},
 		update : function(shopId,sellerShop){
-			return promisePost('/sellerShop/'+shopId, sellerShop);
+			return promisePut('/sellerShop/'+shopId, sellerShop);
 		},
 		count : function(userId, platformId){
 			//TODO: 统计某个平台下的店铺绑定数量，不能拿超过3个
@@ -833,7 +823,7 @@ app.factory('cashouts',['promisePost','promiseGet',function(promisePost,promiseG
 	return {
 		get : function(currentPage,pageSize){	
 			var skip = pageSize * (currentPage - 1);		
-			return promiseGet('/cashout/?limit=' + pageSize + '&skip=' + skip);
+			return promiseGet('/cashout/?sort=createdAt DESC&limit=' + pageSize + '&skip=' + skip);
 		},
 		add : function(cashout){
 			return promisePost('/trans/cashout', cashout);
@@ -861,7 +851,7 @@ app.factory('recharges',['promisePost','promiseGet',function(promisePost,promise
 	return {
 		get : function(currentPage,pageSize){	
 			var skip = pageSize * (currentPage - 1);		
-			return promiseGet('/recharge/?limit=' + pageSize + '&skip=' + skip);
+			return promiseGet('/recharge/?sort=createdAt DESC&limit=' + pageSize + '&skip=' + skip);
 		},
 		add : function(recharge){
 			return promisePost('/trans/recharge', recharge);
@@ -888,7 +878,7 @@ app.factory('points2cashs',['promisePost','promiseGet',function(promisePost,prom
 	return {
 		get : function(currentPage,pageSize){
 			var skip = pageSize * (currentPage - 1);
-			return promiseGet('/points2cash/?limit=' + pageSize + '&skip=' + skip);
+			return promiseGet('/points2cash/?sort=createdAt DESC&limit=' + pageSize + '&skip=' + skip);
 		},
 		add : function(points2cash){
 			return promisePost('/trans/points2cash', points2cash);
@@ -909,16 +899,14 @@ app.factory('points2cashs',['promisePost','promiseGet',function(promisePost,prom
 	};
 }]);
 //变现 Service
-app.factory('transactions',['promisePost','promiseGet','restAPIGet','httpDownloadCsv',function(promisePost,promiseGet,restAPIGet,httpDownloadCsv){
+app.factory('transactions',['promisePost','promiseGet','restAPIGet',function(promisePost,promiseGet,restAPIGet){
 	return {
 		get : function(currentPage,pageSize){
 			var skip = pageSize * (currentPage - 1);
-			return promiseGet('/transaction/?limit=' + pageSize + '&skip=' + skip);
+			return promiseGet('/transaction/?sort=createdAt DESC&limit=' + pageSize + '&skip=' + skip);
 		},
 		downloadCSV : function(userId){
-			//TODO: 导出交易记录CSV
-			httpDownloadCsv("/transaction/csv");
-			//window.open("/transaction/csv");
+			window.open("/transaction/csv/?token=" + window.localStorage.getItem("token"));
 		},
 		queryCount : function(){
 			return promiseGet('/query/count/?model=transaction');
@@ -941,7 +929,7 @@ app.factory('pointsPackages',['promiseGet',function(promiseGet){
 	return {
 		getAll : function(){
 			return [
-				{id:1,name:"0.01赚点迷你包",amount:0.01,points:1,remark:"接手任务时会被冻结，完成后自动解冻"},
+				{id:1,name:"1赚点迷你包",amount:0.01,points:1,remark:"接手任务时会被冻结，完成后自动解冻"},
 				{id:2,name:"20赚点标准包",amount:20,points:20,remark:"接手任务时会被冻结，完成后自动解冻"},
 				{id:3,name:"50赚点高级包",amount:50,points:50,remark:"接手任务时会被冻结，完成后自动解冻"},
 				{id:4,name:"100赚点豪华包",amount:100,points:100,remark:"接手任务时会被冻结，完成后自动解冻"}

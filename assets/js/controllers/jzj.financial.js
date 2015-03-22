@@ -291,6 +291,11 @@ app.controller('CashoutCtrl',['$scope','cashouts','points2cashs','userBanks','ba
       toaster.pop('error','错误','表单填写不正确' );
       return;
     }
+    //验证最大转换点数
+    if($scope.points2cash.points > $scope.totalPoints){
+      toaster.pop('error','错误','最大变现赚点数为' + $scope.totalPoints);
+      return;
+    }
     $scope.points2cash.userId = userId;
     $scope.points2cash.type = 5; //变现
     points2cashs.add($scope.points2cash).then(function(result){
@@ -321,6 +326,11 @@ app.controller('CashoutCtrl',['$scope','cashouts','points2cashs','userBanks','ba
     }
     if (!isValid) {
       toaster.pop('error','错误','表单填写不正确' );
+      return;
+    }
+    //验证最大提现额
+    if($scope.cashout.points > $scope.totalCashs){
+      toaster.pop('error','错误','最大提现额为' + $scope.totalCashs);
       return;
     }
     balances.checkPayPassword($scope.payPassword).then(function(result){

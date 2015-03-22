@@ -420,7 +420,7 @@ app.controller('BuyerCtrl', ['$scope','platforms', function($scope,platforms) {
   };
 }]);
 //绑定买手详细Controller
-app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAddresses','toaster', function($scope,buyerAccounts,platforms,userAddresses,toaster) {
+app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAddresses','toaster','$modal', function($scope,buyerAccounts,platforms,userAddresses,toaster,$modal) {
   var userId = app.userSession.userId;
   $scope.platform = {};
   $scope.buyerAccountBinds = [];
@@ -464,14 +464,11 @@ app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAd
       $scope.userAddress.city = $scope.city;
       $scope.userAddress.district = $scope.district;
       buyerAccount.addressId = $scope.userAddress;
-      alert(angular.toJson($scope.userAddress));
-      buyerAccounts.update(buyerAccount.buyerAccountId,buyerAccount).then(function(result){
+      userAddresses.update($scope.userAddress).then(function(result){
         initBuyerAccountList();
         $scope.isShow = false;
         clear();
-      },function(reason){
-
-      });  
+      }); 
     }else{
       //$scope.buyerAccount.userId = userId; 
       $scope.buyerAccount.platformId = $scope.platform.id; 
@@ -481,21 +478,28 @@ app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAd
       $scope.userAddress.district = $scope.district;
       //$scope.userAddress.userId = userId;
       $scope.buyerAccount.addressId = $scope.userAddress;
-      buyerAccounts.checkAccount($scope.platform.id,$scope.userAddress.recipient).then(function(data){
-        if(data.result){
-          toaster.pop('error','错误','旺旺ID（'+$scope.userAddress.recipient+'）已经存在，请换一个试试！' );
+      buyerAccounts.checkww($scope.platform.id,$scope.buyerAccount.wangwang).then(function(returnData){
+        if(returnData.result){
+          toaster.pop('error','错误','旺旺ID（'+$scope.buyerAccount.wangwang+'）已经存在，请换一个试试！' );
         }else{
-          buyerAccounts.add($scope.buyerAccount).then(function(result){
-            if(angular.isObject(result)){
-              initBuyerAccountList();
-              $scope.isShow = false;
-              clear();
-            } 
-          },function(reason){
+          buyerAccounts.checkAccount($scope.platform.id,$scope.userAddress.recipient).then(function(data){
+            if(data.result){
+              toaster.pop('error','错误','收货人（'+$scope.userAddress.recipient+'）已经存在，请换一个试试！' );
+            }else{
+              buyerAccounts.add($scope.buyerAccount).then(function(result){
+                if(angular.isObject(result)){
+                  initBuyerAccountList();
+                  $scope.isShow = false;
+                  clear();
+                } 
+              },function(reason){
 
+              });
+            }
           });
         }
       });
+      
              
     }        
   };
@@ -528,6 +532,33 @@ app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAd
   var initBuyerAccountList = function(){
     buyerAccounts.query($scope.platform.id).then(function(result){
       $scope.buyerAccountBinds = result;
+    });
+  };
+  $scope.openUploadModel = function () {
+    var modalInstance = $modal.open({
+      templateUrl: 'tpl/modal/file_upload.html',
+      controller: 'FileUploadCtrl',
+      size: 'lg',
+      resolve: {
+        data: function () {
+          return { "title": "上传旺旺个人截图", "image": $scope.buyerAccount.wwScreenshot, "type": 1};
+        }
+      }
+    });
+    modalInstance.result.then(function (data) {        
+      $scope.buyerAccount.wwScreenshot = data;      
+    });
+  };
+  $scope.viewShotDetails = function(url){
+     var modalInstance = $modal.open({
+      templateUrl: 'tpl/modal/view_ori_img.html',
+      controller: 'ImgViewDetailsCtrl',
+      size: 'lg',
+      resolve: {
+        data: function () {
+          return { "url":url };
+        }
+      }
     });
   };
 }]);

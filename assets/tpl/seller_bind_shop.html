@@ -20,14 +20,14 @@
               <td><span>{{s.wangwang}}</span></td>
               <td><span>{{s.province}} {{s.city}} {{s.street}}</span></td>
               <td><span>{{s.url}}</span></td>
-              <td><a ng-click="editSellerBind({{s.shopId}})"><span>修改地址</span></a></td>
+              <td><a class="text-info text-u-l" ng-click="editSellerBind({{s.shopId}})"><span>修改地址</span></a></td>
             </tr>            
           </tbody>
         </table>
       </div>
       <div class="line b-b"></div>   
       <div class="">
-        <a class="btn btn-jzj" ng-click="addSellerBind()"><span class="font-bold"> + 绑定店铺 </span></a><small class="text-muted"> (最多允许绑定3个店铺)</small>
+        <a class="btn btn-jzj" ng-click="addSellerBind()" ng-disabled="sellerShopBinds.length>=3"><span class="font-bold"> + 绑定店铺 </span></a><small class="text-muted"> (最多允许绑定3个店铺)</small>
       </div>  
       <div ng-show="isShow" class="b wrapper-md pos-rlt m-t bg-light r r-2x"><span class="arrow top pull-left arrow-light"></span>
         <form role="form" name="sellerShopForm" class="form-horizontal">

@@ -138,9 +138,13 @@ angular.module('app')
                   templateUrl: 'tpl/buyer.html',
                   // use resolve to load other dependences
                   resolve: {
-                      deps: ['uiLoad',
-                        function( uiLoad ){
-                          return uiLoad.load( ['js/controllers/jzj.account.js','js/directives/jzj.directives.js','vendor/libs/moment.min.js','vendor/libs/city.min.js'] );
+                      deps: ['uiLoad','$ocLazyLoad',
+                        function( uiLoad,$ocLazyLoad ){
+                          return $ocLazyLoad.load('angularFileUpload').then(
+                            function(){
+                              return uiLoad.load( ['js/controllers/jzj.account.js','js/directives/jzj.directives.js','vendor/libs/moment.min.js','vendor/libs/city.min.js'] );
+                            }
+                          );                          
                       }]
                   }
               })
