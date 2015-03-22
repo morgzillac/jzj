@@ -179,22 +179,19 @@ module.exports = {
         if (payResult == 10){
           rtnOk=1;
           rtnUrl= rtnUrl + "?msg=success!";
-          // update balance
 
+          // update balance
           var bankType = "bill99";
           var arrExt1 = ext1.split('-');
-
-          recharge (arrExt1[2], payAmount, arrExt1[1], bankType, arrExt1[0], function () {
+          recharge (arrExt1[2], payAmount, arrExt1[1], bankType, arrExt1[0], function (err, data) {
             // Error handling
             if (err) {
-              console.log(err);
-              res.customError('508', "失败！");
+              console.log('error occurred:',err);
             } else {
               if (data[0][0].outSuccess == 1) {
                 console.log(data);
-                res.ok("成功！");
               } else {
-                res.customError('508', "失败！");
+                console.log('sp execution failed!');
               }
             }
           });
