@@ -193,6 +193,7 @@ module.exports = {
   },
 
   result: function (req, res) {
+
     res.view();
   }
 
