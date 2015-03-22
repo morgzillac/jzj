@@ -88,9 +88,18 @@ module.exports.policies = {
   File: {
     'index': true,
     'upload': true
+  },
+
+//* test only
+  Transaction: {
+    'csv': true
+  },
+
+  Test: {
+    // no need to be logged in
+    'log': true
+    //
   }
-
-
 
 
 };

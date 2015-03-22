@@ -70,9 +70,16 @@ module.exports = {
     },
 
   log: function(req,res){
-    sails.log.error('this is a test');
+    sails.log('just a regular log');
+    sails.log.error('this is an error');
     console.log("here");
-    sails.log.info('this is a transaction');
+    sails.log.info('this is an info');
+
+    sails.config.transLogger.info ('transaction');
+    sails.config.transLogger.error ('transaction error');
+    //logTrans.info('transaction info');
+    //logTrans.error('transaction error');
+
     res.ok();
 
   },
