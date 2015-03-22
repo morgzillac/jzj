@@ -440,7 +440,7 @@ app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAd
   $scope.editBuyerBind = function(buyerAccountId){
     buyerAccounts.get(buyerAccountId).then(function(result){
       $scope.buyerAccount.wangwang = result.wangwang;
-      $scope.wwScreenshot = result.wwScreenshot;
+      $scope.buyerAccount.wwScreenshot = $scope.wwScreenshot = result.wwScreenshot;
       $scope.province = result.addressId.province;
       $scope.city = result.addressId.city;
       $scope.district = result.addressId.district;
