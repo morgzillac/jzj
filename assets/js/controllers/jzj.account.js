@@ -310,7 +310,7 @@ app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster','$mo
       size: 'lg',
       resolve: {
         data: function () {
-          return { "title": "上传支付宝截图", "image": $scope.account.screenshot, "type": 1};
+          return { "title": "上传财付通截图", "image": $scope.account.screenshot, "type": 1};
         }
       }
     });
