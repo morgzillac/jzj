@@ -104,10 +104,10 @@ module.exports.policies = {
     'findOne': ['IsLoggedIn', 'UserFilter']
   },
 
-  ShopTask1: {
+  ShopTask: {
     // must be logged in and have userId in criteria
-    'find': ['IsLoggedIn', 'UserFilter'],
-    'findOne': ['IsLoggedIn', 'UserFilter']
+    'find': 'readonly',
+    'findOne': 'readonly'
   },
 
   SellerShop: {
