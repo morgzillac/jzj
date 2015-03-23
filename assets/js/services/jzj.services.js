@@ -567,14 +567,17 @@ app.factory('userBanks',['promisePost','promiseGet',function(promisePost,promise
 	return {
 		get : function(userId, bankType){
 			//TODO: 获取一条User Bank记录，根据userid 和 banktype
-			return promiseGet('/userBank/?userId=' + userId + '&bankType=' + bankType);
+			//return promiseGet('/userBank/?userId=' + userId + '&bankType=' + bankType);
+			return promiseGet('/userBank/?bankType=' + bankType);
 		},
 		getAllYHKBanks : function(userId){
 			//TODO: 获取一条User Bank记录，根据userid 和 banktype
-			return promiseGet('/userBank/?userId=' + userId);
+			//return promiseGet('/userBank/?userId=' + userId);
+			return promiseGet('/userBank');
 		},
 		query : function(userId){
-			return promiseGet('/userBank/?userId=' + userId);	
+			//return promiseGet('/userBank/?userId=' + userId);	
+			return promiseGet('/userBank');	
 		},
 		add : function(userBank){
 			//TODO: 添加一条User Bank记录，可以是支付宝，财付通，银行卡等
@@ -648,7 +651,8 @@ app.factory('userAddresses',['promisePost','promiseGet','promisePut',function(pr
 			return promiseGet('/useraddress/'+addressId);
 		},
 		query : function(userId){
-			return promiseGet('/useraddress/?userId'+userId);	
+			//return promiseGet('/useraddress/?userId'+userId);	
+			return promiseGet('/useraddress');	
 		},
 		add : function(userAddress){
 			return promisePost('/useraddress/', userAddress);
@@ -684,7 +688,8 @@ app.factory('sellerShops', ['promisePost','promiseGet','promisePut',function(pro
 		},
 		getAllShops : function(userId){
 			//TODO: 获取店铺绑定信息, 返回的是一个数组
-			return promiseGet('/sellerShop/?userId=' + userId);	
+			//return promiseGet('/sellerShop/?userId=' + userId);	
+			return promiseGet('/sellerShop');	
 		},
 		add : function(sellerShop){
 			//TODO: 添加店铺绑定信息
