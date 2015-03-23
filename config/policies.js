@@ -98,6 +98,18 @@ module.exports.policies = {
     'csv': true
   },
 
+  VWShopTask: {
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
+  },
+
+  VWTaskBuyer: {
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
+  },
+
   Test: {
     // no need to be logged in
     'log': true
