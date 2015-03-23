@@ -8,6 +8,9 @@
 module.exports = {
 
 
+  query: function (req, res) {
+    res.ok();
+  },
 
   publish: function (req, res) {
     var taskJson = req.param('taskJson');
