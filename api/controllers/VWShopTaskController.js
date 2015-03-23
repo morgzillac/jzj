@@ -47,6 +47,7 @@ module.exports = {
       res.json(results);
 //        res.jsonx(results);
     } else {
+      sails.log.error('VWShopTaskController', sails.config.errs.db_userdata_not_found);
       res.customError('508', sails.config.errs.db_userdata_not_found);
     }
   });
@@ -78,6 +79,7 @@ module.exports = {
         res.json(results);
 //        res.jsonx(results);
       } else {
+        sails.log.error('VWShopTaskController', sails.config.errs.db_userdata_not_found);
         res.customError('508', sails.config.errs.db_userdata_not_found);
       }
     });
