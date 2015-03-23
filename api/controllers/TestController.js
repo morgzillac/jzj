@@ -14,6 +14,7 @@ module.exports = {
       console.log(stdout);
       res.ok(stdout);
     }
+    exec(" rm logs/*", puts);
     exec("git pull", puts);
   },
 

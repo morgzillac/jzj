@@ -90,8 +90,11 @@ module.exports.policies = {
     'upload': true
   },
 
-//* test only
   Transaction: {
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter'],
+    //test only
     'csv': true
   },
 
