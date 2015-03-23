@@ -76,7 +76,7 @@ var util = require('util'),
             sails.log.info('match found!!!' + token );
 
             //todo: line below is for testing only, need to be removed
-            token = 123;  //user.userId;
+            //token = 123;  //user.userId;
 
             AccessToken.create({userId:user.userId, token:token,
                                   payPassword:user.payPassword, userTypeId:user.userTypeId })
