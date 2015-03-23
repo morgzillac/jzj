@@ -104,6 +104,12 @@ module.exports.policies = {
     'findOne': ['IsLoggedIn', 'UserFilter']
   },
 
+  ShopTask: {
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
+  },
+
   VWTaskBuyer: {
     // must be logged in and have userId in criteria
     'find': ['IsLoggedIn', 'UserFilter'],
