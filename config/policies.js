@@ -106,8 +106,8 @@ module.exports.policies = {
 
   ShopTask: {
     // must be logged in and have userId in criteria
-    'find': 'readonly',
-    'findOne': 'readonly'
+    'find': 'readonly'
+    //'findOne': 'readonly'
   },
 
   SellerShop: {
