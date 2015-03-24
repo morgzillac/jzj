@@ -382,10 +382,10 @@ app.factory('tasks', ['promisePost','promiseGet',function(promisePost,promiseGet
 			}
 			var skip = pageSize * (currentPage - 1);
 			queryPara += '&limit=' + pageSize + '&skip=' + skip;
-			return promiseGet('/shopTask/' + queryPara);
+			return promiseGet('/VWShopTask/' + queryPara);
 		},
-		get : function(taksId){
-			return promiseGet('/shopTask/' + taksId);
+		get : function(taskId){
+			return promiseGet('/shopTask/' + taskId);
 		},
 		statsShopOrderCount : function(shopId){
 			//TODO: 统计店铺最近发布任务的单数
