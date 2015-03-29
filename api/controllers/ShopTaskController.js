@@ -6,6 +6,15 @@
  */
 
 module.exports = {
+  create: function (req, res) {
+
+    ModelService.create(req, res, ShopTask,{});
+
+  },
+
+  update: function (req, res) {
+    ModelService.update(req, res, ShopTask,{});
+  },
 
   publish: function (req, res) {
     var taskJson = req.param('taskJson');
