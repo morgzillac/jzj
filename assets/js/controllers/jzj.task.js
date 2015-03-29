@@ -159,6 +159,9 @@ app.controller('TaskFlowCtrl',['$scope','$state','flowDatas','$stateParams','$lo
 		}		
 		$scope.flowData.taskPriority = $scope.flowData.taskDetail.taskPriority;
 	};
+	$scope.setCurrIndex = function(index){
+		$scope.currItemIndex = index;
+	};
 }]);
 //选择任务类型
 app.controller('TaskFlowItem1Ctrl',['$scope','flowDatas','sellerShops','taskTypes', 'platforms','tasks','$location','$modal','toaster', function($scope,flowDatas,sellerShops,taskTypes,platforms,tasks,$location,$modal,toaster){
@@ -256,6 +259,7 @@ app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scop
 			$scope.product = products.newEmpty();	
 			$scope.product.shopId = $scope.flowData.taskDetail.shopId;		
 		}							
+		$scope.setCurrIndex(1);
 	});
 	$scope.countProductTotalPrice = function(){
 		$scope.totalPrice = parseFloat($scope.product.productPrice) * parseInt($scope.flowData.taskDetail.productCount);
@@ -385,6 +389,7 @@ app.controller('TaskFlowItem3Ctrl',['$scope','platforms','sellerShops','productL
 		transProductKeywords();
 		checkProductKeywordCount();	
 		$scope.productLocation = productLocations.getAll();
+		$scope.setCurrIndex(2);
 	});
 	$scope.nextstep = function(isValid){
 		if (!isValid) {
@@ -401,9 +406,10 @@ app.controller('TaskFlowItem3Ctrl',['$scope','platforms','sellerShops','productL
 	$scope.countPoint = function(){
 		$scope.totalTasks = 0;
 		angular.forEach($scope.flowData.taskDetail.searchProductKeywords,function(value){
-			$scope.totalTasks = $scope.totalTasks + parseInt(value.totalTasks);
+			$scope.totalTasks = $scope.totalTasks + parseInt(value.orderQuantity);
 		});
 		$scope.flowData.taskDetail.totalTasks = $scope.totalTasks;
+
 		$scope.totalPoint = parseInt($scope.totalTasks) * 16.6;
 	};
 	$scope.addSearchKeyword = function(){		
@@ -465,6 +471,7 @@ app.controller('TaskFlowItem4Ctrl',['$scope','platforms','sellerShops', function
 		checkPraiseKeywordCount();
 		getPlatformName($scope.flowData.taskDetail.platformId);
 		getShopName($scope.flowData.taskDetail.shopId);
+		$scope.setCurrIndex(3);
 	});
 	$scope.nextstep = function(){
 		$scope.$emit('next-step', { "item" : $scope.thisItem, "flowData" : $scope.flowData });
@@ -543,7 +550,7 @@ app.controller('TaskFlowItem4Ctrl',['$scope','platforms','sellerShops', function
 	};
 }]);
 //支付
-app.controller('TaskFlowItem5Ctrl',['$scope', function($scope){
+app.controller('TaskFlowItem5Ctrl',['$scope','balances', function($scope,balances){
 	$scope.thisItem = "app.task.item5";
 	$scope.flowData = {}; 
 
@@ -551,8 +558,8 @@ app.controller('TaskFlowItem5Ctrl',['$scope', function($scope){
 		$scope.flowData = flowData;
 		countTotalDeposit();
 		countTotalPoint();
-		getMyPoint();
-		getMyPoint();
+		getMyBalance();		
+		$scope.setCurrIndex(4);
 	});
 	$scope.nextstep = function(){
 		$scope.$emit('next-step', { "item" : $scope.thisItem, "flowData" : $scope.flowData });
@@ -570,15 +577,11 @@ app.controller('TaskFlowItem5Ctrl',['$scope', function($scope){
 		//TODO: 需要计算订单所需符点
 		$scope.totalPoint = 0;
 	};
-	$scope.myDeposit = 0;
-	$scope.myPoint = 0;
-	var getMyPoint = function(){
-		//TODO: 获取可以符点数
-		$scope.myDeposit = 100;
-	};
-	var getMyPoint = function(){
-		//TODO: 获取可用押金
-		$scope.myPoint = 10;
+	$scope.balance = {};
+	var getMyBalance = function(){		
+		balances.get().then(function(result){
+			$scope.balance = result;
+		});
 	};
 }]);
 //发布成功

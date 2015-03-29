@@ -30,7 +30,7 @@ app.controller('SigninFormController', ['$scope', 'users', '$state', '$window','
           $window.localStorage.setItem("userSession", angular.toJson(result));
           app.userSession = result;
           $window.localStorage.setItem("token", headers('token'));
-          //$window.localStorage.setItem("token", 'opv8L');
+          //$window.localStorage.setItem("token", 'VPNiz');
           $state.go('app.dashboard-v1');
       }).error(function(reason, status, headers, config) {
           $scope.authError = reason.message;
