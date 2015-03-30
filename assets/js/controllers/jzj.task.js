@@ -73,16 +73,16 @@ app.controller('TaskFlowCtrl',['$scope','$state','flowDatas','$stateParams','$lo
 				$state.go($scope.flowItem[index]);
 			});
 		}else{	
-			if($scope.currItemIndex > 1){/*第一步不保存*/
+			//if($scope.currItemIndex > 1){/*第一步不保存，暂时有点问题，shopid没有存下来，所以先注掉*/
 				tasks.add($scope.flowData).then(function(result){
 					$scope.flowData = result;
 					$scope.flowData.taskDetail = angular.fromJson($scope.flowData.taskDetail);
 					$state.go($scope.flowItem[index]);
 				});
 
-			}else{
-				$state.go($scope.flowItem[index]);
-			}
+			//}else{
+			//	$state.go($scope.flowItem[index]);
+			//}
 		}		
 	});
 	$scope.$on('prev-step',function(event,data){
