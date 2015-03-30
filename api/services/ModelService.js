@@ -20,6 +20,9 @@ module.exports = {
     }
     data = extend({},data,ext);
     data.userId = req.userData.userId;
+    delete data.shopId;
+    console.log(data);
+
     model.create(data)
       .exec(function createCB(err, result) {
         if (err) {
@@ -46,7 +49,7 @@ module.exports = {
           res.customError('508', sails.config.errs.systemError('写入数据库错误:' + err.details ));
           console.log(err);
         } else {
-          res.ok(result[0].toJSON());
+          res.ok(result[0]);
         }
       });
   }

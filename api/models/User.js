@@ -2,7 +2,7 @@ var User = {
   // Enforce model schema in the case of schemaless databases
   schema: true,
 	"tableName": "t_user",
-  //migrate: 'drop',
+  migrate: 'alter',
   "attributes": {
     "userId": {
       "columnName": "user_id",
@@ -38,6 +38,10 @@ var User = {
       index: true,
       "type": "email",
       unique: true
+    },
+    "referrer": {
+      index: true,
+      "type": "string"
     },
     "qq": {
       "type": "string",
