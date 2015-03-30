@@ -393,6 +393,9 @@ app.factory('tasks', ['promisePost','promiseGet',function(promisePost,promiseGet
 		},
 		queryCount : function(condition){
 			return promiseGet('/query/count/?model=task&where=' + condition);
+		},
+		calcCost : function(shopTask){
+			return promisePost('/trans/calcCost', {"taskJson": angular.toJson(shopTask)});
 		}		
 	};
 }]);

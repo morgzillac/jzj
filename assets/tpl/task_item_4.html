@@ -88,49 +88,15 @@
               <th class="col-md-1">分类</th>
               <th class="col-md-4">费用明细</th>
               <th class="col-md-2">小计</th>
-              <th class="col-md-2">套餐</th>
-              <th class="col-md-1">优惠折扣</th>
-              <th class="col-md-2">合计</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>押金</td>
+            <tr ng-repeat="cate in calcCost.categories">
+              <td>{{cate.name}}</td>
               <td>
-                <h5>商品1：{{flowData.taskDetail.productId.productPrice}}元 X {{flowData.taskDetail.totalTasks}}</h5>
-                <h5>退款保障金： 每单30.95元</h5>
+                <h5 ng-repeat="item in cate.items track by $index">{{item.name}} = {{item.value}}</h5>                
               </td>
-              <td>{{flowData.taskDetail.productId.productPrice * flowData.taskDetail.totalTasks}}元</td>
-              <td>新手1单套餐1单</td>
-              <td>--</td>
-              <td>{{flowData.taskDetail.productId.productPrice}} X {{flowData.taskDetail.totalTasks}} = {{flowData.taskDetail.productId.productPrice * flowData.taskDetail.totalTasks}}元</td>
-            </tr> 
-            <tr>
-              <td>
-                <h5>赚点</h5>
-                <a class="text-info">收费说明</a>
-              </td>
-              <td>
-                <h5>套餐服务费： {{suiltPoint}}赚点</h5>
-              </td>
-              <td>{{suiltPoint}}赚点</td>
-              <td>新手1单套餐1单</td>
-              <td>--</td>
-              <td>{{suiltPoint}} X 1 = {{suiltPoint * 1}}赚点</td>
-            </tr> 
-            <tr>
-              <td>增值服务</td>
-              <td>
-                <h5>押金直接返款：{{fastRefundPoint}}赚点</h5>
-                <h5>提升完成任务速度：{{fastDonePoint}}赚点</h5>
-                <h5>优先审核：{{priorityReviewPoint}}赚点</h5>
-                <h5>加赏任务佣金：{{addtionPoint}}赚点</h5>
-                <h5>指定好评：{{qualityPraisePoint}}赚点</h5>
-              </td>
-              <td>{{fastRefundPoint + fastDonePoint + addtionPoint + priorityReviewPoint + qualityPraisePoint}}赚点</td>
-              <td>新手1单套餐1单</td>
-              <td>--</td>
-              <td>{{fastRefundPoint + fastDonePoint + addtionPoint + priorityReviewPoint + qualityPraisePoint}}赚点</td>
+              <td>{{cate.subtotal}}元</td>
             </tr>  
           </tbody>
         </table>
@@ -138,7 +104,7 @@
   </div>  
 
   <div class="row wrapper-md no-p-t">
-    <h4 class="text-right">费用合计  押金：<label class="text-danger">{{flowData.taskDetail.totalTasks * flowData.taskDetail.productId.productPrice}}</label>元  赚点：<label class="text-danger">{{((suiltPoint * 1) + fastRefundPoint + fastDonePoint + addtionPoint + priorityReviewPoint + qualityPraisePoint) | number:2}}</label>点</h4>
+    <h4 class="text-right">费用合计  押金：<label class="text-danger">{{calcCost.totalPts}}</label>元  赚点：<label class="text-danger">{{calcCost.total | number:2}}</label>元</h4>
   </div>
 
 </div>
