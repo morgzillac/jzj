@@ -14,7 +14,7 @@ module.exports = {
   },
 
 // read only model, edit through Trans controller
-  update: function (req, res) {
+  update1: function (req, res) {
     ModelService.update(req, res, SellerShop,{});
   }
 
