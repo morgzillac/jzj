@@ -12,7 +12,7 @@ module.exports = {
     ModelService.create(req, res, TaskBuyerActivity,{ipAddress:ipAddress});
   },
 
-  update: function (req, res) {
+  update1: function (req, res) {
     ModelService.update(req, res, TaskBuyerActivity, {});
   }
 

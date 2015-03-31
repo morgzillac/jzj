@@ -114,6 +114,19 @@ module.exports = {
         callback(false, false);
       }
     });
+  },
+
+  canTakeTask: function (taskId, cb) {
+      var query = ShopTask.findOne({taskId:taskId, select:['assigned','totalTasks']});
+      query.exec(function(err, result) {
+        if (err) cb(err);
+        if (result) {
+          cb (null, result.assigned < result.totalTasks);
+        }else{
+          cb (null, false);
+        }
+      });
+
   }
 
 };

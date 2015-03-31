@@ -60,6 +60,24 @@ module.exports = {
 
   },
 
+  beforeCreate: function (rec, next) {
+    //update assigned count in ShopTask
+    console.log('before create' + JSON.stringify(rec));
+      //todo: check whether we allow creating new
+      UtilsService.canTakeTask(taskId, function (err, result){
+        if (err) {
+          sails.log.error(err);
+          return false;
+        }
+        if (!result) {
+          sails.log.warn('任务已经完成，不能接单！');
+          return false;
+        }
+        next();
+      });
+
+  },
+
   afterCreate: function (rec, next) {
     //update assigned count in ShopTask
     console.log('after create' + JSON.stringify(rec));

@@ -14,8 +14,8 @@ module.exports = {
     var ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     ModelService.create(req, res, TaskBuyer,{ipAddress:ipAddress});
   },
-
-  update: function (req, res) {
+//** todo: check all update methods
+  update1: function (req, res) {
     ModelService.update(req, res, TaskBuyer, {});
   },
 

@@ -32,7 +32,15 @@ module.exports = {
     ShopTask.create(taskObj).exec(sails.log);
 
     res.ok();
-  }
+  },
 
+  canTakeTask: function (req, res) {
+    var taskId = req.param('taskId');
+    if (!taskId) return res.ok({result:fasle});
+     UtilsService.canTakeTask(taskId, function (err, result){
+       if (err) res.customError('508', sails.config.errs.systemError());
+       return res.ok({result:result});
+     });
+  }
 };
 
