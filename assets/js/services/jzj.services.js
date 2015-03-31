@@ -958,3 +958,33 @@ app.factory('attachmentType',['promiseGet',function(promiseGet){
 		}
 	};
 }]);
+/*网站公告状态定义*/
+app.factory('postStatus',['promiseGet',function(promiseGet){
+	return {
+		getAll : function(){
+			return [
+				{id:1,name:"正常"},
+				{id:2,name:"过期"}
+			];
+		}
+	};
+}]);
+/*网站公告类型定义*/
+app.factory('postType',['promiseGet',function(promiseGet){
+	return {
+		getAll : function(){
+			return [
+				{id:1,name:"网站公告"},
+				{id:2,name:"常见问题"}
+			];
+		}
+	};
+}]);
+/*网站公告*/
+app.factory('posts',['promiseGet',function(promiseGet){
+	return {
+		get : function(postType){
+			return promiseGet('/post?sort=createdAt DESC&limit=8&postType=' + postType + '&statusId=1');
+		}
+	};
+}]);

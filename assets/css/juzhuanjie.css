@@ -67,10 +67,10 @@
     float: left;
     padding: 10px;
 }
-.m-panel-heading a:hover{
+/*.m-panel-heading a:hover{
     color: #fff;
     background: #e67814;
-}
+}*/
 .m-panel .title-danger{
     color: #fff;
 }
@@ -124,4 +124,18 @@
     max-width: 200px;
     max-height: 200px;
     cursor: pointer;
+}
+.post-item a:hover
+{
+    text-decoration: underline;
+    color:#23b7e5;
+}
+.right-slide-box
+{
+    position: fixed;
+    right: 0px;
+    top: 0;
+    transition: right 0.2s ease 0s;
+    width: 540px;
+    z-index: 1050;
 }
