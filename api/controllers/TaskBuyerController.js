@@ -15,7 +15,7 @@ module.exports = {
     ModelService.create(req, res, TaskBuyer,{ipAddress:ipAddress});
   },
 
-  update: function (req, res) {
+  update1: function (req, res) {
     ModelService.update(req, res, TaskBuyer, {});
   },
 
