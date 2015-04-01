@@ -145,6 +145,9 @@ app.controller('TaskFlowCtrl',['$scope','$state','flowDatas','$stateParams','$lo
 		$scope.flowData.taskTypeId = $scope.flowData.taskDetail.taskTypeId;
 		$scope.flowData.productId = $scope.flowData.taskDetail.productId;
 		$scope.flowData.productPrice = $scope.flowData.taskDetail.productPrice;
+		if($scope.flowData.taskDetail.totalTasks){
+			$scope.flowData.totalTasks = $scope.flowData.taskDetail.totalTasks;	
+		}		
 		if($scope.flowData.taskDetail.includeShipping){
 			$scope.flowData.includeShipping = 1;
 		}else{
@@ -164,7 +167,7 @@ app.controller('TaskFlowCtrl',['$scope','$state','flowDatas','$stateParams','$lo
 	};
 }]);
 //选择任务类型
-app.controller('TaskFlowItem1Ctrl',['$scope','flowDatas','sellerShops','taskTypes', 'platforms','tasks','$location','$modal','toaster', function($scope,flowDatas,sellerShops,taskTypes,platforms,tasks,$location,$modal,toaster){
+app.controller('TaskFlowItem1Ctrl',['$scope','flowDatas','sellerShops','taskTypes', 'platforms','tasks','$location','slidebox','toaster', function($scope,flowDatas,sellerShops,taskTypes,platforms,tasks,$location,slidebox,toaster){
 	var userId = app.userSession.userId;
 	$scope.thisItem = "app.task.item1";
 	$scope.selectedPlatform = -1;
@@ -229,16 +232,11 @@ app.controller('TaskFlowItem1Ctrl',['$scope','flowDatas','sellerShops','taskType
 	    });
 	};
 	$scope.viewTaskRule = function () {
-      var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/task_rule.html',
-        controller: 'TaskRuleCtrl'
-      });
+      slidebox.pop('tpl/slide/task_rule.html');
     };
 }]);
 app.controller('TaskRuleCtrl',['$scope','$modalInstance',function($scope,$modalInstance){
-	$scope.close = function () {
-      $modalInstance.close();
-    };
+	
 }]);
 //填写商品信息
 app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scope,products,$modal){
@@ -616,7 +614,7 @@ app.controller('TaskFlowItem6Ctrl',['$scope','$timeout', function($scope,$timeou
 	};
 }]);
 //待处理的任务
-app.controller('PendingTaskCtrl',['$scope','$stateParams','platforms','taskLists','$modal',function($scope,$stateParams,platforms,taskLists,$modal){
+app.controller('PendingTaskCtrl',['$scope','$stateParams','platforms','taskLists','slidebox',function($scope,$stateParams,platforms,taskLists,slidebox){
 	$scope.platformName = "";
 	$scope.platformId = -1;
 	$scope.statusId = 4;
@@ -642,15 +640,7 @@ app.controller('PendingTaskCtrl',['$scope','$stateParams','platforms','taskLists
 	    });
 	};
 	$scope.viewDetail = function (taskId) {
-      var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/task_detail.html',
-        controller: 'TaskDetailCtrl',
-        resolve: {
-          data: function () {
-            return { "id": taskId};
-          }
-        }
-      });
+      slidebox.pop('tpl/slide/task_details.html',{"taskId":taskId});
     };
 }]);
 app.controller('TaskBuyerCtrl',['$scope','taskBuyers',function($scope,taskBuyers){
@@ -682,7 +672,7 @@ app.controller('TaskBuyerCtrl',['$scope','taskBuyers',function($scope,taskBuyers
 	};
 }]);
 //进行中的任务
-app.controller('VTaskListCtrl',['$scope','$stateParams','platforms','taskStatuss','taskLists','$modal','tasks','toaster',function($scope,$stateParams,platforms,taskStatuss,taskLists,$modal,tasks,toaster){
+app.controller('VTaskListCtrl',['$scope','$stateParams','platforms','taskStatuss','taskLists','tasks','toaster','slidebox',function($scope,$stateParams,platforms,taskStatuss,taskLists,tasks,toaster,slidebox){
 	$scope.statusId = 1;
 	$scope.platformId = 1;
 	$scope.statusName = "";
@@ -728,28 +718,18 @@ app.controller('VTaskListCtrl',['$scope','$stateParams','platforms','taskStatuss
 		});		
 	};
 	$scope.viewDetail = function (taskId) {
-      var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/task_detail.html',
-        controller: 'TaskDetailCtrl',
-        resolve: {
-          data: function () {
-            return { "id": taskId};
-          }
-        }
-      });
+		slidebox.pop('tpl/slide/task_details.html',{"taskId":taskId});
     };    
 }]);
 //查看任务详细 Ctrl
-app.controller('TaskDetailCtrl',['$scope', '$modalInstance','data', 'tasks',function($scope, $modalInstance, data, tasks){
-	$scope.taskDetail = {};
-	$scope.$watch('$viewContentLoaded',function(){
-		tasks.get(data.id).then(function(result){
+app.controller('TaskDetailCtrl',['$scope', 'tasks','slidebox',function($scope, tasks, slidebox){
+	$scope.taskDetail = {};	
+	$scope.load = function() {
+		$scope.taskId = slidebox.config.data.taskId
+		tasks.get($scope.taskId).then(function(result){
 			$scope.taskDetail = result;
 		});
-	});
-	$scope.close = function () {
-      $modalInstance.close();
-    };
+	};
 }]);
 //查询任务
 app.controller('TaskListCtrl',['$scope','$stateParams','taskStatuss','tasks',function($scope,$stateParams,taskStatuss,tasks){

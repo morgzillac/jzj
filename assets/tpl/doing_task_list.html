@@ -58,9 +58,9 @@
           <div class="panel-heading">    
             <div class="row">
               <div class="col-md-1">店铺</div>                
-              <div class="col-md-3">商品</div>                
-              <div class="col-md-1">购买件数</div>   
-              <div class="col-md-1">商品单价</div>                
+              <div class="col-md-3">商品</div>                              
+              <div class="col-md-1">商品单价</div>   
+              <div class="col-md-1">购买件数</div>                
               <div class="col-md-2">垫付资金</div>                
               <div class="col-md-1">佣金</div>                
               <div class="col-md-1">任务总数</div>                
@@ -74,7 +74,7 @@
               <div class="col-md-3"><a ng-click="viewDetail(t.taskId)" class="text-info">{{t.productName}}</a></div>                
               <div class="col-md-1">{{t.shopProductPrice}}</div>                
               <div class="col-md-1">{{t.taskProductPrice / t.shopProductPrice}}</div>                
-              <div class="col-md-2">{{t.taskProductPrice}}</div>                
+              <div class="col-md-2">{{t.totalTasks * t.shopProductPrice}}</div>                
               <div class="col-md-1">{{t.commission}}赚点</div>                
               <div class="col-md-1">{{t.totalTasks}}单</div>                
               <div class="col-md-1">

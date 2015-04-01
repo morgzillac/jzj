@@ -3,9 +3,10 @@
 
 angular.module('slidebox', ['ngAnimate'])
 .service('slidebox', ['$rootScope', function ($rootScope) {
-    this.pop = function (url) {
+    this.pop = function (url,data) {
         this.config = {
-            "url": url
+            "url": url,
+            "data":data
         };
         $rootScope.$broadcast('slidebox-new');
     };
@@ -30,7 +31,7 @@ function ($compile, $sce, slidebox,$animate) {
             };
 
             scope.$on('slidebox-new', function () {
-                console.log(slidebox.config.url);
+
                 elm.animate({height:'0px',width:'0px'},0.1);
                 scope.config.visible = true;
                 scope.config.url = slidebox.config.url;
