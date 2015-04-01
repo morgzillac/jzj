@@ -12,7 +12,7 @@ module.exports = {
 
   },
 
-  update1: function (req, res) {
+  update: function (req, res) {
     ModelService.update(req, res, BuyerAccount,{});
   },
 

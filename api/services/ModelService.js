@@ -54,7 +54,7 @@ module.exports = {
     });
   },
 
-  update: function(req, res, model, ext){
+  update: function(req, res, model, ext) {
 
 
     // Look up the model
@@ -67,9 +67,17 @@ module.exports = {
     // But omit the blacklisted params (like JSONP callback param, etc.)
     var values = actionUtil.parseValues(req);
 
+    // error is userId is not current login user
+    if (values.userId && values.userId != req.userData.userId) {
+      return res.customError('508', sails.config.errs.access_notTheUser);
+    }
+
+    console.log('before', values);
+
     //** add user Id and extra values
-    values = extend({},values,ext);
+    values = extend({}, values, ext);
     values.userId = req.userData.userId;
+    console.log('after', values);
 
     // Omit the path parameter `id` from values, unless it was explicitly defined
     // elsewhere (body/query):
@@ -109,7 +117,9 @@ module.exports = {
         // If we have the pubsub hook, use the Model's publish method
         // to notify all subscribers about the update.
         if (req._sails.hooks.pubsub) {
-          if (req.isSocket) { Model.subscribe(req, records); }
+          if (req.isSocket) {
+            Model.subscribe(req, records);
+          }
           Model.publishUpdate(pk, _.cloneDeep(values), !req.options.mirror && req, {
             previous: matchingRecord.toJSON()
           });
@@ -129,25 +139,5 @@ module.exports = {
         }); // </foundAgain>
       });// </updated>
     }); // </found>
-
-
-    var data = req.params.all();
-    if (!data){
-      res.serverError('数据错误');
-    } else if (data.userId && data.userId != req.userData.userId){
-      res.customError('508', sails.config.errs.access_notTheUser);
-    }
-    extend(data,ext);
-    model.update({userId:req.userData.userId},data)
-      .exec(function createCB(err, result) {
-        if (err) {
-          res.customError('508', sails.config.errs.systemError('写入数据库错误:' + err.details ));
-          console.log(err);
-        } else {
-          res.ok(result[0]);
-        }
-      });
   }
-
-
 }
