@@ -989,7 +989,7 @@ app.factory('postType',['promiseGet',function(promiseGet){
 app.factory('posts',['promiseGet',function(promiseGet){
 	return {
 		get : function(postType){
-			return promiseGet('/post?sort=createdAt DESC&limit=8&postType=' + postType + '&statusId=1');
+			return promiseGet('/post?sort=createdAt ASC&limit=8&postType=' + postType + '&statusId=1');
 		}
 	};
 }]);
