@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-  //migrate: 'drop',
+  migrate: 'alter',
   "attributes": {
     "taskId": {
       "columnName": "task_id",
@@ -15,12 +15,14 @@ module.exports = {
       "type": "integer",
       "primaryKey": true
     },
-
+    "userId":{
+      "columnName":"user_id",
+      "type": "integer"
+    },
     "shopId":{
       "columnName":"shop_id",
       "type": "integer"
     },
-
     "productId": {
       "columnName": "product_id",
       model:'ShopProduct',

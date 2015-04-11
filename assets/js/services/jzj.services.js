@@ -385,10 +385,10 @@ app.factory('tasks', ['promisePost','promiseGet',function(promisePost,promiseGet
 			}
 			var skip = pageSize * (currentPage - 1);
 			queryPara += '&limit=' + pageSize + '&skip=' + skip;
-			return promiseGet('/shopTask/' + queryPara);
+			return promiseGet('/VWShopTask/' + queryPara);
 		},
-		get : function(taksId){
-			return promiseGet('/shopTask/' + taksId);
+		get : function(taskId){
+			return promiseGet('/shopTask/' + taskId);
 		},
 		statsShopOrderCount : function(shopId){
 			//TODO: 统计店铺最近发布任务的单数
@@ -396,6 +396,9 @@ app.factory('tasks', ['promisePost','promiseGet',function(promisePost,promiseGet
 		},
 		queryCount : function(condition){
 			return promiseGet('/query/count/?model=task&where=' + condition);
+		},
+		calcCost : function(shopTask){
+			return promisePost('/trans/calcCost', {"taskJson": angular.toJson(shopTask)});
 		}		
 	};
 }]);
@@ -955,6 +958,36 @@ app.factory('attachmentType',['promiseGet',function(promiseGet){
 				{id:3,name:"productImg",remark:"产品截图信息"},
 				{id:4,name:"otherImg",remark:"其他"}
 			];
+		}
+	};
+}]);
+/*网站公告状态定义*/
+app.factory('postStatus',['promiseGet',function(promiseGet){
+	return {
+		getAll : function(){
+			return [
+				{id:1,name:"正常"},
+				{id:2,name:"过期"}
+			];
+		}
+	};
+}]);
+/*网站公告类型定义*/
+app.factory('postType',['promiseGet',function(promiseGet){
+	return {
+		getAll : function(){
+			return [
+				{id:1,name:"网站公告"},
+				{id:2,name:"常见问题"}
+			];
+		}
+	};
+}]);
+/*网站公告*/
+app.factory('posts',['promiseGet',function(promiseGet){
+	return {
+		get : function(postType){
+			return promiseGet('/post?sort=createdAt DESC&limit=8&postType=' + postType + '&statusId=1');
 		}
 	};
 }]);

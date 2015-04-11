@@ -142,15 +142,12 @@
   <!--网站公布-->
   <div class="m-panel m-t">
     <div class="m-panel-heading">
-      <a class="m-panel-title bg-jzj title-danger">网站公告</a>
-      <a class="m-panel-title title-default">常见问题</a>
+      <a ng-class="{'bg-jzj title-danger':postType==1}" ng-click="showPost(1)" class="m-panel-title">网站公告</a>
+      <a ng-class="{'bg-jzj title-danger':postType==2}" ng-click="showPost(2)" class="m-panel-title">常见问题</a>
     </div>    
     <div class="m-panel-body">
       <ul class="padder-lg">
-          <li class="text-danger"><a>关于发布任务单数大于20单，分时发布必选公告</a><span class="m-l-lg text-muted">2015-1-1</span></li>    
-          <li class="text-danger"><a>关于发布任务单数大于20单，分时发布必选公告</a><span  class="m-l-lg text-muted">2015-1-1</span></li>   
-          <li class="text-danger"><a>关于发布任务单数大于20单，分时发布必选公告</a><span  class="m-l-lg text-muted">2015-1-1</span></li>   
-          <li class="text-danger"><a>关于发布任务单数大于20单，分时发布必选公告</a><span  class="m-l-lg text-muted">2015-1-1</span></li>   
+          <li class="text-danger post-item" ng-repeat="p in postList"><a ng-click="popPost(p)">{{p.title}}</a><span class="pull-right m-l-lg text-muted">{{p.createdAt | date : 'yyyy-MM-dd' : 'Z'}}</span></li>     
         </ul>
     </div>    
   </div>

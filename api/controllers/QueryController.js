@@ -21,7 +21,9 @@ module.exports = {
         if (bal) {
               res.json(bal);
         } else {
-          res.customError('508', sails.config.errs.db_userdata_not_found);
+         // sails.log.error('QueryController', sails.config.errs.db_userdata_not_found);
+          res.json({});
+
         }
 
       })

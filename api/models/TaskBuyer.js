@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-//  migrate: 'drop',
+  migrate: 'alter',
   "attributes": {
     "taskBuyerId": {
       "columnName": "task_buyer_id",
@@ -57,6 +57,24 @@ module.exports = {
       "type": "string",
       "size": 45
     }
+
+  },
+
+  beforeCreate: function (rec, next) {
+    //update assigned count in ShopTask
+    console.log('before create' + JSON.stringify(rec));
+      //todo: check whether we allow creating new
+      UtilsService.canTakeTask(rec.taskId, function (err, result){
+        if (err) {
+          sails.log.error(err);
+          next(err);
+        }
+        if (!result) {
+          sails.log.warn('任务已经完成，不能接单！');
+          next(new Error('任务已经完成，不能接单！'));
+        }
+        next();
+      });
 
   },
 

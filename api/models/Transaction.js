@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-//  migrate: 'drop',
+  migrate: 'alter',
   "attributes": {
     "transactId": {
       "columnName": "transact_id",
@@ -21,39 +21,48 @@ module.exports = {
     },
     "cashIn": {
       "columnName": "cash_in",
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "cashOut": {
       "columnName": "cash_out",
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "pointsIn": {
       "columnName": "points_in",
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "pointsOut": {
       "columnName": "points_out",
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "pointsBalance": {
       "columnName": "points_balance",
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "cashBalance": {
       "columnName": "cash_balance",
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "frozenBalance": {
       "columnName": "frozen_balance",
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "typeId": {
       "columnName": "type_id",
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "comment": {
       "columnName": "comment",
       "type": "string",
+      "defaultsTo": "",
       "size": 500
     },
     "createdAt": {

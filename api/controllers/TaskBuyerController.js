@@ -14,9 +14,10 @@ module.exports = {
     var ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     ModelService.create(req, res, TaskBuyer,{ipAddress:ipAddress});
   },
-
+//** todo: check all update methods
   update: function (req, res) {
-    ModelService.update(req, res, TaskBuyer, {});
+    var ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    ModelService.update(req, res, TaskBuyer, {ipAddress:ipAddress});
   },
 
 
@@ -34,6 +35,7 @@ module.exports = {
         res.json(results);
 //        res.jsonx(results);
       } else {
+        sails.log.error('TasKbuyerController', sails.config.errs.db_userdata_not_found);
         res.customError('508', sails.config.errs.db_userdata_not_found);
       }
     });

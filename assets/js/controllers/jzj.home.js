@@ -1,7 +1,7 @@
 'use strict';
 
 // controller
-app.controller('HomeController', ['$scope', '$state','tasks','taskBuyers','points2cashs','recharges','cashouts', function($scope, $state,tasks,taskBuyers,points2cashs,recharges,cashouts) {
+app.controller('HomeController', ['$scope', '$state','tasks','taskBuyers','points2cashs','recharges','cashouts','posts','slidebox', function($scope, $state,tasks,taskBuyers,points2cashs,recharges,cashouts,posts,slidebox) {
   var userId = app.userSession.userId;
   $scope.$watch('$viewContentLoaded',function(){
     queryFinishTaskCount();
@@ -10,6 +10,7 @@ app.controller('HomeController', ['$scope', '$state','tasks','taskBuyers','point
     queryBuyer1TaskCount();
     queryBuyer2TaskCount();
     queryBuyer3TaskCount();
+    loadPost();
   });
   $scope.finishTaskCount = 0;
   var queryFinishTaskCount = function(){
@@ -53,21 +54,6 @@ app.controller('HomeController', ['$scope', '$state','tasks','taskBuyers','point
         $scope.buyer3TaskCount = result.count;
       });
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   $scope.isShowTransHistory = false;
   $scope.transHistoryX = 0;
   $scope.transHistoryY = 0;
@@ -106,5 +92,21 @@ app.controller('HomeController', ['$scope', '$state','tasks','taskBuyers','point
       $scope.cashoutList = result;
     });
   };
+  /*网站公告*/
+  $scope.postType = 1;
+  $scope.postList = {};
+  var loadPost =function(){
+    posts.get($scope.postType).then(function(result){
+      $scope.postList = result;
+    });
+  };
+  $scope.showPost = function(postType){
+    $scope.postType = postType;
+    loadPost();
+  };
+  $scope.popPost =function(post){
+    slidebox.pop(post.filePath);
+  };
+
 }]);
 

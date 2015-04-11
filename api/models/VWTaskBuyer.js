@@ -12,7 +12,7 @@ module.exports = {
   autoUpdatedAt: false,
   autoPK: false,
 
-      "attributes": {
+  "attributes": {
     "taskBuyerId": {
       "columnName": "task_buyer_id",
       "required": true,

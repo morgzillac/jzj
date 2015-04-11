@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-//  migrate: 'drop',
+  migrate: 'alter',
   "attributes": {
     "cashoutId": {
       "columnName": "cashout_id",
@@ -20,13 +20,16 @@ module.exports = {
       "type": "integer"
     },
     "amount": {
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "points": {
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "fee": {
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "userBankId": {
       "model":"UserBank",

@@ -30,8 +30,16 @@ module.exports = {
 
  pending: function (req, res) {
 
+   var userId = 9999;
+
+   // get user ID of the current logged in user
+   if (req.userData && req.userData.userId) {
+     userId = req.userData.userId;
+   }
    var criteria = actionUtil.parseCriteria(req);
+
    criteria.pending = { '>': 0 };
+   criteria.userId = userId;
    var query = VWShopTask.find()
      .where(criteria)
      .limit(actionUtil.parseLimit(req))
@@ -47,6 +55,7 @@ module.exports = {
       res.json(results);
 //        res.jsonx(results);
     } else {
+      sails.log.error('VWShopTaskController', sails.config.errs.db_userdata_not_found);
       res.customError('508', sails.config.errs.db_userdata_not_found);
     }
   });
@@ -54,7 +63,14 @@ module.exports = {
 },
 
   assigned: function (req, res) {
+    var userId = 9999;
+    // get user ID of the current logged in user
+    if (req.userData && req.userData.userId) {
+      userId = req.userData.userId;
+    }
+
     var criteria = actionUtil.parseCriteria(req);
+    criteria.userId = userId;
     criteria.pending = { '>': 0 };
     var query = VWShopTask.find()
       .where(criteria)
@@ -78,6 +94,7 @@ module.exports = {
         res.json(results);
 //        res.jsonx(results);
       } else {
+        sails.log.error('VWShopTaskController', sails.config.errs.db_userdata_not_found);
         res.customError('508', sails.config.errs.db_userdata_not_found);
       }
     });

@@ -10,7 +10,7 @@
 <div class="wrapper-md bg-white">
     <!--过滤条件-->
     <div class="row" ng-controller="TaskFilterCtrl" ng-init="initTaskByStatus()">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <label class="font-bold">平台：</label>
         <div class="btn-group">
           <select class="form-control" ng-model="condition.platformId">
@@ -19,7 +19,7 @@
           </select>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <label class="font-bold">店铺：</label>      
         <div class="btn-group">
           <select class="form-control" ng-model="condition.shopId">
@@ -37,7 +37,7 @@
           </select>
         </div>
       </div>
-      <div class="col-md-2 hide">
+      <!-- <div class="col-md-2 hide">
         <label class="font-bold">终端：</label>      
         <div class="btn-group">
           <select class="form-control" ng-model="condition.terminalId">
@@ -45,7 +45,7 @@
             <option ng-repeat="t in terminals" value="{{t.id}}">{{t.name}}</option>
           </select>
         </div>
-      </div>
+      </div> -->
       <div class="col-md-2">
         <button class="btn btn-jzj" ng-click="query()">查询</button>
       </div>
@@ -57,8 +57,8 @@
         <div class="panel panel-danger" ng-repeat="t in taskList">
           <div class="panel-body">
             <div class="row">
-                <div class="col-md-2"><label><span class="label bg-danger">T</span>{{getShopName(t.taskDetail)}}</label></div>                
-                <div class="col-md-4"><a ui-sref="app.task({id:{{t.taskId}}})" class="text-info">{{t.productId.productName}}</a></div>                
+                <div class="col-md-2"><label><span class="label bg-danger">T</span>{{t.shopName}}</label></div>                
+                <div class="col-md-4"><a ui-sref="app.task({id:{{t.taskId}}})" class="text-info">{{t.productName}}</a></div>                
                 <div class="col-md-6 text-right"><a ui-sref="app.task({id:{{t.taskId}}})" class="btn btn-info ">继续发布</a></div>
             </div>              
           </div>

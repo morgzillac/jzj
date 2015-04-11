@@ -13,7 +13,8 @@ module.exports = {
   },
 
   update: function (req, res) {
-    ModelService.update(req, res, TaskBuyerActivity, {});
+    var ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    ModelService.update(req, res, TaskBuyerActivity, {ipAddress:ipAddress});
   }
 
 };

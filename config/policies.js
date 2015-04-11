@@ -90,9 +90,42 @@ module.exports.policies = {
     'upload': true
   },
 
-//* test only
   Transaction: {
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter'],
+    //test only
     'csv': true
+  },
+
+  VWShopTask: {
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
+  },
+
+  ShopTask: {
+    // must be logged in and have userId in criteria
+    'find': 'readonly'
+    //'findOne': 'readonly'
+  },
+
+  SellerShop: {
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
+  },
+
+  UserBank: {
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
+  },
+
+  VWTaskBuyer: {
+    // must be logged in and have userId in criteria
+    'find': ['IsLoggedIn', 'UserFilter'],
+    'findOne': ['IsLoggedIn', 'UserFilter']
   },
 
   Test: {

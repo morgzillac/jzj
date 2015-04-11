@@ -73,16 +73,16 @@ app.controller('TaskFlowCtrl',['$scope','$state','flowDatas','$stateParams','$lo
 				$state.go($scope.flowItem[index]);
 			});
 		}else{	
-			if($scope.currItemIndex > 1){/*第一步不保存*/
+			//if($scope.currItemIndex > 1){/*第一步不保存，暂时有点问题，shopid没有存下来，所以先注掉*/
 				tasks.add($scope.flowData).then(function(result){
 					$scope.flowData = result;
 					$scope.flowData.taskDetail = angular.fromJson($scope.flowData.taskDetail);
 					$state.go($scope.flowItem[index]);
 				});
 
-			}else{
-				$state.go($scope.flowItem[index]);
-			}
+			//}else{
+			//	$state.go($scope.flowItem[index]);
+			//}
 		}		
 	});
 	$scope.$on('prev-step',function(event,data){
@@ -145,6 +145,9 @@ app.controller('TaskFlowCtrl',['$scope','$state','flowDatas','$stateParams','$lo
 		$scope.flowData.taskTypeId = $scope.flowData.taskDetail.taskTypeId;
 		$scope.flowData.productId = $scope.flowData.taskDetail.productId;
 		$scope.flowData.productPrice = $scope.flowData.taskDetail.productPrice;
+		if($scope.flowData.taskDetail.totalTasks){
+			$scope.flowData.totalTasks = $scope.flowData.taskDetail.totalTasks;	
+		}		
 		if($scope.flowData.taskDetail.includeShipping){
 			$scope.flowData.includeShipping = 1;
 		}else{
@@ -159,9 +162,12 @@ app.controller('TaskFlowCtrl',['$scope','$state','flowDatas','$stateParams','$lo
 		}		
 		$scope.flowData.taskPriority = $scope.flowData.taskDetail.taskPriority;
 	};
+	$scope.setCurrIndex = function(index){
+		$scope.currItemIndex = index;
+	};
 }]);
 //选择任务类型
-app.controller('TaskFlowItem1Ctrl',['$scope','flowDatas','sellerShops','taskTypes', 'platforms','tasks','$location','$modal','toaster', function($scope,flowDatas,sellerShops,taskTypes,platforms,tasks,$location,$modal,toaster){
+app.controller('TaskFlowItem1Ctrl',['$scope','flowDatas','sellerShops','taskTypes', 'platforms','tasks','$location','slidebox','toaster', function($scope,flowDatas,sellerShops,taskTypes,platforms,tasks,$location,slidebox,toaster){
 	var userId = app.userSession.userId;
 	$scope.thisItem = "app.task.item1";
 	$scope.selectedPlatform = -1;
@@ -226,16 +232,11 @@ app.controller('TaskFlowItem1Ctrl',['$scope','flowDatas','sellerShops','taskType
 	    });
 	};
 	$scope.viewTaskRule = function () {
-      var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/task_rule.html',
-        controller: 'TaskRuleCtrl'
-      });
+      slidebox.pop('tpl/slide/task_rule.html');
     };
 }]);
 app.controller('TaskRuleCtrl',['$scope','$modalInstance',function($scope,$modalInstance){
-	$scope.close = function () {
-      $modalInstance.close();
-    };
+	
 }]);
 //填写商品信息
 app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scope,products,$modal){
@@ -256,6 +257,7 @@ app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scop
 			$scope.product = products.newEmpty();	
 			$scope.product.shopId = $scope.flowData.taskDetail.shopId;		
 		}							
+		$scope.setCurrIndex(1);
 	});
 	$scope.countProductTotalPrice = function(){
 		$scope.totalPrice = parseFloat($scope.product.productPrice) * parseInt($scope.flowData.taskDetail.productCount);
@@ -385,6 +387,7 @@ app.controller('TaskFlowItem3Ctrl',['$scope','platforms','sellerShops','productL
 		transProductKeywords();
 		checkProductKeywordCount();	
 		$scope.productLocation = productLocations.getAll();
+		$scope.setCurrIndex(2);
 	});
 	$scope.nextstep = function(isValid){
 		if (!isValid) {
@@ -401,9 +404,10 @@ app.controller('TaskFlowItem3Ctrl',['$scope','platforms','sellerShops','productL
 	$scope.countPoint = function(){
 		$scope.totalTasks = 0;
 		angular.forEach($scope.flowData.taskDetail.searchProductKeywords,function(value){
-			$scope.totalTasks = $scope.totalTasks + parseInt(value.totalTasks);
+			$scope.totalTasks = $scope.totalTasks + parseInt(value.orderQuantity);
 		});
 		$scope.flowData.taskDetail.totalTasks = $scope.totalTasks;
+
 		$scope.totalPoint = parseInt($scope.totalTasks) * 16.6;
 	};
 	$scope.addSearchKeyword = function(){		
@@ -451,7 +455,7 @@ app.controller('TaskFlowItem3Ctrl',['$scope','platforms','sellerShops','productL
 	};
 }]);
 //选择增值服务
-app.controller('TaskFlowItem4Ctrl',['$scope','platforms','sellerShops', function($scope,platforms,sellerShops){
+app.controller('TaskFlowItem4Ctrl',['$scope','platforms','sellerShops','tasks', function($scope,platforms,sellerShops,tasks){
 	$scope.thisItem = "app.task.item4";
 	$scope.flowData = {}; 
 	$scope.isBindPraiseKeyword = true;
@@ -465,6 +469,7 @@ app.controller('TaskFlowItem4Ctrl',['$scope','platforms','sellerShops', function
 		checkPraiseKeywordCount();
 		getPlatformName($scope.flowData.taskDetail.platformId);
 		getShopName($scope.flowData.taskDetail.shopId);
+		$scope.setCurrIndex(3);
 	});
 	$scope.nextstep = function(){
 		$scope.$emit('next-step', { "item" : $scope.thisItem, "flowData" : $scope.flowData });
@@ -472,36 +477,42 @@ app.controller('TaskFlowItem4Ctrl',['$scope','platforms','sellerShops', function
 	$scope.prevstep = function(){
 		$scope.$emit('prev-step', { "item" : $scope.thisItem, "flowData" : $scope.flowData });
 	};
-	$scope.suiltPoint = 16.6;
-	$scope.fastRefundPoint = 0;
-	$scope.fastDonePoint = 0;
-	$scope.addtionPoint = 0;
-	$scope.priorityReviewPoint = 0;
-	$scope.qualityPraisePoint = 0;
-
-	$scope.countTotal = function(){
-		if($scope.flowData.taskDetail.agreeFastRefunds){
-			$scope.fastRefundPoint = 1 * $scope.flowData.productId.productPrice * 0.006;
-			$scope.flowData.taskDetail.totalPoint += (1 * parseFloat($scope.flowData.productId.productPrice) * 0.006);
-		}
-		if($scope.flowData.taskDetail.taskPriority > 0){
-			$scope.fastDonePoint = $scope.flowData.taskDetail.taskPriority;
-			$scope.flowData.taskDetail.totalPoint += parseFloat($scope.flowData.taskDetail.taskPriority);
-		}
-		if($scope.flowData.taskDetail.agreeBonus){
-			$scope.addtionPoint = $scope.flowData.taskDetail.bonusPoint;
-			$scope.flowData.taskDetail.totalPoint +=  parseFloat($scope.flowData.taskDetail.bonusPoint);
-		}
-		if($scope.flowData.taskDetail.agreeApprovalPriority){
-			$scope.priorityReviewPoint = 5;
-			$scope.flowData.taskDetail.totalPoint += 5;
-		}
-		if($scope.flowData.taskDetail.agreeQualityPraise){
-			$scope.qualityPraisePoint = 1 * $scope.flowData.totalTasks;
-			$scope.flowData.taskDetail.totalPoint += 1 * $scope.flowData.totalTasks;
-		}
-		$scope.flowData.taskDetail.totalCash = parseInt($scope.flowData.totalTasks) * parseFloat($scope.flowData.productId.productPrice);
+	$scope.calcCost = {};
+	$scope.countTotal = function(){		
+		tasks.calcCost($scope.flowData).then(function(result){
+			$scope.calcCost = result;
+		});
 	};
+	// $scope.suiltPoint = 16.6;
+	// $scope.fastRefundPoint = 0;
+	// $scope.fastDonePoint = 0;
+	// $scope.addtionPoint = 0;
+	// $scope.priorityReviewPoint = 0;
+	// $scope.qualityPraisePoint = 0;
+
+	// $scope.countTotal = function(){
+	// 	if($scope.flowData.taskDetail.agreeFastRefunds){
+	// 		$scope.fastRefundPoint = 1 * $scope.flowData.productId.productPrice * 0.006;
+	// 		$scope.flowData.taskDetail.totalPoint += (1 * parseFloat($scope.flowData.productId.productPrice) * 0.006);
+	// 	}
+	// 	if($scope.flowData.taskDetail.taskPriority > 0){
+	// 		$scope.fastDonePoint = $scope.flowData.taskDetail.taskPriority;
+	// 		$scope.flowData.taskDetail.totalPoint += parseFloat($scope.flowData.taskDetail.taskPriority);
+	// 	}
+	// 	if($scope.flowData.taskDetail.agreeBonus){
+	// 		$scope.addtionPoint = $scope.flowData.taskDetail.bonusPoint;
+	// 		$scope.flowData.taskDetail.totalPoint +=  parseFloat($scope.flowData.taskDetail.bonusPoint);
+	// 	}
+	// 	if($scope.flowData.taskDetail.agreeApprovalPriority){
+	// 		$scope.priorityReviewPoint = 5;
+	// 		$scope.flowData.taskDetail.totalPoint += 5;
+	// 	}
+	// 	if($scope.flowData.taskDetail.agreeQualityPraise){
+	// 		$scope.qualityPraisePoint = 1 * $scope.flowData.totalTasks;
+	// 		$scope.flowData.taskDetail.totalPoint += 1 * $scope.flowData.totalTasks;
+	// 	}
+	// 	$scope.flowData.taskDetail.totalCash = parseInt($scope.flowData.totalTasks) * parseFloat($scope.flowData.productId.productPrice);
+	// };
 	
 	$scope.setFaskDone = function(point){
 		angular.forEach($scope.fastDoneOption,function(value, key){
@@ -543,16 +554,15 @@ app.controller('TaskFlowItem4Ctrl',['$scope','platforms','sellerShops', function
 	};
 }]);
 //支付
-app.controller('TaskFlowItem5Ctrl',['$scope', function($scope){
+app.controller('TaskFlowItem5Ctrl',['$scope','balances','tasks', function($scope,balances,tasks){
 	$scope.thisItem = "app.task.item5";
 	$scope.flowData = {}; 
 
 	$scope.$on('flow-ready',function(event,flowData){
 		$scope.flowData = flowData;
-		countTotalDeposit();
-		countTotalPoint();
-		getMyPoint();
-		getMyPoint();
+		calcTotalCost();
+		getMyBalance();		
+		$scope.setCurrIndex(4);
 	});
 	$scope.nextstep = function(){
 		$scope.$emit('next-step', { "item" : $scope.thisItem, "flowData" : $scope.flowData });
@@ -560,26 +570,19 @@ app.controller('TaskFlowItem5Ctrl',['$scope', function($scope){
 	$scope.prevstep = function(){
 		$scope.$emit('prev-step', { "item" : $scope.thisItem, "flowData" : $scope.flowData });
 	};
-	$scope.totalDeposit = 0;
-	$scope.totalPoint = 0;
-	var countTotalDeposit = function(){
-		//TODO: 需要计算订单所需押金
-		$scope.totalDeposit = parseInt($scope.flowData.taskDetail.productCount) * parseFloat($scope.flowData.taskDetail.productId.productPrice) * parseInt($scope.flowData.taskDetail.totalTasks);
+	$scope.calcCost = {};
+	var calcTotalCost = function(){
+		tasks.calcCost($scope.flowData).then(function(result){
+			$scope.calcCost = result;
+		});
 	};
-	var countTotalPoint = function(){
-		//TODO: 需要计算订单所需符点
-		$scope.totalPoint = 0;
+	$scope.balance = {};
+	var getMyBalance = function(){		
+		balances.get().then(function(result){
+			$scope.balance = result;
+		});
 	};
-	$scope.myDeposit = 0;
-	$scope.myPoint = 0;
-	var getMyPoint = function(){
-		//TODO: 获取可以符点数
-		$scope.myDeposit = 100;
-	};
-	var getMyPoint = function(){
-		//TODO: 获取可用押金
-		$scope.myPoint = 10;
-	};
+
 }]);
 //发布成功
 app.controller('TaskFlowItem6Ctrl',['$scope','$timeout', function($scope,$timeout){
@@ -611,7 +614,7 @@ app.controller('TaskFlowItem6Ctrl',['$scope','$timeout', function($scope,$timeou
 	};
 }]);
 //待处理的任务
-app.controller('PendingTaskCtrl',['$scope','$stateParams','platforms','taskLists','$modal',function($scope,$stateParams,platforms,taskLists,$modal){
+app.controller('PendingTaskCtrl',['$scope','$stateParams','platforms','taskLists','slidebox',function($scope,$stateParams,platforms,taskLists,slidebox){
 	$scope.platformName = "";
 	$scope.platformId = -1;
 	$scope.statusId = 4;
@@ -637,15 +640,7 @@ app.controller('PendingTaskCtrl',['$scope','$stateParams','platforms','taskLists
 	    });
 	};
 	$scope.viewDetail = function (taskId) {
-      var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/task_detail.html',
-        controller: 'TaskDetailCtrl',
-        resolve: {
-          data: function () {
-            return { "id": taskId};
-          }
-        }
-      });
+      slidebox.pop('tpl/slide/task_details.html',{"taskId":taskId});
     };
 }]);
 app.controller('TaskBuyerCtrl',['$scope','taskBuyers',function($scope,taskBuyers){
@@ -677,7 +672,7 @@ app.controller('TaskBuyerCtrl',['$scope','taskBuyers',function($scope,taskBuyers
 	};
 }]);
 //进行中的任务
-app.controller('VTaskListCtrl',['$scope','$stateParams','platforms','taskStatuss','taskLists','$modal','tasks','toaster',function($scope,$stateParams,platforms,taskStatuss,taskLists,$modal,tasks,toaster){
+app.controller('VTaskListCtrl',['$scope','$stateParams','platforms','taskStatuss','taskLists','tasks','toaster','slidebox',function($scope,$stateParams,platforms,taskStatuss,taskLists,tasks,toaster,slidebox){
 	$scope.statusId = 1;
 	$scope.platformId = 1;
 	$scope.statusName = "";
@@ -723,28 +718,18 @@ app.controller('VTaskListCtrl',['$scope','$stateParams','platforms','taskStatuss
 		});		
 	};
 	$scope.viewDetail = function (taskId) {
-      var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/task_detail.html',
-        controller: 'TaskDetailCtrl',
-        resolve: {
-          data: function () {
-            return { "id": taskId};
-          }
-        }
-      });
+		slidebox.pop('tpl/slide/task_details.html',{"taskId":taskId});
     };    
 }]);
 //查看任务详细 Ctrl
-app.controller('TaskDetailCtrl',['$scope', '$modalInstance','data', 'tasks',function($scope, $modalInstance, data, tasks){
-	$scope.taskDetail = {};
-	$scope.$watch('$viewContentLoaded',function(){
-		tasks.get(data.id).then(function(result){
+app.controller('TaskDetailCtrl',['$scope', 'tasks','slidebox',function($scope, tasks, slidebox){
+	$scope.taskDetail = {};	
+	$scope.load = function() {
+		$scope.taskId = slidebox.config.data.taskId
+		tasks.get($scope.taskId).then(function(result){
 			$scope.taskDetail = result;
 		});
-	});
-	$scope.close = function () {
-      $modalInstance.close();
-    };
+	};
 }]);
 //查询任务
 app.controller('TaskListCtrl',['$scope','$stateParams','taskStatuss','tasks',function($scope,$stateParams,taskStatuss,tasks){

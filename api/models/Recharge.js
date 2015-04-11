@@ -7,7 +7,7 @@
 
 module.exports = {
   "schema": true,
-//  migrate: 'drop',
+  migrate: 'alter',
   "attributes": {
     "rechargeId": {
       "columnName": "recharge_id",
@@ -20,14 +20,17 @@ module.exports = {
       "type": "integer"
     },
     "amount": {
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "points": {
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "rechargeTypeId": {
       "columnName": "recharge_type_id",
-      "type": "integer"
+      "type": "integer",
+      "defaultsTo": "0"
     },
     "bankType": {
       "columnName": "bank_type",
