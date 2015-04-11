@@ -142,8 +142,10 @@
   <!--网站公布-->
   <div class="m-panel m-t">
     <div class="m-panel-heading">
-      <a ng-class="{'bg-jzj title-danger':postType==1}" ng-click="showPost(1)" class="m-panel-title">网站公告</a>
-      <a ng-class="{'bg-jzj title-danger':postType==2}" ng-click="showPost(2)" class="m-panel-title">常见问题</a>
+      <a ng-if="userTypeId==1" ng-class="{'bg-jzj title-danger':postType==1}" ng-click="showPost(1)" class="m-panel-title">网站公告</a>
+      <a ng-if="userTypeId==1" ng-class="{'bg-jzj title-danger':postType==2}" ng-click="showPost(2)" class="m-panel-title">常见问题</a>
+      <a ng-if="userTypeId==2" ng-class="{'bg-jzj title-danger':postType==3}" ng-click="showPost(3)" class="m-panel-title">网站公告</a>
+      <a ng-if="userTypeId==2" ng-class="{'bg-jzj title-danger':postType==4}" ng-click="showPost(4)" class="m-panel-title">常见问题</a>
     </div>    
     <div class="m-panel-body">
       <ul class="padder-lg">
