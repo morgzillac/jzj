@@ -51,9 +51,9 @@ app.controller('SignupFormController', ['$scope', '$state','users', function($sc
       $scope.authError = null;      
       users.add($scope.user).then(function(result){
         $state.go('access.signin');
-      },function(reason){        
-        if(angular.isDefined(reason.summary)){
-          $scope.authError = reason.summary;  
+      },function(reason){   
+        if(angular.isDefined(reason)){
+          $scope.authError = reason.message;  
         }        
       });      
     };

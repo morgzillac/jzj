@@ -49,10 +49,13 @@ app.factory('sessionInjector', ['toaster','$location','$q','$window', function(t
         },
         responseError : function(reason){
         	var deferred = $q.defer();
+
         	if(angular.isDefined(reason.data.code) && reason.data.code == 'login_password_wrong'){
         		deferred.reject(reason);
         	}else if(angular.isDefined(reason.data.code) && reason.data.code == 'access_notloggedin'){
         		$location.path("/access/signin");
+        	}else if(angular.isDefined(reason.data.message)){
+        		deferred.reject(reason);
         	}else{
         		switch (reason.status) {            	
 	                case (500):
@@ -73,7 +76,7 @@ app.factory('sessionInjector', ['toaster','$location','$q','$window', function(t
 	                default:
 	                    toaster.pop('error', '响应错误', "未知错误, 错误消息：" + angular.toJson(reason));
 	            }
-        	}        	
+        	}      	
 			return deferred.promise;
         }
     };
