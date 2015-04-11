@@ -977,8 +977,10 @@ app.factory('postType',['promiseGet',function(promiseGet){
 	return {
 		getAll : function(){
 			return [
-				{id:1,name:"网站公告"},
-				{id:2,name:"常见问题"}
+				{id:1,name:"商家网站公告"},
+				{id:2,name:"商家常见问题"},
+				{id:3,name:"买手网站公告"},
+				{id:4,name:"买手常见问题"}
 			];
 		}
 	};
