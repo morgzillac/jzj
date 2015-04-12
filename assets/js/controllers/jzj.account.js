@@ -579,7 +579,9 @@ app.controller('SellerCtrl', ['$scope','platforms','$stateParams', function($sco
     var result = platforms.getAll(); 
     if(angular.isObject(result)){
       $scope.platforms = result;
-      if(angular.isDefined($stateParams.platformId) && $stateParams.platformId!=null && $stateParams.platformId!=''){
+      if(angular.isDefined($stateParams.platformId) 
+        && $stateParams.platformId!=null 
+        && $stateParams.platformId!=''){
         angular.forEach($scope.platforms,function(value){
           if($stateParams.platformId == value.id){
             $scope.currPlatform = value;

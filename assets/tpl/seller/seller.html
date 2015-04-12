@@ -15,7 +15,7 @@
       <ul class="nav nav-pills nav-stacked nav-sm platform-list">
         <li class="platform-bg platform{{platform.id}}-p" ng-repeat="platform in platforms" ng-class="{active:platform.active}">
           <label ng-click="selectPlatform({{platform.id}})">
-            <input type="radio" name="seller-platform" value="{{platform.id}}" />
+            <input type="radio" name="seller-platform" value="{{platform.id}}" ng-checked="currPlatform.id==platform.id"/>
           </label>
         </li>
       </ul>      
