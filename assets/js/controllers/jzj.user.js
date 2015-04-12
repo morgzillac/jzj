@@ -31,7 +31,11 @@ app.controller('SigninFormController', ['$scope', 'users', '$state', '$window','
           app.userSession = result;
           $window.localStorage.setItem("token", headers('token'));
           //$window.localStorage.setItem("token", 'JhR4h');
-          $state.go('app.dashboard-v1');
+          if(result.userTypeId == 1){
+            $state.go('app.dashboard-v1');
+          }else if(result.userTypeId == 2){
+            $state.go('app.dashboard-v2');
+          }          
       }).error(function(reason, status, headers, config) {
           $scope.authError = reason.message;
       });

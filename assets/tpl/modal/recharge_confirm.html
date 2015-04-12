@@ -2,7 +2,8 @@
 <div class="modal-body">
 	<div class="m-t">
 		<h4>您是否已经充值成功？</h4>
-		<a class="text-info m-t" href="#/" ng-click="close()">点击此查看您的账号余额</a>
+		<a ng-if="userTypeId==1" class="text-info m-t" href="#/app/dashboard-v1" ng-click="close()">点击此查看您的账号余额</a>
+		<a ng-if="userTypeId==2" class="text-info m-t" href="#/app/dashboard-v2" ng-click="close()">点击此查看您的账号余额</a>
 	</div>	
 	<div class="line b-b"></div> 
 	<div class="m-t">

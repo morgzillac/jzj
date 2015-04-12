@@ -21,7 +21,7 @@
 					<label class="control-label text-left">充值金额：</label>
 					<!-- <div class="btn-group"><input type="number" class="form-control" name="orderAmount" ng-model="deposit.amount" ng-pattern="/^[1-9]\d{2,9}|0.d*[1-9]d*$/" required/></div> -->
 					<div class="btn-group"><input type="number" class="form-control" name="orderAmount" ng-model="depositAmount" required/></div>
-					<label class="control-label text-left"><span class="text-muted">单次最少提现100元 </span></label>
+					<label class="control-label text-left"><span class="text-muted hide">单次最少提现100元 </span></label>
 				</div>		
 				<div class="m-t m-b">
 					<button type="submit" class="btn btn-jzj" ng-disabled="rechargeDepositForm.$invalid" ng-click="openConfirmModal()">确认</button>

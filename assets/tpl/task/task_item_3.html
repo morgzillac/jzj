@@ -2,12 +2,12 @@
   <form role="form" name="item3Form" class="form-horizontal">
   <div class="row wrapper no-p-b">
     <span class="h4 font-bold">填写刷单信息</span>
-    <span class="h4 pull-right">已选择：<label class="text-danger">{{platformName}} | {{shopName}} | 订单</label></span>
+    <span class="h4 pull-right">已选择：<label class="text-danger">{{flowData.taskDetail.platformName}} | {{flowData.taskDetail.shopName}} | 订单</label></span>
   </div>  
   <div class="line b-b"></div> 
   <div class="wrapper-md row no-p-t">    
     <h5 class="font-bold">1.请设置成交关键词分布 <span  class="font-normal text-muted">( 注：关键词订单总数需要为<span class="text-danger">1</span>单 )</span></h5>    
-    <label class="m-t">使用 <span class="text-danger">“淘宝搜索框”</span> 查找商品</label><br/>
+    <label class="m-t">使用 <span class="text-danger">“<span ng-bind="flowData.taskDetail.platformName"></span>搜索框”</span> 查找商品</label><br/>
     <div class="wrapper">
       <div class="row m-b b bg-remind wrapper-sm" ng-repeat="keyword in productKeywords">
         <div class="">
@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="row" ng-if="isCanBingProductKeyword">
-        <a class="pull-left text-danger" ng-click="addSearchKeyword()"> + 可多添加1个淘宝搜索关键字方案 <span class="text-muted"> (最多可添加4个方案)</span> </a><span class="pull-right text-right">可提高任务安全保障</span>
+        <a class="pull-left text-danger" ng-click="addSearchKeyword()"> + 可多添加1个<span ng-bind="flowData.taskDetail.platformName"></span>搜索关键字方案 <span class="text-muted"> (最多可添加4个方案)</span> </a><span class="pull-right text-right">可提高任务安全保障</span>
       </div>
     </div>
     

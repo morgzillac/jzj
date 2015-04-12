@@ -33,7 +33,7 @@
         <form role="form" name="sellerShopForm" class="form-horizontal">
         <div class="row m-t m-b">
           <div class="col-md-2">
-            <label><span class="text-danger">*</span>店铺首页网址</label>
+            <label><span class="text-danger">*</span>店铺首页网址</label>            
           </div>
           <div class="col-md-6">
             <input type="text" class="form-control" ng-model="url" ng-disabled="isEdit" required />
@@ -44,13 +44,15 @@
         </div>  
         <div class="row m-t m-b">
           <div class="col-md-2">
-            <label><span class="text-danger">*</span>店铺主旺旺ID</label>
+            <label ng-if="(platform.id==1)||(platform.id==2)"><span class="text-danger">*</span>店铺主旺旺ID</label>
+            <label ng-if="(platform.id!=1)&&(platform.id!=2)"><span class="text-danger">*</span>店铺名称</label>
           </div>
           <div class="col-md-6">
             <input type="text" class="form-control" ng-model="wangwang" ng-disabled="isEdit" required />
           </div>
           <div class="col-md-4">
-            <span class="m-t text-muted">(店铺主旺旺ID绑定后无法修改)</span>
+            <span ng-if="(platform.id==1)||(platform.id==2)" class="m-t text-muted">(店铺主旺旺ID绑定后无法修改)</span>
+            <span ng-if="(platform.id!=1)&&(platform.id!=2)" class="m-t text-muted">(店铺名称绑定后无法修改)</span>
           </div>
         </div>          
         <div class="row m-t m-b">

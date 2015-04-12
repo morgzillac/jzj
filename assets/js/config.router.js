@@ -53,7 +53,17 @@ angular.module('app')
               })
               .state('app.dashboard-v1', {
                   url: '/dashboard-v1',
-                  templateUrl: 'tpl/app_dashboard_v1.html',
+                  templateUrl: 'tpl/seller/app_dashboard_v1.html',
+                  resolve: {
+                    deps: ['$ocLazyLoad',
+                      function( $ocLazyLoad ){
+                        return $ocLazyLoad.load(['js/controllers/jzj.home.js']);
+                    }]
+                  }
+              })
+              .state('app.dashboard-v2', {
+                  url: '/dashboard-v2',
+                  templateUrl: 'tpl/buyer/app_dashboard_v2.html',
                   resolve: {
                     deps: ['$ocLazyLoad',
                       function( $ocLazyLoad ){
@@ -135,7 +145,7 @@ angular.module('app')
               .state('app.buyer', {
                   abstract: true,
                   url: '/buyer',
-                  templateUrl: 'tpl/buyer.html',
+                  templateUrl: 'tpl/buyer/buyer.html',
                   // use resolve to load other dependences
                   resolve: {
                       deps: ['uiLoad','$ocLazyLoad',
@@ -150,37 +160,37 @@ angular.module('app')
               })
               .state('app.buyer.account', {
                   url: '/account',
-                  templateUrl:'tpl/buyer_bind_account.html'
+                  templateUrl:'tpl/buyer/buyer_bind_account.html'
               })
               .state('app.buyer.taobao', {
                   url: '/taobao',
-                  templateUrl:'tpl/buyer_bind_taobao.html'
+                  templateUrl:'tpl/buyer/buyer_bind_taobao.html'
               })
               .state('app.buyer.tmall', {
                   url: '/tmall',
-                  templateUrl:'tpl/buyer_bind_tmall.html'
+                  templateUrl:'tpl/buyer/buyer_bind_tmall.html'
               })
               .state('app.buyer.jd', {
                   url: '/jd',
-                  templateUrl:'tpl/buyer_bind_jd.html'
+                  templateUrl:'tpl/buyer/buyer_bind_jd.html'
               })
               .state('app.buyer.yhd', {
                   url: '/yhd',
-                  templateUrl:'tpl/buyer_bind_yhd.html'
+                  templateUrl:'tpl/buyer/buyer_bind_yhd.html'
               })
               .state('app.buyer.dangdang', {
                   url: '/dangdang',
-                  templateUrl:'tpl/buyer_bind_dangdang.html'
+                  templateUrl:'tpl/buyer/buyer_bind_dangdang.html'
               })
               .state('app.buyer.amazon', {
                   url: '/amazon',
-                  templateUrl:'tpl/buyer_bind_amazon.html'
+                  templateUrl:'tpl/buyer/buyer_bind_amazon.html'
               })
               // seller
               .state('app.seller', {
                   abstract: true,
                   url: '/seller',
-                  templateUrl: 'tpl/seller.html',
+                  templateUrl: 'tpl/seller/seller.html',
                   // use resolve to load other dependences
                   resolve: {
                       deps: ['uiLoad',
@@ -191,37 +201,37 @@ angular.module('app')
               })
               .state('app.seller.shop', {
                   url: '/shop/:platformId',
-                  templateUrl:'tpl/seller_bind_shop.html'
+                  templateUrl:'tpl/seller/seller_bind_shop.html'
               })
               .state('app.seller.taobao', {
                   url: '/taobao',
-                  templateUrl:'tpl/seller_bind_taobao.html'
+                  templateUrl:'tpl/seller/seller_bind_taobao.html'
               })
               .state('app.seller.tmall', {
                   url: '/tmall',
-                  templateUrl:'tpl/seller_bind_tmall.html'
+                  templateUrl:'tpl/seller/seller_bind_tmall.html'
               })
               .state('app.seller.jd', {
                   url: '/jd',
-                  templateUrl:'tpl/seller_bind_jd.html'
+                  templateUrl:'tpl/seller/seller_bind_jd.html'
               })
               .state('app.seller.yhd', {
                   url: '/yhd',
-                  templateUrl:'tpl/seller_bind_yhd.html'
+                  templateUrl:'tpl/seller/seller_bind_yhd.html'
               })
               .state('app.seller.dangdang', {
                   url: '/dangdang',
-                  templateUrl:'tpl/seller_bind_dangdang.html'
+                  templateUrl:'tpl/seller/seller_bind_dangdang.html'
               })
               .state('app.seller.amazon', {
                   url: '/amazon',
-                  templateUrl:'tpl/seller_bind_amazon.html'
+                  templateUrl:'tpl/seller/seller_bind_amazon.html'
               })
 
               
               .state('app.task', {
                   url: '/taskflow/:id',
-                  templateUrl: 'tpl/task_flow.html',
+                  templateUrl: 'tpl/task/task_flow.html',
                   resolve: {
                       deps: ['uiLoad','$ocLazyLoad',
                         function( uiLoad,$ocLazyLoad ){
@@ -235,27 +245,27 @@ angular.module('app')
               })
               .state('app.task.item1', {
                   url: '/item1',
-                  templateUrl: 'tpl/task_item_1.html'                  
+                  templateUrl: 'tpl/task/task_item_1.html'                  
               })
               .state('app.task.item2', {
                   url: '/item2',
-                  templateUrl: 'tpl/task_item_2.html'                  
+                  templateUrl: 'tpl/task/task_item_2.html'                  
               })
               .state('app.task.item3', {
                   url: '/item3',
-                  templateUrl: 'tpl/task_item_3.html'                  
+                  templateUrl: 'tpl/task/task_item_3.html'                  
               })
               .state('app.task.item4', {
                   url: '/item4',
-                  templateUrl: 'tpl/task_item_4.html'                  
+                  templateUrl: 'tpl/task/task_item_4.html'                  
               })
               .state('app.task.item5', {
                   url: '/item5',
-                  templateUrl: 'tpl/task_item_5.html'                  
+                  templateUrl: 'tpl/task/task_item_5.html'                  
               })
               .state('app.task.item6', {
                   url: '/item6',
-                  templateUrl: 'tpl/task_item_6.html'                  
+                  templateUrl: 'tpl/task/task_item_6.html'                  
               })
               .state('app.tasklist', {
                   url: '/tasklist',
@@ -269,19 +279,19 @@ angular.module('app')
               })
               .state('app.tasklist.finish', {
                   url: '/finish/:status',
-                  templateUrl: 'tpl/finish_task_list.html'                  
+                  templateUrl: 'tpl/task/finish_task_list.html'                  
               })
               .state('app.tasklist.doing', {
                   url: '/doing/:status',
-                  templateUrl: 'tpl/doing_task_list.html'                  
+                  templateUrl: 'tpl/task/doing_task_list.html'                  
               })
               .state('app.tasklist.pending', {
                   url: '/pending/:platformId',
-                  templateUrl: 'tpl/pending_task_list.html'                  
+                  templateUrl: 'tpl/task/pending_task_list.html'                  
               })
               .state('app.tasklist.unpublish', {
                   url: '/unpublish/:status',
-                  templateUrl: 'tpl/unpublish_task_list.html'                 
+                  templateUrl: 'tpl/task/unpublish_task_list.html'                 
               })
               .state('app.financial', {
                   url: '/financial',
@@ -295,27 +305,27 @@ angular.module('app')
               })                        
               .state('app.financial.recharge_history', {
                   url: '/recharge_history',
-                  templateUrl: 'tpl/recharge_history.html'                  
+                  templateUrl: 'tpl/trans/recharge_history.html'                  
               })              
               .state('app.financial.cashout_history', {
                   url: '/cashout_history',
-                  templateUrl: 'tpl/cashout_history.html'                  
+                  templateUrl: 'tpl/trans/cashout_history.html'                  
               })
               .state('app.financial.points2cash_history', {
                   url: '/points2cash_history',
-                  templateUrl: 'tpl/points2cash_history.html'                  
+                  templateUrl: 'tpl/trans/points2cash_history.html'                  
               })  
               .state('app.financial.trans_history', {
                   url: '/trans_history',
-                  templateUrl: 'tpl/trans_history.html'                  
+                  templateUrl: 'tpl/trans/trans_history.html'                  
               })
               .state('app.financial.recharge', {
                   url: '/recharge/:transType',
-                  templateUrl: 'tpl/recharge.html'                  
+                  templateUrl: 'tpl/trans/recharge.html'                  
               })
               .state('app.financial.cashout', {
                   url: '/cashout',
-                  templateUrl: 'tpl/cashout.html'                  
+                  templateUrl: 'tpl/trans/cashout.html'                  
               })
 
       }

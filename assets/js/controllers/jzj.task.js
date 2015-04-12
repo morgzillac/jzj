@@ -198,7 +198,9 @@ app.controller('TaskFlowItem1Ctrl',['$scope','flowDatas','sellerShops','taskType
 	$scope.changePlatform = function(platformId){
 		$scope.selectedPlatform = platformId;
 		$scope.flowData.platformId = platformId;
+		$scope.flowData.platformName = platforms.getPlatformName(platformId);
 		$scope.flowData.taskDetail.platformId = platformId;
+		$scope.flowData.taskDetail.platformName = platforms.getPlatformName(platformId);;
 		loadShop(platformId);
 		$scope.$emit('change-platform', platformId);
 	};
