@@ -58,12 +58,24 @@ var util = require('util'),
 
     login: function (req, res) {
 
-    var password = req.param('password');
-    var username = req.param('login');
-
     var bcrypt = require('bcrypt');
 
-    User.findOne({userLogin:username}).exec(function (err, user) {
+    var password = req.param('password');
+    var username = req.param('login');
+    var mobile = req.param('mobile');
+    var email = req.param('email');
+    var criteria = null;
+
+    if (username) {
+      criteria = {userLogin:username};
+    } else if (mobile) {
+      criteria = {mobile:mobile};
+    } else if (email) {
+      criteria = {email:email};
+    }
+
+
+    User.findOne(criteria).exec(function (err, user) {
       if (err) res.customError('508', sails.config.errs.systemError('数据库错误'));
 
       if (user) {

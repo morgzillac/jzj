@@ -72,12 +72,9 @@ module.exports = {
       return res.customError('508', sails.config.errs.access_notTheUser);
     }
 
-    console.log('before', values);
-
     //** add user Id and extra values
     values = extend({}, values, ext);
     values.userId = req.userData.userId;
-    console.log('after', values);
 
     // Omit the path parameter `id` from values, unless it was explicitly defined
     // elsewhere (body/query):
