@@ -1,7 +1,7 @@
 'use strict';
 
 // controller
-app.controller('HomeController', ['$scope', '$state','tasks','taskBuyers','points2cashs','recharges','cashouts','posts','slidebox', function($scope, $state,tasks,taskBuyers,points2cashs,recharges,cashouts,posts,slidebox) {
+app.controller('HomeSellerController', ['$scope', '$state','tasks','taskBuyers','points2cashs','recharges','cashouts','posts','slidebox', function($scope, $state,tasks,taskBuyers,points2cashs,recharges,cashouts,posts,slidebox) {
   var userId = app.userSession.userId;
   $scope.$watch('$viewContentLoaded',function(){
     queryFinishTaskCount();
@@ -109,4 +109,24 @@ app.controller('HomeController', ['$scope', '$state','tasks','taskBuyers','point
   };
 
 }]);
-
+/*buyer home*/
+app.controller('HomeBuyerController',['$scope', 'posts','slidebox', function($scope, posts,slidebox) {
+  $scope.$watch('$viewContentLoaded',function(){    
+    loadPost();
+  });
+  /*网站公告*/
+  $scope.postType = 3;
+  $scope.postList = {};
+  var loadPost =function(){
+    posts.get($scope.postType).then(function(result){
+      $scope.postList = result;
+    });
+  };
+  $scope.showPost = function(postType){
+    $scope.postType = postType;
+    loadPost();
+  };
+  $scope.popPost =function(post){
+    slidebox.pop(post.filePath);
+  };
+}]);
