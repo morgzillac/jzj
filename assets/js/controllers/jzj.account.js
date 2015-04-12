@@ -170,7 +170,7 @@ app.controller('FileUploadCtrl', ['$scope', 'FileUploader', '$modalInstance','$w
     };
 }]);
 //支付宝设置Controller
-app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster','$modal', function($scope, userBanks,bankTypes,toaster,$modal){
+app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster','$modal','popSlidebox', function($scope, userBanks,bankTypes,toaster,$modal,popSlidebox){
   var userId = app.userSession.userId;
   var bankType = bankTypes.getZFB().id;
   $scope.isEdit = true;
@@ -250,9 +250,12 @@ app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster','$mo
       }
     });
   };
+  $scope.popSlidebox =function(url){
+    slidebox.pop(url);
+  };
 }]);
 //财付通设置Controller
-app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster','$modal', function($scope,userBanks,bankTypes,toaster,$modal){
+app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster','$modal','popSlidebox', function($scope,userBanks,bankTypes,toaster,$modal,popSlidebox){
   var userId = app.userSession.userId;
   var bankType = bankTypes.getCFT().id;
   $scope.isEdit = true;
@@ -329,6 +332,9 @@ app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster','$mo
         }
       }
     });
+  };
+  $scope.popSlidebox =function(url){
+    slidebox.pop(url);
   };
 }]);
 //银行卡设置Controller
@@ -420,7 +426,7 @@ app.controller('BuyerCtrl', ['$scope','platforms', function($scope,platforms) {
   };
 }]);
 //绑定买手详细Controller
-app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAddresses','toaster','$modal', function($scope,buyerAccounts,platforms,userAddresses,toaster,$modal) {
+app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAddresses','toaster','$modal','slidebox', function($scope,buyerAccounts,platforms,userAddresses,toaster,$modal,slidebox) {
   var userId = app.userSession.userId;
   $scope.platform = {};
   $scope.buyerAccountBinds = [];
@@ -560,6 +566,9 @@ app.controller('BuyerAccountCtrl', ['$scope','buyerAccounts','platforms','userAd
         }
       }
     });
+  };
+  $scope.popSlidebox =function(url){
+    slidebox.pop(url);
   };
 }]);
 //绑定卖手店铺父Controller

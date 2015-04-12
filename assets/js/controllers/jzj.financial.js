@@ -97,17 +97,9 @@ app.controller('CashoutHistoryCtrl',['$scope','cashouts',function($scope,cashout
   };
 }]);
 //充值 controller
-app.controller('RechargeCtrl',['$scope','recharges','bankTypes','toaster','userBanks','$stateParams','$modal','pointsPackages',function($scope,recharges,bankTypes,toaster,userBanks,$stateParams,$modal,pointsPackages){
-  //var userId = app.userSession.userId;
+app.controller('RechargeCtrl',['$scope','recharges','bankTypes','toaster','userBanks','$stateParams','$modal','pointsPackages','$window',function($scope,recharges,bankTypes,toaster,userBanks,$stateParams,$modal,pointsPackages,$window){
+
   $scope.token = '';
-  // $scope.isBindUserBank = false; 
-  // $scope.bankTypeList = [];
-  // $scope.userBankList = [];
-  // $scope.bankType = "";
-  // $scope.point = {};
-  // $scope.cash = {};
-  // $scope.deposit = {};
-  // $scope.payPassword = "";
   $scope.transType = 3;
 
   $scope.packages = {};
@@ -128,24 +120,12 @@ app.controller('RechargeCtrl',['$scope','recharges','bankTypes','toaster','userB
   };
 
   $scope.$watch('$viewContentLoaded',function(){  
-    
-    $scope.transType = $stateParams.transType;
-
-    $scope.token = '123';
+    if($stateParams.transType){
+      $scope.transType = $stateParams.transType;  
+    }
+    $scope.token = $window.localStorage.getItem("token");
     $scope.packages = pointsPackages.getAll();
 
-
-    // $scope.point = recharges.newEmpty();
-    // $scope.cash = recharges.newEmpty();
-    // $scope.deposit = recharges.newEmpty();
-    //TODO: 获取提现账号绑定信息
-    // $scope.bankTypeList = bankTypes.getAll();
-    //  userBanks.query(userId).then(function(result){
-    //   $scope.userBankList = result;
-    //   if($scope.userBankList.length > 0){
-    //     $scope.isBindUserBank = true; 
-    //   }
-    // });
   });
 
   $scope.openConfirmModal = function () {
@@ -159,66 +139,6 @@ app.controller('RechargeCtrl',['$scope','recharges','bankTypes','toaster','userB
         }
       });
   };
-
-  // //充值赚点
-  // $scope.rechargePoint = function(isValid){
-  //   if (!isValid) {
-  //     toaster.pop('error','错误','表单填写不正确' );
-  //     return;
-  //   }
-  //   $scope.point.userId = userId;
-  //   $scope.point.isFrozen = false;
-  //   $scope.point.type = 4;    
-  //   $scope.point.bankType = $scope.bankType;    
-  //   recharges.add($scope.point).then(function(result){
-  //     toaster.pop('success', '充值赚点', result);
-  //   },function(reason){
-  //     toaster.pop('error', '充值赚点', reason);
-  //   });
-  // };
-  // //充值现金
-  // $scope.rechargeCash = function(isValid){
-  //   if (!isValid) {
-  //     toaster.pop('error','错误','表单填写不正确' );
-  //     return;
-  //   }
-  //   $scope.cash.userId = userId;
-  //   $scope.cash.isFrozen = false;
-  //   $scope.cash.points = 0;
-  //   $scope.cash.type = 2;
-  //   $scope.cash.bankType = $scope.bankType;    
-  //   recharges.add($scope.cash).then(function(result){
-  //     toaster.pop('success', '充值现金', result);
-  //   },function(reason){
-  //     toaster.pop('error', '充值现金', reason);
-  //   });
-  // };
-  // //充值押金
-  // $scope.rechargeDeposit = function(isValid){
-  //   if (!isValid) {
-  //     toaster.pop('error','错误','表单填写不正确' );
-  //     return;
-  //   }
-  //   $scope.deposit.userId = userId;
-  //   $scope.deposit.isFrozen = true;
-  //   $scope.deposit.points = 0;
-  //   $scope.deposit.type = 3;
-  //   $scope.deposit.bankType = $scope.bankType;    
-  //   recharges.add($scope.deposit).then(function(result){
-  //     toaster.pop('success', '充值押金', result);
-  //   },function(reason){
-  //     toaster.pop('error', '充值押金', reason);
-  //   });
-  // };
-  // $scope.getBankName = function(bankType){
-  //   var bankName = "";
-  //   angular.forEach($scope.bankTypeList,function(value){
-  //     if(value.id == bankType){
-  //       bankName = value.name;
-  //     }
-  //   });
-  //   return bankName;
-  // };
 
 
 }]);

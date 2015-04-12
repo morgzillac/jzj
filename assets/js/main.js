@@ -39,7 +39,7 @@ angular.module('app')
       }
       $scope.userLogin = "";
       $scope.platforms = [];
-       $scope.userTypeId = 0;
+      $scope.userTypeId = 0;
       $scope.$on('$viewContentLoaded',function(){
         $scope.platforms = platforms.getAll();
         if(app.userSession != null && angular.isDefined(app.userSession.userLogin) && app.userSession.userLogin != null){

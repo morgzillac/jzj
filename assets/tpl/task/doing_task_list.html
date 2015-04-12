@@ -91,7 +91,7 @@
                       animate: 1000
                     }" ui-jq="easyPieChart" class="easyPieChart" style="width: 65px; height: 65px; line-height: 65px;">
                     <div>
-                      <span class="step">{{(t.assigned / t.totalTasks) * 100}}</span>%
+                      <span class="step">{{((t.assigned / t.totalTasks) * 100) | number:0}}</span>%
                     </div>
                   <canvas height="40" width="40"></canvas>
                 </div>

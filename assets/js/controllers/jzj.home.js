@@ -129,4 +129,7 @@ app.controller('HomeBuyerController',['$scope', 'posts','slidebox', function($sc
   $scope.popPost =function(post){
     slidebox.pop(post.filePath);
   };
+  $scope.popSlidebox =function(url){
+    slidebox.pop(url);
+  };
 }]);
