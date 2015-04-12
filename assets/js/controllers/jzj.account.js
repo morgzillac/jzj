@@ -170,7 +170,7 @@ app.controller('FileUploadCtrl', ['$scope', 'FileUploader', '$modalInstance','$w
     };
 }]);
 //支付宝设置Controller
-app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster','$modal','popSlidebox', function($scope, userBanks,bankTypes,toaster,$modal,popSlidebox){
+app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster','$modal','slidebox', function($scope, userBanks,bankTypes,toaster,$modal,slidebox){
   var userId = app.userSession.userId;
   var bankType = bankTypes.getZFB().id;
   $scope.isEdit = true;
@@ -255,7 +255,7 @@ app.controller('ZhiFuBaoCtrl', ['$scope', 'userBanks','bankTypes','toaster','$mo
   };
 }]);
 //财付通设置Controller
-app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster','$modal','popSlidebox', function($scope,userBanks,bankTypes,toaster,$modal,popSlidebox){
+app.controller('CaiFuTongCtrl', ['$scope','userBanks','bankTypes','toaster','$modal','slidebox', function($scope,userBanks,bankTypes,toaster,$modal,slidebox){
   var userId = app.userSession.userId;
   var bankType = bankTypes.getCFT().id;
   $scope.isEdit = true;
