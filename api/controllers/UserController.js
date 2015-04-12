@@ -61,17 +61,23 @@ var util = require('util'),
     var bcrypt = require('bcrypt');
 
     var password = req.param('password');
-    var username = req.param('login');
+    var login = req.param('login');
+
+    var mobileRE = /^[0-9]+$/;
+    var emailRE =  /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+
+      /*
     var mobile = req.param('mobile');
     var email = req.param('email');
+    */
     var criteria = null;
 
-    if (username) {
-      criteria = {userLogin:username};
-    } else if (mobile) {
-      criteria = {mobile:mobile};
-    } else if (email) {
-      criteria = {email:email};
+    if (mobileRE.test(login)) {
+      criteria = {mobile:login};
+    } else if (emailRE.test(login)) {
+      criteria = {email:login};
+    } else {
+      criteria = {userLogin:login};
     }
 
 
