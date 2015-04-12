@@ -2,8 +2,8 @@
   <div class="row">
     <div class="col-md-4 b-r">      
       <div class="wrapper h4">第一步：选择平台</div>
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="p in platforms"><label ng-click="changePlatform(p.id)"><input type="radio" name="platform" value="{{p.id}}" ng-model="platformId"/><span class="m-l">{{p.name}}</span></label><b class="badge bg-info pull-right">{{p.count}}</b></li>
+      <ul class="list-group platform-list2">
+        <li ng-repeat="p in platforms" class="list-group-item platform-bg platform{{p.id}}-p2"><label ng-click="changePlatform(p.id)"><input type="radio" name="platform" value="{{p.id}}" ng-model="platformId"/><span class="m-l hide">{{p.name}}</span></label><b class="badge bg-info pull-right">{{p.count}}</b></li>
       </ul>      
     </div>
     <div class="col-md-4 b-lignt">

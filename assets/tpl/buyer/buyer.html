@@ -13,12 +13,12 @@
   <div class="col w-md dk b-r bg-auto">
     <div class="wrapper bg hidden-sm hidden-xs" id="email-menu">
       <div class="wrapper font-bold h4">选择平台</div>
-      <ul class="nav nav-pills nav-stacked nav-sm">
-        <li ng-repeat="platform in platforms" ng-class="{active:platform.active}" >
-          <a ng-click="selectPlatform({{platform.id}})">
-            <i class="fa fa-fw fa-circle text-muted" color="{{platform.color}}" label-color ></i>
-            {{platform.name}}
-          </a>
+      <div class="line b-b"></div> 
+      <ul class="nav nav-pills nav-stacked nav-sm platform-list">
+        <li class="platform-bg platform{{platform.id}}-p" ng-repeat="platform in platforms" ng-class="{active:platform.active}" >
+          <label ng-click="selectPlatform({{platform.id}})">
+            <input type="radio" name="seller-platform" value="{{platform.id}}" />
+          </label>
         </li>
       </ul>      
     </div>

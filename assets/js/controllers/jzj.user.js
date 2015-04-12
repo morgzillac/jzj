@@ -29,8 +29,8 @@ app.controller('SigninFormController', ['$scope', 'users', '$state', '$window','
       $http.post(api, para).success(function(result, status, headers, config) {
           $window.localStorage.setItem("userSession", angular.toJson(result));
           app.userSession = result;
-          $window.localStorage.setItem("token", headers('token'));
-          //$window.localStorage.setItem("token", 'JhR4h');
+          //$window.localStorage.setItem("token", headers('token'));
+          $window.localStorage.setItem("token", 'YEyc1');
           if(result.userTypeId == 1){
             $state.go('app.dashboard-v1');
           }else if(result.userTypeId == 2){

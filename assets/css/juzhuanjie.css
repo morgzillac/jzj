@@ -139,3 +139,58 @@
     width: 540px;
     z-index: 1050;
 }
+.platform-list{    
+    
+}
+.platform-list li{
+    padding: 5px 15px;
+    border-bottom:1px solid #ccc;
+}
+.platform-list label{
+    width: 160px;
+    cursor: pointer;
+}
+.platform-bg{
+    background-image:url("/img/platform.png"); 
+    background-repeat: no-repeat;
+}
+.platform1-p{
+    background-position: 25px -10px;
+}
+.platform2-p{
+    background-position: 25px -55px;
+}
+.platform3-p{
+    background-position: 25px -143px;
+}
+.platform4-p{
+    background-position: 25px -275px;
+}
+.platform5-p{
+    background-position: 25px -231px;
+}
+.platform6-p{
+    background-position: 25px -100px;
+}
+.platform-list2 label{
+    width: 160px;
+    cursor: pointer;
+}
+.platform1-p2{
+    background-position: 25px -2px;
+}
+.platform2-p2{
+    background-position: 25px -48px;
+}
+.platform3-p2{
+    background-position: 25px -136px;
+}
+.platform4-p2{
+    background-position: 25px -268px;
+}
+.platform5-p2{
+    background-position: 25px -223px;
+}
+.platform6-p2{
+    background-position: 25px -92px;
+}
