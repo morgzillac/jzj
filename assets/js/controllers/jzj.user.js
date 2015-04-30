@@ -30,7 +30,7 @@ app.controller('SigninFormController', ['$scope', 'users', '$state', '$window','
           $window.localStorage.setItem("userSession", angular.toJson(result));
           app.userSession = result;
           $window.localStorage.setItem("token", headers('token'));
-          //$window.localStorage.setItem("token", 'YEyc1');
+          //$window.localStorage.setItem("token", 'PeH9p');
           if(result.userTypeId == 1){
             $state.go('app.dashboard-v1');
           }else if(result.userTypeId == 2){

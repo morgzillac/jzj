@@ -469,6 +469,9 @@ app.factory('products', ['promisePost','promiseGet',function(promisePost,promise
 		save : function(productId,product){
 			return promisePost('/shopProduct/' + productId, product);
 		},
+		getExt: function(productExtID){
+			return promiseGet('/shopProduct?productExtID=' + productExtID);	
+		},
 		newEmpty : function(){
 			return {
 				"productId" : -1,

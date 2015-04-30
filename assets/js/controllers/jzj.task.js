@@ -261,6 +261,86 @@ app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scop
 		}							
 		$scope.setCurrIndex(1);
 	});
+	$scope.processProduct = function(){
+		if($scope.product.productUrl.length > 0){
+			console.log($scope.product.productUrl);
+			//提取商品ID
+			var productId = extractProductId($scope.flowData.platformId,$scope.product.productUrl);
+			if(productId){
+				$scope.product.productExtID = productId;
+				//find product
+				products.getExt(productId).then(function(result){
+					if(result[0]){
+						$scope.product = result[0];
+						$scope.product.productDesc = angular.fromJson(result[0].productDesc);
+						$scope.countProductTotalPrice();
+					}
+				});
+			}
+		}
+	};
+	var extractProductId = function(platformId,productUrl){
+		var id = -1;
+		switch(platformId){
+			case 1: //淘宝
+				id = getQueryString(productUrl,'id');
+				break;
+			case 2: //天猫
+				id = getQueryString(productUrl,'id');
+				break;
+			case 3: //京东
+				id = getProductIdByUrl1(productUrl);
+				break;
+			case 4: //当当
+				id = getProductIdByUrl1(productUrl);
+				break;
+			case 5: //亚马逊
+				id = getProductIdByUrl2(productUrl);
+				break;
+			case 6: //一号店
+				id = getProductIdByUrl3(productUrl);
+				break;			
+			default:
+				break;
+		}
+		return id;
+	};
+	/*jd,dangdang*/
+	var getProductIdByUrl1 = function(url){
+		var id = -1;
+		var arrayStr = url.split('.htm');
+		if(arrayStr[0]){
+			var a = arrayStr[0].split('/');
+			if(a[a.length-1]){
+				id = a[a.length-1];
+			}
+		}
+		return id;
+	};
+	/*yhd*/
+	var getProductIdByUrl2 = function(url){
+		var id = -1;
+		var arrayStr = url.split('?');
+		if(arrayStr[0]){
+			var a = arrayStr[0].split('/');
+			if(a[a.length-1]){
+				id = a[a.length-1];
+			}
+		}
+		return id;
+	};
+	/*amazon*/
+	var getProductIdByUrl3 = function(url){
+		var id = -1;
+		var arrayStr = url.split('?');
+		if(arrayStr[0]){
+			var a = arrayStr[0].split('/');
+			if(a[a.length-2]){
+				id = a[a.length-2];
+			}
+		}
+		return id;
+	};
 	$scope.countProductTotalPrice = function(){
 		$scope.totalPrice = parseFloat($scope.product.productPrice) * parseInt($scope.flowData.taskDetail.productCount);
 	};		
