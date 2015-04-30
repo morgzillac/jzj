@@ -1,0 +1,22 @@
+
+<div class="modal-body" >
+	<div class="m-b">
+		<h4>设置手机</h4>
+	</div>	
+	<div class="line b-b"></div>
+	<br/>
+	<div>
+		<form role="form" name="phoneForm" class="form-horizontal">
+	    <div class="text-center">
+	    	<div>
+	    		<label>手机号码:</label><input type="text" class="w-md input-control-xs" ng-model="value" ng-pattern="/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/">	
+	    	</div>			
+		</div>
+		</form>
+	</div>
+	<br/>
+</div>
+<div class="modal-footer">                  
+    <button class="btn btn-default" ng-click="cancel()">取消</button>
+    <button class="btn btn-jzj" ng-disabled="phoneForm.$invalid" ng-click="ok()">确定</button>
+</div>

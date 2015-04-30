@@ -1,0 +1,22 @@
+
+<div class="modal-body" >
+	<div class="m-b">
+		<h4>设置邮箱</h4>
+	</div>	
+	<div class="line b-b"></div>
+	<br/>
+	<div>
+		<form role="form" name="emailForm" class="form-horizontal">
+	    <div class="text-center">
+	    	<div>
+	    		<label>邮箱地址:</label><input type="text" class="w-md input-control-xs" ng-model="value" ng-pattern="/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/">	
+	    	</div>			
+		</div>
+		</form>
+	</div>
+	<br/>
+</div>
+<div class="modal-footer">                  
+    <button class="btn btn-default" ng-click="cancel()">取消</button>
+    <button class="btn btn-jzj" ng-disabled="emailForm.$invalid"  ng-click="ok()">确定</button>
+</div>

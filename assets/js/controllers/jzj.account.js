@@ -39,7 +39,7 @@ app.controller('UserCtrl', ['$scope', '$modal','users', function($scope, $modal,
     };
     $scope.openSetQQ = function () {
       var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/set_value.html',
+        templateUrl: 'tpl/modal/set_qq.html',
         controller: 'SetValueCtrl',
         resolve: {
           data: function () {
@@ -53,7 +53,7 @@ app.controller('UserCtrl', ['$scope', '$modal','users', function($scope, $modal,
     };
     $scope.openSetEmail = function () {
       var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/set_value.html',
+        templateUrl: 'tpl/modal/set_email.html',
         controller: 'SetValueCtrl',
         resolve: {
           data: function () {
@@ -67,7 +67,7 @@ app.controller('UserCtrl', ['$scope', '$modal','users', function($scope, $modal,
     };
     $scope.openSetPhone = function () {
       var modalInstance = $modal.open({
-        templateUrl: 'tpl/modal/set_value.html',
+        templateUrl: 'tpl/modal/set_phone.html',
         controller: 'SetValueCtrl',
         resolve: {
           data: function () {

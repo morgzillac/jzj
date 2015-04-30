@@ -79,8 +79,11 @@
     </div>
   </div>
   
-  <div class="row wrapper no-p-t">
-    <h4 class="m-t-none font-bold">费用合计</h4>
+  <div class="row wrapper no-p-b">
+      <h4 class="pull-left m-t-none font-bold">费用合计</h4>
+      <h4 class="pull-right text-right">费用合计  赚点：<label class="text-danger">{{calcCost.totalPts}}</label>点 | 押金：<label class="text-danger">{{calcCost.total | number:2}}</label>元</h4>
+    </div>
+  <div class="row wrapper no-p-t">    
     <div class="table-responsive"> 
         <table class="table table-striped b">
           <thead>
@@ -96,15 +99,13 @@
               <td>
                 <h5 ng-repeat="item in cate.items track by $index">{{item.name}} = {{item.value}}</h5>                
               </td>
-              <td>{{cate.subtotal}}元</td>
+              <td>{{cate.subtotal}} (元 | 赚点)</td>
             </tr>  
           </tbody>
         </table>
       </div>
   </div>  
 
-  <div class="row wrapper-md no-p-t">
-    <h4 class="text-right">费用合计  押金：<label class="text-danger">{{calcCost.totalPts}}</label>元  赚点：<label class="text-danger">{{calcCost.total | number:2}}</label>元</h4>
-  </div>
+  
 
 </div>

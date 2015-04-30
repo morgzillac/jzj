@@ -37,8 +37,8 @@
 						<label class="control-label text-left"><span class="text-muted">单次最少变现100点 </span></label>
 					</div>		
 					<div class="m-t-xs">			
-						<label>变现手续费：</label><label class="h3 text-danger font-thin h3">{{points2cash.fee}}</label> <label> 元</label>
-						<label class="m-l-lg">变现实际到账金额：</label><label class="h3 text-danger font-thin h3r">{{points2cash.amount}}</label> <label> 元</label>
+						<label>变现手续费：</label><label class="h3 text-danger font-thin h3">{{points2cash.fee | number:2}}</label> <label> 元</label>
+						<label class="m-l-lg">变现实际到账金额：</label><label class="h3 text-danger font-thin h3r">{{points2cash.amount  | number:2}}</label> <label> 元</label>
 					</div>
 					<div class="m-t m-b">
 						<button class="btn btn-jzj" ng-disabled="point2cashForm.$invalid" ng-click="submitPoints2cash(point2cashForm.$valid)">确定</button>
@@ -66,8 +66,8 @@
 			<label class="control-label text-left"><span class="text-muted">单次最少提现100元 </span><span class="text-danger">(提现操作平台将收取0.3%的手续费)</span></label>
 		</div>		
 		<div class="m-t-xs">			
-			<label>手续费总计：</label><label class="h3 text-danger font-thin h3">{{cashout.fee}}</label> <label> 元</label>
-			<label class="m-l-lg">实际到账金额总计：</label><label class="h3 text-danger font-thin h3">{{cashout.amount}}</label> <label> 元</label>
+			<label>手续费总计：</label><label class="h3 text-danger font-thin h3">{{cashout.fee  | number:2}}</label> <label> 元</label>
+			<label class="m-l-lg">实际到账金额总计：</label><label class="h3 text-danger font-thin h3">{{cashout.amount  | number:2}}</label> <label> 元</label>
 		</div>
 		<div class="m-t-xs">
 			<p class="text-danger">注：预计2个工作日内（国家法定假日和双休日顺延）平台完成提现操作，到账时间已各大银行为准，预计3-5工作日左右</p>	

@@ -1,20 +1,22 @@
 
 <div class="modal-body" >
 	<div class="m-b">
-		<h4>{{title}}</h4>
+		<h4>设置QQ</h4>
 	</div>	
 	<div class="line b-b"></div>
 	<br/>
 	<div>
+		<form role="form" name="qqForm" class="form-horizontal">
 	    <div class="text-center">
 	    	<div>
-	    		<label>新的值:</label><input type="text" class="w-md input-control-xs" ng-model="value">	
+	    		<label>QQ号码:</label><input type="text" class="w-md input-control-xs" ng-model="value" ng-pattern="/^[0-9]*$/">	
 	    	</div>			
 		</div>
+		</form>
 	</div>
 	<br/>
 </div>
 <div class="modal-footer">                  
     <button class="btn btn-default" ng-click="cancel()">取消</button>
-    <button class="btn btn-jzj" ng-click="ok()">确定</button>
+    <button class="btn btn-jzj" ng-disabled="qqForm.$invalid" ng-click="ok()">确定</button>
 </div>
