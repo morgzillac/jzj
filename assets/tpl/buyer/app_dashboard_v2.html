@@ -5,57 +5,55 @@
     </ul>
   </div>
 
-  <div class="wrapper-md bg-white" >
-    <div class="row">
-      <div class="col-md-3 pull-left b-r padder"><label>聚赚界个人账户：</label><label class="text-info h3 m-l m-r">{{userLogin}}</label></div>
-      <div class="col-md-3 pull-left b-r padder"><label>会员等级：</label><label class="text-jzj h3 m-l m-r">VIP</label><label></label></div>
-      <div class="col-md-6 pull-left b-r padder"><label>账户安全等级：</label><label class="text-jzj h3 m-l m-r">5</label>
-      <small class="text-muted">（邮箱绑定，手机认证，账户绑定，开通支付密码，实名认证）五级用户五星及图文展示</small></div>
+  <div class="padder-md bg-white">
+    <div class="row padder-v">
+      <div class="col-md-6 pull-left padder"><label>聚赚界个人账户：</label><label class="text-info h4 m-l m-r">{{userLogin}}</label></div>      
     </div>   
-    <div class="line line-dashed b-b"></div>        
+    <div class="line line-dashed b-b m-n"></div>        
     <div class="row">
       <div class="col-md-3 pull-left b-r padder"><label>已有赚点：</label><label class="text-jzj h3 m-l m-r">8</label><label>赚点</label></div>
       <div class="col-md-3 pull-left b-r padder"><label>申请提现：</label><label class="text-jzj h3 m-l m-r">100</label><label>元</label></div>
       <div class="pull-left text-left padder wrapper-xs"><a class="text-info p-t" ng-click="popSlidebox('/tpl/slide/castout_help.html')">提现说明>></a></div>
     </div>        
-    <div class="line line-dashed b-b"></div>
+    <div class="line line-dashed b-b m-n"></div>
     <div class="row">
       <div class="col-md-3 pull-left b-r padder"><label>累计赚取：</label><label class="text-jzj h3 m-l m-r">0</label><label>赚点</label></div>
       <div class="col-md-3 pull-left b-r padder"><label>经验值：</label><label class="text-jzj h3 m-l m-r">0</label><label></label></div>
       <div class="col-md-3 pull-left padder"><label>排名：</label><label class="text-jzj h3 m-l m-r">0</label><label>位</label></div>
     </div>  
-    <div class="line line-dashed b-b"></div>      
-    <div class="row m-t">
+    <div class="line line-dashed b-b m-n"></div>      
+    <div class="row m-t-xs">
       <div class="col-md-3 pull-left padder"><label class="text-danger">绑定买手账户，开始抢钱了</label><a class="text-info p-t" href="#/app/buyer/account"> + 添加买号</a></div>
     </div>
 
-    <div class="line line-dashed b-b"></div> 
+    <div class="line line-dashed b-b m-n"></div> 
     <!--trans-->
     <div class="row">
       <div class="col-md-3 pull-left b-r padder"><label>总垫付本金：</label><label class="text-jzj h3 m-l m-r">0</label><label>元</label></div>
       <div class="col-md-3 pull-left b-r padder"><label>可提现的本金：</label><label class="text-jzj h3 m-l m-r">0</label><label>元</label></div>
       <div class="pull-left text-left padder wrapper-xs"><a class="text-info p-t" href="#/app/financial/cashout">申请提现</a></div>
     </div>        
-    <div class="line line-dashed b-b"></div>        
+    <div class="line line-dashed b-b m-n"></div>        
     <div class="row">
       <div class="col-md-3 pull-left b-r padder"><label>邀请会员共获得奖励：</label><label class="text-jzj h3 m-l m-r">0</label><label>赚点</label></div>
       <div class="col-md-3 pull-left b-r padder"><label>邀请会员完成任务奖励：</label><label class="text-jzj h3 m-l m-r">0</label><label>赚点</label></div>
       <div class="pull-left text-left padder wrapper-xs"><a class="text-info p-t" href="">查看</a></div>
     </div>        
-    <div class="line line-dashed b-b"></div>
+    <div class="line line-dashed b-b m-n"></div>
     <div class="row">
       <div class="col-md-3 pull-left b-r padder"><label>XX 今日获得奖励：</label><label class="text-jzj h3 m-l m-r">0</label><label>赚点</label></div>
       <div class="col-md-3 pull-left b-r padder"><label>本人完成任务：</label><label class="text-jzj h3 m-l m-r">0</label><label>赚点</label></div>
       <div class="pull-left text-left padder wrapper-xs"><a class="text-info p-t" href="">查看</a></div>
     </div>
+    <div class="line line-dashed b-b m-n"></div> 
     <!--网站公布-->
-    <div class="m-panel m-t">
+    <div class="m-panel m-t-xs">
       <div class="m-panel-heading">
         <a ng-class="{'bg-jzj title-danger':postType==3}" ng-click="showPost(3)" class="m-panel-title">网站公告</a>
         <a ng-class="{'bg-jzj title-danger':postType==4}" ng-click="showPost(4)" class="m-panel-title">常见问题</a>
       </div>    
       <div class="m-panel-body">
-        <ul class="padder-lg">
+        <ul class="padder-md">
             <li class="text-danger post-item" ng-repeat="p in postList"><a ng-click="popPost(p)">{{p.title}}</a><span class="pull-right m-l-lg text-muted">{{p.createdAt | date : 'yyyy-MM-dd' : 'Z'}}</span></li>     
           </ul>
       </div>    

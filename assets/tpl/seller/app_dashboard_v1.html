@@ -1,24 +1,20 @@
 <div ng-controller="HomeSellerController">
-  <div class="wrapper-md bg-white">
-    <div class="row">
-      <div class="col-md-3 pull-left b-r padder"><label>聚赚界个人账户：</label><label class="text-info h3 m-l m-r">{{userLogin}}</label></div>
-      <div class="col-md-3 pull-left b-r padder"><label>会员等级：</label><label class="text-jzj h3 m-l m-r">VIP</label><label></label></div>
-      <div class="col-md-6 pull-left b-r padder"><label>账户安全等级：</label><label class="text-jzj h3 m-l m-r">5</label>
-      <small class="text-muted">（邮箱绑定，手机认证，账户绑定，开通支付密码，实名认证）五级用户五星及图文展示</small></div>
+  <div class="padder-md bg-white">
+    <div class="row padder-v">
+      <div class="col-md-6 pull-left padder"><label>聚赚界个人账户：</label><label class="text-info h4 m-l">{{userLogin}}</label></div>      
     </div>   
-    <div class="line line-dashed b-b"></div>   
+    <div class="line line-dashed b-b m-n"></div>   
     <div class="row">
       <div class="col-md-3 pull-left b-r padder"><label>可用押金：</label><label class="text-info h3 m-l m-r"><a class="text-jzj font-thin h3" ng-bind="balance.cashFrozen"></a></label><label>元</label></div>
-      <div class="col-md-3 pull-left text-left b-r padder wrapper-xs"><a ui-sref="app.financial.recharge({transType:3})" class="p-t text-info">充值押金</a></div>
-      <div class="col-md-3 pull-left padder"><a ui-sref="app.task({id:'new'})" class="btn btn-jzj padder-lg">发布任务</a></div>
+      <div class="col-md-3 pull-left text-left padder wrapper-xs"><a ui-sref="app.financial.recharge({transType:3})" class="p-t text-info">充值押金</a></div>
     </div> 
-    <div class="line line-dashed b-b"></div> 
+    <div class="line line-dashed b-b m-n"></div> 
     <div class="row">
       <div class="col-md-3 pull-left b-r padder"><label>可用赚点：</label><label class="text-info h3 m-l m-r"><a class="text-jzj font-thin h3" ng-bind="balance.points"></a></label><label>赚点</label></div>
       <div class="pull-left text-left padder wrapper-xs"><a ui-sref="app.financial.recharge({transType:4})" class="p-t text-info">充值赚点</a></div>
     </div> 
-    <div class="line line-dashed b-b"></div> 
-    <div class="row">
+    <div class="line line-dashed b-b m-n"></div> 
+    <div class="row trans-record">
       <div class="col-md-6 pull-left  padder wrapper-xs"><label>资金记录：</label>
         <a class="text-info m-r" ng-click="viewTransHisttory($event,'recharge')"><span class="fa fa-cny"></span> 最近充值记录 <span class="fa fa-angle-down"></span></a>
         <a class="text-info m-r" ng-click="viewTransHisttory($event,'cashout')"><span class="fa fa-history"></span> 最近提现记录 <span class="fa fa-angle-down"></span></a>
@@ -103,24 +99,39 @@
       </div>
       <!--资金记录-->
     </div> 
+    <div class="line line-dashed b-b m-n"></div> 
+    <!--网站公布-->
+    <div class="m-panel m-t-xs">
+      <div class="m-panel-heading">
+        <a ng-class="{'bg-jzj title-danger':postType==1}" ng-click="showPost(1)" class="m-panel-title">网站公告</a>
+        <a ng-class="{'bg-jzj title-danger':postType==2}" ng-click="showPost(2)" class="m-panel-title">常见问题</a>
+      </div>    
+      <div class="m-panel-body">
+        <ul class="padder-md">
+            <li class="text-danger post-item" ng-repeat="p in postList"><a ng-click="popPost(p)">{{p.title}}</a><span class="pull-right m-l-lg text-muted">{{p.createdAt | date : 'yyyy-MM-dd' : 'Z'}}</span></li>     
+          </ul>
+      </div>    
+    </div>
+
     <!--待处理的任务-->
-    <div class="panel panel-default m-t b-default">
-      <div class="panel-heading">      
-        <span class="text-jzj font-bold"><i class="fa fa-tasks"></i> 任务信息</span>
+    <div class="panel m-t-xs b-default">
+      <div class="panel-heading  b-b b-light" style="height:50px;">      
+        <h4 class="pull-left font-thin m-t-none m-b-none text-jzj"><i class="fa fa-tasks"></i> 任务信息</h4>
+        <span class="text-xs text-muted pull-right"><a ui-sref="app.task({id:'new'})" class="btn btn-jzj btn-sm">发布任务</a></span>
       </div> 
       <div class="panel-body">
         <div class="row">
           <div class="col-md-6">
-            <div class="row wrapper">
+            <div class="row padder">
               <ul class="ul-t">
                 <li><a> 买手已付款，待发货：</a><a class="text-jzj font-thin h3"> {{buyer1TaskCount}} </a><a href class="m-l text-info"> 查看详情</a></li> 
               </ul>  
             </div>
-            <div>
+            <div class="w-full">
               <small class="text-muted">请及时复制运单号到对应平台操作订单发货</small>   
             </div>
-            <div class="line line-dashed b-b"></div>
-            <div class="row wrapper">
+            <div class="line line-dashed b-b m-n"></div>
+            <div class="row padder">
               <ul class="ul-t">
                 <li><a> 买手已收货，待退款：</a><a class="text-jzj font-thin h3"> {{buyer2TaskCount}} </a><a href class="m-l text-info"> 查看详情</a></li>   
               </ul>    
@@ -128,8 +139,8 @@
             <div>
               <small class="text-muted">请在48小时内给买手退款，否则平台将扣除任务押金中的退款保证金</small>   
             </div>
-            <div class="line line-dashed b-b"></div>
-            <div class="row wrapper">
+            <div class="line line-dashed b-b m-n"></div>
+            <div class="row padder">
               <ul class="ul-t">
                 <li><a> 买手已好评，待评选：</a><a class="text-jzj font-thin h3"> {{buyer3TaskCount}} </a><a href class="m-l text-info"> 查看详情</a></li>   
               </ul>    
@@ -140,7 +151,7 @@
           </div>
           <div class="col-md-6">
             <!--任务进展-->  
-            <div class="row wrapper">
+            <div class="row padder">
               <ul class="ul-t">
                 <li><a> 已完成的任务：</a><a class="text-jzj font-thin h3"> {{finishTaskCount}} </a><a ui-sref="app.tasklist.finish({status:1})" class="m-l text-info"> 查看详情</a></li>           
               </ul>    
@@ -148,8 +159,8 @@
             <div>
               <small class="text-muted">&nbsp;</small>   
             </div>
-            <div class="line line-dashed b-b"></div>
-            <div class="row wrapper">
+            <div class="line line-dashed b-b m-n"></div>
+            <div class="row padder">
               <ul class="ul-t">
                 <li><a> 进行中的任务：</a><a class="text-jzj font-thin h3"> {{doingTaskCount}} </a><a ui-sref="app.tasklist.doing({status:4})" class="m-l text-info"> 查看详情</a></li>   
               </ul>    
@@ -157,8 +168,8 @@
             <div>
               <small class="text-muted">&nbsp;</small>   
             </div>
-            <div class="line line-dashed b-b"></div>
-            <div class="row wrapper">
+            <div class="line line-dashed b-b m-n"></div>
+            <div class="row padder">
               <ul class="ul-t">
                 <li><a> 未发布的任务：</a><a class="text-jzj font-thin h3"> {{unpublishTaskCount}} </a><a ui-sref="app.tasklist.unpublish({status:2})" class="m-l text-info"> 查看详情</a></li>   
               </ul>    
@@ -166,19 +177,6 @@
           </div>
         </div>      
       </div>      
-    </div>
-    
-    <!--网站公布-->
-    <div class="m-panel m-t">
-      <div class="m-panel-heading">
-        <a ng-class="{'bg-jzj title-danger':postType==1}" ng-click="showPost(1)" class="m-panel-title">网站公告</a>
-        <a ng-class="{'bg-jzj title-danger':postType==2}" ng-click="showPost(2)" class="m-panel-title">常见问题</a>
-      </div>    
-      <div class="m-panel-body">
-        <ul class="padder-lg">
-            <li class="text-danger post-item" ng-repeat="p in postList"><a ng-click="popPost(p)">{{p.title}}</a><span class="pull-right m-l-lg text-muted">{{p.createdAt | date : 'yyyy-MM-dd' : 'Z'}}</span></li>     
-          </ul>
-      </div>    
     </div>
 
     </div>

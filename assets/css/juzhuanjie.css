@@ -60,12 +60,12 @@
     border-radius: 2px;
 }
 .m-panel-heading{    
-    height: 40px;
+    height: 35px;
     background: #f6f8f8;
 }
 .m-panel .m-panel-title{
     float: left;
-    padding: 10px;
+    padding: 6px;
 }
 /*.m-panel-heading a:hover{
     color: #fff;
@@ -193,4 +193,7 @@
 }
 .platform6-p2{
     background-position: 25px -92px;
+}
+.trans-record{
+    padding-top: 4px;
 }

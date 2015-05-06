@@ -4115,6 +4115,9 @@ a.text-#000000:hover {
 .no-p-b{
   padding-bottom: 0px !important;
 }
+.wrapper-xxs {
+  padding: 2px;
+}
 .wrapper-xs {
   padding: 5px;
 }
@@ -4152,6 +4155,16 @@ a.text-#000000:hover {
 .padder {
   padding-right: 15px;
   padding-left: 15px;
+}
+
+.padder-sm {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.padder-xs {
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 .padder-v {
