@@ -53,17 +53,9 @@ angular.module('app')
               })
               .state('app.dashboard-v1', {
                   url: '/dashboard-v1',
-                  templateUrl: 'tpl/seller/app_dashboard_v1.html',
-                  resolve: {
-                    deps: ['$ocLazyLoad',
-                      function( $ocLazyLoad ){
-                        return $ocLazyLoad.load(['js/controllers/jzj.home.js']);
-                    }]
-                  }
-              })
-              .state('app.dashboard-v2', {
-                  url: '/dashboard-v2',
-                  templateUrl: 'tpl/buyer/app_dashboard_v2.html',
+                  templateUrl: function(){
+                    return app.userSession.userTypeId == 1 ? 'tpl/seller/app_dashboard_v1.html' : 'tpl/buyer/app_dashboard_v2.html';
+                  },
                   resolve: {
                     deps: ['$ocLazyLoad',
                       function( $ocLazyLoad ){
