@@ -1,19 +1,19 @@
 <div ng-controller="HomeSellerController">
   <div class="padder-md bg-white">
     <div class="row padder-v">
-      <div class="col-md-6 pull-left padder"><label>聚赚界个人账户：</label><label class="text-info h4 m-l">{{userLogin}}</label></div>      
+      <div class="col-md-6 pull-left"><label>聚赚界个人账户：</label><label class="text-info h4 m-l">{{userLogin}}</label></div>      
     </div>   
-    <div class="line line-dashed b-b m-xs"></div>   
+    <div class="line line-dashed b-b m-b-xs"></div>   
     <div class="row">
       <div class="col-md-3 pull-left b-r padder"><label>可用押金：</label><label class="text-info h3 m-l m-r"><a class="text-jzj font-thin h3" ng-bind="balance.cashFrozen"></a></label><label>元</label></div>
       <div class="col-md-3 pull-left text-left padder wrapper-xs"><a ui-sref="app.financial.recharge({transType:3})" class="p-t text-info">充值押金</a></div>
     </div> 
-    <div class="line line-dashed b-b m-xs"></div> 
+    <div class="line line-dashed b-b m-t-b-xs"></div> 
     <div class="row">
       <div class="col-md-3 pull-left b-r padder"><label>可用赚点：</label><label class="text-info h3 m-l m-r"><a class="text-jzj font-thin h3" ng-bind="balance.points"></a></label><label>赚点</label></div>
       <div class="pull-left text-left padder wrapper-xs"><a ui-sref="app.financial.recharge({transType:4})" class="p-t text-info">充值赚点</a></div>
     </div> 
-    <div class="line line-dashed b-b m-xs"></div> 
+    <div class="line line-dashed b-b m-t-b-xs"></div> 
     <div class="row trans-record">
       <div class="col-md-6 pull-left  padder wrapper-xs"><label>资金记录：</label>
         <a class="text-info m-r" ng-click="viewTransHisttory($event,'recharge')"><span class="fa fa-cny"></span> 最近充值记录 <span class="fa fa-angle-down"></span></a>

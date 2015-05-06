@@ -197,3 +197,12 @@
 .trans-record{
     padding-top: 4px;
 }
+.m-t-b-xs{
+    margin: 5px 0;
+}
+.m-t-xs{
+    margin: 5px 0 0 0;
+}
+.m-b-xs{
+    margin: 0 0 5px 0;   
+}
