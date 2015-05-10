@@ -45,6 +45,7 @@ angular.module('app')
         if(app.userSession != null && angular.isDefined(app.userSession.userLogin) && app.userSession.userLogin != null){
           $scope.userLogin = app.userSession.userLogin;
           $scope.userTypeId = app.userSession.userTypeId;
+          $scope.userImage = app.userSession.image;
           getBalance();
         }        
       });
