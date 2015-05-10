@@ -24,6 +24,8 @@ module.exports = {
       taskObj.keywords = taskObj.taskDetail.searchProductKeywords;
       taskObj.taskDetail = JSON.stringify(taskObj.taskDetail);
       taskObj.userId = req.userData.userId; //set user ID
+      taskObj.productCount = taskObj.taskDetail.productCount;
+
       sails.log.info(taskObj.taskId, taskObj.keywords);
     } catch (e) {
       sails.log.error(e);
@@ -35,6 +37,7 @@ module.exports = {
   },
 
   canTakeTask: function (req, res) {
+    // todo: needs reword
     var taskId = req.param('taskId');
     if (!taskId) return res.ok({result:fasle});
      UtilsService.canTakeTask(taskId, function (err, result){

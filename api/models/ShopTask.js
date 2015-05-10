@@ -21,7 +21,8 @@ module.exports = {
     },
     "shopId":{
       "columnName":"shop_id",
-      "type": "integer"
+      model:'SellerShop',
+      via: 'shopId'
     },
     "productId": {
       "columnName": "product_id",
@@ -30,6 +31,10 @@ module.exports = {
     },
     "productPrice": {
       "columnName": "product_price",
+      "type": "integer"
+    },
+    "productCount": {
+      "columnName": "product_count",
       "type": "integer"
     },
     "commission": {
