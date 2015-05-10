@@ -883,6 +883,71 @@ app.controller('TaskListCtrl',['$scope','$stateParams','taskStatuss','tasks',fun
 	    filterTasksByCondition($scope.condition,data.currentPage,data.pageSize);
 	});
 }]);
+/*Buyer task list*/
+app.controller('BuyerTaskListCtrl',['$scope','$stateParams','platforms','taskBuyers','subTaskStatuss','toaster','slidebox',
+	function($scope,$stateParams,platforms,taskBuyers,subTaskStatuss,toaster,slidebox){
+	$scope.taskList = [];
+	$scope.platforms = [];
+	$scope.condition = { platformId : -1,shopId : -1,taskTypeId : -1,terminalId : -1,statusId : -1 };
+	$scope.statusNames = [];
+	$scope.$watch('$viewContentLoaded',function(){
+		$scope.platforms = platforms.getAll();
+		
+		var statusArray = subTaskStatuss.getAll();
+		angular.forEach(statusArray,function(value){
+			$scope.statusNames[value.id] = value.name;
+		});
+		console.log($scope.statusNames);
+		if($stateParams.status && $stateParams.status != -1){
+			$scope.condition.statusId = $stateParams.status;
+		}
+		filterTaskBuyerByCondition(1,4);
+		queryCount();
+	});
+	//查询已完成的任务
+	var filterTaskBuyerByCondition = function(currentPage,pageSize){		
+		taskBuyers.query($scope.condition,currentPage,pageSize).then(function(result){
+			$scope.taskList = result;
+		});
+	};
+	$scope.queryTaskBuyer = function(){
+		filterTaskBuyerByCondition(1,4);
+	};
+	var queryCount = function(){
+		var condition = "";
+		if($scope.condition.platformId != -1
+			&& $scope.condition.statusId == -1){
+			condition = "{\"platformId\":" + $scope.condition.platformId + "}";
+		}
+		if($scope.condition.platformId == -1
+			&& $scope.condition.statusId != -1){
+			condition = "{\"statusId\":" + $scope.condition.statusId + "}";
+		}
+		if($scope.condition.platformId != -1 
+			&& $scope.condition.statusId != -1){
+			condition = "{\"platformId\":" + $scope.condition.platformId + ",\"statusId\":" + $scope.condition.statusId + "}";
+		}
+	    taskBuyers.queryCount(condition).then(function(result){
+	      $scope.$broadcast('resultsLoaded', result);
+	    });
+	};
+	$scope.$on('pageChanged',function(event,data){
+	    filterTaskBuyerByCondition(data.currentPage,data.pageSize);
+	});
+	$scope.processTaskStatus = function(taskBuyerId,statusId){
+		taskBuyers.updateStatus(taskBuyerId,statusId).then(function(result){
+			$scope.taskList = result;
+			angular.forEach($scope.taskList,function(value){
+				if(value.taskBuyerId == result.taskBuyerId){
+					value.statusId = result.statusId;
+				}
+			});
+		});
+	};
+	$scope.viewDetail = function (taskId) {
+		slidebox.pop('tpl/slide/task_details.html',{"taskId":taskId});
+    };
+}]);
 //筛选控制器
 app.controller('TaskFilterCtrl',['$scope','$stateParams','platforms','sellerShops','taskTypes','terminals',function($scope,$stateParams,platforms,sellerShops,taskTypes,terminals){
 	var userId = app.userSession.userId;

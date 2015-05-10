@@ -454,6 +454,18 @@ app.factory('taskBuyers',['promisePost','promiseGet','promisePut',function(promi
 		},
 		updateStatus : function(taskId,statusId){
 			return promisePut('/TaskBuyer/' + taskId, {"statusId":statusId});
+		},
+		query : function(condition,currentPage,pageSize){
+			var queryPara = '?sort=createdAt DESC';
+			/*if(angular.isDefined(condition.platformId) && condition.platformId != -1){
+				queryPara += '&platformId=' + condition.platformId;
+			}*/
+			if(angular.isDefined(condition.statusId) && condition.statusId != -1){
+				queryPara += '&statusId=' + condition.statusId;
+			}			
+			var skip = pageSize * (currentPage - 1);
+			queryPara += '&limit=' + pageSize + '&skip=' + skip;
+			return promiseGet('/TaskBuyer/' + queryPara);
 		}
 	};
 }]);

@@ -285,6 +285,10 @@ angular.module('app')
                   url: '/unpublish/:status',
                   templateUrl: 'tpl/task/unpublish_task_list.html'                 
               })
+              .state('app.tasklist.buyer', {
+                  url: '/buyer/:status',
+                  templateUrl: 'tpl/task/buyer_task_list.html'                 
+              })
               .state('app.financial', {
                   url: '/financial',
                   template: '<div ui-view></div>',

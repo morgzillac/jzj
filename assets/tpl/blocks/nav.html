@@ -54,23 +54,11 @@
 
   <!--买手菜单-->
   <li ng-if="userTypeId==2" ui-sref-active="active">
-    <a ui-sref="app.tasklist.finish({status:1})">
+    <a ui-sref="app.tasklist.buyer({status:-1})">
       <i class="glyphicon glyphicon-th-large icon text-success"></i>
-      <span>已完成的任务</span>
+      <span>我的任务</span>
     </a>
-  </li> 
-  <li ng-if="userTypeId==2" ui-sref-active="active">
-    <a ui-sref="app.tasklist.doing({status:4})">
-      <i class="glyphicon glyphicon-th  icon text-info-lter"></i>
-      <span>进行中的任务</span>
-    </a>
-  </li> 
-  <li ng-if="userTypeId==2" ui-sref-active="active">
-    <a ui-sref="app.tasklist.pending({platformId:p.id})">
-      <i class="glyphicon glyphicon-tasks icon text-success"></i>
-      <span>待处理的任务</span>
-    </a>
-  </li> 
+  </li>   
 
   <li class="line dk"></li>
 
