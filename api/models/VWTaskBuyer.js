@@ -59,6 +59,10 @@ module.exports = {
       "columnName": "product_price",
       "type": "integer"
     },
+    "productCount": {
+      "columnName": "product_count",
+      "type": "integer"
+    },
     "platformId": {
       "columnName": "platform_id",
       "type": "integer"
