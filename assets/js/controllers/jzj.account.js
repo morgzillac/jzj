@@ -102,6 +102,7 @@ app.controller('UserCtrl', ['$scope', '$modal','users', function($scope, $modal,
     var save = function(json){
       users.save(userId, json).then(function(result){
         $scope.user = result;
+        $scope.$emit('userInfoChanged', {"user" : result});
       });      
     }
 }]);

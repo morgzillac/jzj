@@ -49,6 +49,9 @@ angular.module('app')
           getBalance();
         }        
       });
+      $scope.$on('userInfoChanged',function(event,data){
+        $scope.userImage = data.user.image;
+      });
       // save settings to local storage
       if ( angular.isDefined($localStorage.settings) ) {
         $scope.app.settings = $localStorage.settings;
