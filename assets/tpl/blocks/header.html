@@ -34,7 +34,8 @@
           <li class="dropdown" dropdown>
             <a href class="dropdown-toggle clear" dropdown-toggle>
               <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                <img src="img/a0.jpg" alt="...">
+                <img ng-if="app.userSession.image==''" src="img/a0.jpg" alt="...">
+                <img ng-if="app.userSession.image!=''" src="app.userSession.image" alt="...">
                 <i class="on md b-white bottom"></i>
               </span>
               <span class="hidden-sm hidden-md text-info h4">{{userLogin}}</span> <b class="caret"></b>
