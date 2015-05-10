@@ -82,7 +82,22 @@ module.exports = {
         res.customError('508', sails.config.errs.db_userdata_not_found);
       }
     });
+  },
+
+  count: function(req, res) {
+
+    if (req.userData && req.userData.userId) var userId = req.userData.userId;
+    if (!userId) return res.forbidden();
+
+    VWTaskBuyer.count({userId:userId}, function(error, response) {
+      if (error) {
+        return res.serverError('database_error', error);
+      }
+      res.ok({count: response});
+    });
+
   }
+
 
 
 };
