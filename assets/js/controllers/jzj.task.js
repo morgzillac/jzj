@@ -893,11 +893,10 @@ app.controller('BuyerTaskListCtrl',['$scope','$stateParams','platforms','taskBuy
 	$scope.$watch('$viewContentLoaded',function(){
 		$scope.platforms = platforms.getAll();
 		
-		var statusArray = subTaskStatuss.getAll();
-		angular.forEach(statusArray,function(value){
+		$scope.subStatus = subTaskStatuss.getAll();
+		angular.forEach($scope.subStatus,function(value){
 			$scope.statusNames[value.id] = value.name;
 		});
-		console.log($scope.statusNames);
 		if($stateParams.status && $stateParams.status != -1){
 			$scope.condition.statusId = $stateParams.status;
 		}

@@ -11,8 +11,8 @@
     </div>   
     <div class="line line-dashed b-b m-b-xs"></div>        
     <div class="row">
-      <div class="col-md-3 pull-left b-r padder"><label>已有赚点：</label><label class="text-jzj h3 m-l m-r">8</label><label>赚点</label></div>
-      <div class="col-md-3 pull-left b-r padder"><label>申请提现：</label><label class="text-jzj h3 m-l m-r">100</label><label>元</label></div>
+      <div class="col-md-3 pull-left b-r padder"><label>可用赚点：</label><label class="text-jzj h3 m-l m-r" ng-bind="balance.points"></label><label>赚点</label></div>
+      <div class="col-md-3 pull-left b-r padder"><label>可用押金：</label><label class="text-jzj h3 m-l m-r" ng-bind="balance.cashFrozen"></label><label>元</label></div>
       <div class="pull-left text-left padder wrapper-xs"><a class="text-info p-t" ng-click="popSlidebox('/tpl/slide/castout_help.html')">提现说明>></a></div>
     </div>        
     <div class="line line-dashed b-b m-t-b-xs"></div>

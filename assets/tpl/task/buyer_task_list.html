@@ -24,9 +24,7 @@
         <div class="btn-group">
           <select class="form-control" ng-model="condition.statusId">
             <option value="-1">全部</option>
-            <option value="1">待付款</option>
-            <option value="3">待收货</option>
-            <option value="5">待好评</option>
+            <option ng-repeat="s in subStatus" value="{{s.id}}">{{s.name}}</option>
           </select>
         </div>
       </div>

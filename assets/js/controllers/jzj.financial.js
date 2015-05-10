@@ -248,6 +248,10 @@ app.controller('CashoutCtrl',['$scope','cashouts','points2cashs','userBanks','ba
       toaster.pop('error','错误','表单填写不正确' );
       return;
     }
+    if (!$scope.userBankId || $scope.userBankId<0) {
+      toaster.pop('error','错误','请先选择提现账号。如果未绑定，请先绑定提现账号。' );
+      return;
+    }
     //验证最大提现额
     if($scope.cashout.points > $scope.totalCashs){
       toaster.pop('error','错误','最大提现额为' + $scope.totalCashs);
