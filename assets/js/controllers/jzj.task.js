@@ -939,10 +939,9 @@ app.controller('BuyerTaskListCtrl',['$scope','$stateParams','platforms','taskBuy
 	});
 	$scope.processTaskStatus = function(taskBuyerId,statusId){
 		taskBuyers.updateStatus(taskBuyerId,statusId).then(function(result){
-			$scope.taskList = result;
 			angular.forEach($scope.taskList,function(value){
-				if(value.taskBuyerId == result.taskBuyerId){
-					value.statusId = result.statusId;
+				if(value.taskBuyerId == taskBuyerId){
+					value.statusId = statusId;
 				}
 			});
 		});

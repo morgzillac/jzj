@@ -250,6 +250,7 @@ function ajaxService(){
 			}
 		);
 	};
+	
 };
 function getCurrExecuteTask(){
 	var taskId = window.localStorage.getItem("currExecuteTaskId");
@@ -304,7 +305,171 @@ function flowStorageService(){
 }
 
 
+/*根platformId获取对应的template, 刚开始的时候需要缓存起来*/
+function getTemplate(platformId){
+		//TODO: 改成从服务器获取
+		var template;
+		switch(platformId){
+			
+			case 1: /*tabobao*/
+				template = getTaobaoTemplate();
+				break;
+			case 2: /*tmall*/
+				template = getTmallTemplate();
+				break;
+			case 6: /*yhd*/
+				template = getYhdTemplate();
+				break;
+
+		}
+		return template;
+	};
+
+
 /*测试数据*/
+function getTaobaoTemplate(){
+	return "";
+}
+function getYhdTemplate(){
+	return yhdTemplate = {
+	    "pretreatment": [
+	        {
+	            "url": "http://www.yhd.com/", 
+	            "desc": "搜索商品，关键字【@keyword】", 
+	            "define": "", 
+	            "script": "keyword = \"@keyword\";$(\"input#keyword\").val(keyword);$(\"#hdSearchBtn\").click(function(){callback({status:STATUS.UNKNOW});}).click();"
+	        }, 
+	        {
+	            "url": "#", 
+	            "desc": "选择类别【@category】", 
+	            "define": "", 
+	            "script": "keyword = \"@category\";if(keyword.length){var link = $(\"#group_attr [title^='\" + keyword + \"']\");if(link.length){if(link.get(0).tagName == \"A\"){link.click(call()).get(0).click();}else if(link.children(0).tagName == \"A\"){link.children().click(call()).get(0).click();}else if(link.parent().get(0).tagName == \"A\"){link.parent().click(call()).get(0).click();} }else{ callback({status:STATUS.FAIL,message:\"There is no such classification\"});} }else{ run(3); } function call(){ callback({status:STATUS.UNKNOW}); }"
+	        }, 
+	        {
+	            "url": "#", 
+	            "desc": "设定价格范围【@minprice】-【@maxprice】", 
+	            "define": "", 
+	            "script": "startPrice = @minprice; endPrice = @maxprice; if(endPrice && endPrice >= startPrice){ $(\"#searchPriceRangeMin\").val(startPrice); $(\"#searchPriceRangeMax\").val(endPrice); $(\"div.between a.btn2\").click(function(){ callback({status:STATUS.UNKNOW}); }).get(0).click(); }else{ run(5); }"      }, 
+	        {
+	            "url": "#", 
+	            "desc": "随机访问4个商品，浏览时间大概3分钟", 
+	            "define": "", 
+	            "script": "var p = $(\"div.mod_product_list div.proImg a.img\"); p.each(function(){ $(this).attr(\"target\", \"_blank\"); }); var json = {}; var jsList = []; var list = getRandom(p.length,4); for(var i=0; i<list.length; i++){ p.get(list[i]).click(); jsList.push(p.eq(list[i]).attr(\"href\")); } json.url = jsList; run(6);"	        }, 
+	        {
+	            "url": "#", 
+	            "desc": "", 
+	            "define": "", 
+	            "script": "var link = \"http://item.yhd.com/item/35098709?tc=3.0.5.35098709.19&tp=51.%E8%83%8C%E5%8C%85.124.0.39.Kkftpuj-10-F1bUq\"; callback({status:STATUS.UNKNOW}); window.location.href = link;"
+	        }, 
+	        {
+	            "url": "#", 
+	            "desc": "", 
+	            "define": "", 
+	            "script": "var store = $(\"div.search_item button\"); if(store.length){  store.removeAttr(\"target\");  store.click(function(){ callback({status:STATUS.UNKNOW}); }).first().click(); }"
+	        }, 
+	        {
+	            "url": "#", 
+	            "desc": "", 
+	            "define": "", 
+	            "script": "var p = $(\"#fix_inshop_product_list h3.pro_name a\"); p.each(function(){ $(this).attr(\"target\", \"_blank\"); }); var json = {}; var jsList = []; var list = getRandom(p.length,4); for(var i=0; i<list.length; i++){ p.get(list[i]).click(); jsList.push(p.eq(list[i]).attr(\"href\")); } json.url = jsList; callback({status:STATUS.UNKNOW});"
+	        }
+	    ], 
+
+
+
+	    "product": [
+	        {
+	            "url": "@productUrl", 
+	            "desc": "打开要购买的商品", 
+	            "define": "", 
+	            "script": "document.cookie = \"cart=\" + $(\"#in_cart_num\").text().replace(/[^\\d]/g, \"\") + \";\"; $(\"#addCart\").click(function(){ callback({status:STATUS.UNKNOW}); }).get(0).click();"
+	        }, 
+	        {
+	            "url": "#", 
+	            "desc": "加入购物车", 
+	            "define": "", 
+	            "script": "var n = 0; var qty = $(\"input[name='itemNumBox']\"); if(qty.length){ for(var i=0; i<qty.length; i++){ n += Number(qty.eq(i).val()); } if(n < 1){ callback({status:STATUS.ADD_TO_CART_TIME_OUT});  return; } }else{ n = Number($(\"#in_cart_num\").text().replace(/[^\\d]/g, \"\")); } var list = document.cookie.split(\";\"); for(var i=0; i<list.length; i++){  var str = list[i].split(\"=\"); if(str[0].replace(/(^\\s)*|(\\s$)*/g, \"\") == \"cart\"){ if(n > str[1].replace(/(^\\s)*|(\\s$)*/g, \"\")){  callback({status:STATUS.UNKNOW}); }else{   callback({status:STATUS.FAIL}); } }}"
+	        }
+	    ], 
+
+
+	    "steps": [
+	        {
+	            "url": "http://cart.yhd.com/cart/cart.do", 
+	            "desc": "查看购物车，准备结算。", 
+	            "define": "",           
+	            "script": "$(\"span.continue a\").click(function(){  callback({status:STATUS.UNKNOW});  }).get(0).click();"
+	        }, 
+	        {
+	            "url": "#", 
+	            "desc": "提交订单。", 
+	            "define": "", 
+	            "script": "$(\"div.btOrderConfig button\").click(function(){ callback({status:STATUS.UNKNOW});  }).first().click();"
+	        }, 
+	        {
+	            "url": "#", 
+	            "desc": "购物流程已暂停。需要人工介入，请支付，支付完成后，请点击继续，流程自动结束完成。", 
+	            "define": "", 
+	            "script": "pause(\"支付\");"
+	        }
+	    ], 
+	    "local": "function getRandom(l,n){ var list = [];  if(l < n){ n = l; }  while(list.length < n){  var bl = true;  var r = Math.floor(Math.random() * l); for(var i=0; i<list.length; i++){ if(list[i] == r){ bl = false; } } if(bl){ list.push(r); } }  return list; }",
+	    "flowDesc": [
+	            {
+	                "index": "0", 
+	                "desc": "搜索商品"
+	            }, 
+	            {
+	                "index": "1", 
+	                "desc": "按类别筛选商品"
+	            }, 
+	            {
+	                "index": "2", 
+	                "desc": "按价格筛选商品"
+	            }, 
+	            {
+	                "index": "3", 
+	                "desc": "随机浏览4个商品"
+	            }, 
+	            {
+	                "index": "4", 
+	                "desc": "浏览商品"
+	            }, 
+	            {
+	                "index": "5", 
+	                "desc": "进入店铺"
+	            }, 
+	            {
+	                "index": "6", 
+	                "desc": "打开店内商品列表页"
+	            }, 
+	            {
+	                "index": "7", 
+	                "desc": "随机浏览4个商品"
+	            }, 
+	            {
+	                "index": "8", 
+	                "desc": "在线客服聊天"
+	            }, 
+	            {
+	                "index": "9", 
+	                "desc": "添加购物车"
+	            }, 
+	            {
+	                "index": "10", 
+	                "desc": "查看购物车"
+	            }, 
+	            {
+	                "index": "11", 
+	                "desc": "提交订单"
+	            }, 
+	            {
+	                "index": "12", 
+	                "desc": "支付"
+	            }
+	        ]
+	};
+}
 function getTmallTemplate(){
 	return tmallTemplate = {
 	    "pretreatment": [

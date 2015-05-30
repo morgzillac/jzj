@@ -130,7 +130,7 @@ chrome.extension.onRequest.addListener(
    		case "init":
    			var ajax = new ajaxService();
    			ajax.getTaskData(reqMsg.data.taskId,function(data){
-   				flow.init(reqMsg.data.taskId,JSON.parse(data.taskDetail),getTmallTemplate());   				
+   				flow.init(reqMsg.data.taskId,JSON.parse(data.taskDetail),getTemplate(data.platformId));   				
    				storage.clearFlowDesc();
 				storage.saveFlowDesc(flow.getFlowDesc());
    			},function(reason){
