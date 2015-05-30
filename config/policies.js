@@ -122,11 +122,14 @@ module.exports.policies = {
     'findOne': ['IsLoggedIn', 'UserFilter']
   },
 
+// todo: following needs to be reviewed and enabled in production
+/*
   VWTaskBuyer: {
     // must be logged in and have userId in criteria
     'find': ['IsLoggedIn', 'UserFilter'],
     'findOne': ['IsLoggedIn', 'UserFilter']
   },
+*/
 
   Test: {
     // no need to be logged in
