@@ -444,7 +444,7 @@ app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promise
 app.factory('taskBuyers',['promisePost','promiseGet','promisePut',function(promisePost,promiseGet,promisePut){
 	return {
 		filter : function(taskId,statusId,currentPage,pageSize){
-			var queryPara = '?sort=createdAt DESC&taskId=' + taskId + '&taskStatus=' + statusId;
+			var queryPara = '?sort=createdAt DESC&taskId=' + taskId + '&buyerStatusId=' + statusId;
 			var skip = pageSize * (currentPage - 1);
 			queryPara += '&limit=' + pageSize + '&skip=' + skip;
 			return promiseGet('/VWTaskBuyer/' + queryPara);
@@ -461,7 +461,7 @@ app.factory('taskBuyers',['promisePost','promiseGet','promisePut',function(promi
 				queryPara += '&platformId=' + condition.platformId;
 			}
 			if(angular.isDefined(condition.statusId) && condition.statusId != -1){
-				queryPara += '&taskStatus=' + condition.statusId;
+				queryPara += '&buyerStatusId=' + condition.statusId;
 			}			
 			var skip = pageSize * (currentPage - 1);
 			queryPara += '&limit=' + pageSize + '&skip=' + skip;

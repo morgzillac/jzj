@@ -733,18 +733,18 @@ app.controller('TaskBuyerCtrl',['$scope','taskBuyers',function($scope,taskBuyers
 	$scope.toggleOpen = function(taskId){
 		$scope.expanded = !$scope.expanded;
 		$scope.taskId = taskId;
-		filterTaskBuyer(1,10);
+		filterTaskBuyer(1,4);
 	};
 	$scope.toggleClose = function(){
 		$scope.expanded = !$scope.expanded;
 	};
 	$scope.filterTaskBuyer = function(statusId){
 		$scope.statusId = statusId;
-		filterTaskBuyer(1,10);
+		filterTaskBuyer(1,4);
 	};
 	$scope.updateTaskBuyerStatus = function(taskBuyerId,statusId){		
 		taskBuyers.updateStatus(taskBuyerId,statusId).then(function(result){
-			filterTaskBuyer(1,10);
+			filterTaskBuyer(1,4);
 		});
 	};
 	var filterTaskBuyer = function(currentPage,pageSize){
@@ -924,11 +924,11 @@ app.controller('BuyerTaskListCtrl',['$scope','$stateParams','platforms','taskBuy
 		}
 		if($scope.condition.platformId == -1
 			&& $scope.condition.statusId != -1){
-			condition = "{\"taskStatus\":" + $scope.condition.statusId + "}";
+			condition = "{\"buyerStatusId\":" + $scope.condition.statusId + "}";
 		}
 		if($scope.condition.platformId != -1 
 			&& $scope.condition.statusId != -1){
-			condition = "{\"platformId\":" + $scope.condition.platformId + ",\"taskStatus\":" + $scope.condition.statusId + "}";
+			condition = "{\"platformId\":" + $scope.condition.platformId + ",\"buyerStatusId\":" + $scope.condition.statusId + "}";
 		}
 	    taskBuyers.queryCount(condition).then(function(result){
 	      $scope.$broadcast('resultsLoaded', result);
