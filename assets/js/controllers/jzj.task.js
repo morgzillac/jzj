@@ -888,11 +888,14 @@ app.controller('BuyerTaskListCtrl',['$scope','$stateParams','platforms','taskBuy
 	function($scope,$stateParams,platforms,taskBuyers,subTaskStatuss,toaster,slidebox){
 	$scope.taskList = [];
 	$scope.platforms = [];
-	$scope.condition = { platformId : -1,shopId : -1,taskTypeId : -1,terminalId : -1,statusId : -1 };
+	$scope.condition = { platformId : -1, statusId : -1 };
 	$scope.statusNames = [];
+	$scope.platformNames = [];
 	$scope.$watch('$viewContentLoaded',function(){
 		$scope.platforms = platforms.getAll();
-		
+		angular.forEach($scope.platforms,function(value){
+			$scope.platformNames[value.id] = value.name;
+		});
 		$scope.subStatus = subTaskStatuss.getAll();
 		angular.forEach($scope.subStatus,function(value){
 			$scope.statusNames[value.id] = value.name;
@@ -911,6 +914,7 @@ app.controller('BuyerTaskListCtrl',['$scope','$stateParams','platforms','taskBuy
 	};
 	$scope.queryTaskBuyer = function(){
 		filterTaskBuyerByCondition(1,4);
+		queryCount();
 	};
 	var queryCount = function(){
 		var condition = "";
@@ -920,11 +924,11 @@ app.controller('BuyerTaskListCtrl',['$scope','$stateParams','platforms','taskBuy
 		}
 		if($scope.condition.platformId == -1
 			&& $scope.condition.statusId != -1){
-			condition = "{\"statusId\":" + $scope.condition.statusId + "}";
+			condition = "{\"taskStatus\":" + $scope.condition.statusId + "}";
 		}
 		if($scope.condition.platformId != -1 
 			&& $scope.condition.statusId != -1){
-			condition = "{\"platformId\":" + $scope.condition.platformId + ",\"statusId\":" + $scope.condition.statusId + "}";
+			condition = "{\"platformId\":" + $scope.condition.platformId + ",\"taskStatus\":" + $scope.condition.statusId + "}";
 		}
 	    taskBuyers.queryCount(condition).then(function(result){
 	      $scope.$broadcast('resultsLoaded', result);

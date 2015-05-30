@@ -443,29 +443,23 @@ app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promise
 //TaskBuyer 买手接单子任务 Service
 app.factory('taskBuyers',['promisePost','promiseGet','promisePut',function(promisePost,promiseGet,promisePut){
 	return {
-		filter : function(taskId,statusId,currentPage,pageSize){
-			var queryPara = '?sort=createdAt DESC&taskId=' + taskId + '&statusId=' + statusId;
-			var skip = pageSize * (currentPage - 1);
-			queryPara += '&limit=' + pageSize + '&skip=' + skip;
-			return promiseGet('/TaskBuyer/' + queryPara);
-		},
 		queryCount : function(condition){
-			return promiseGet('/query/count/?model=TaskBuyer&where=' + condition);
+			return promiseGet('/query/count/?model=VWTaskBuyer&where=' + condition);
 		},
 		updateStatus : function(taskId,statusId){
 			return promisePut('/TaskBuyer/' + taskId, {"statusId":statusId});
 		},
 		query : function(condition,currentPage,pageSize){
 			var queryPara = '?sort=createdAt DESC';
-			/*if(angular.isDefined(condition.platformId) && condition.platformId != -1){
+			if(angular.isDefined(condition.platformId) && condition.platformId != -1){
 				queryPara += '&platformId=' + condition.platformId;
-			}*/
+			}
 			if(angular.isDefined(condition.statusId) && condition.statusId != -1){
-				queryPara += '&statusId=' + condition.statusId;
+				queryPara += '&taskStatus=' + condition.statusId;
 			}			
 			var skip = pageSize * (currentPage - 1);
 			queryPara += '&limit=' + pageSize + '&skip=' + skip;
-			return promiseGet('/TaskBuyer/' + queryPara);
+			return promiseGet('/VWTaskBuyer/' + queryPara);
 		}
 	};
 }]);

@@ -39,7 +39,7 @@
         <div class="panel panel-danger" ng-repeat="t in taskList">
           <div class="panel-heading">    
             <div class="row">
-              <div class="col-md-2">店铺</div>                
+              <div class="col-md-2">平台</div>                
               <div class="col-md-4">商品</div>                              
               <div class="col-md-1">商品单价</div>                  
               <div class="col-md-1">垫付资金</div>                
@@ -50,16 +50,16 @@
           </div>
           <div class="panel-body">
             <div class="row">
-              <div class="col-md-2"><label class="h4"><span class="label bg-danger">T</span>{{t.shopName}}</label></div>                
+              <div class="col-md-2"><label class="h4"><span class="label bg-danger">T</span> <span class="text-jzj m-l-sm">{{platformNames[t.platformId]}}</span></label></div>                
               <div class="col-md-4"><a ng-click="viewDetail(t.taskId)" class="text-info">{{t.productName}}</a></div>                
-              <div class="col-md-1">{{t.shopProductPrice}}</div>                
-              <div class="col-md-1">{{t.taskProductPrice / t.shopProductPrice}}</div>               
+              <div class="col-md-1">{{t.productPrice}}元</div>                
+              <div class="col-md-1">{{t.shopPrice}}元</div>               
               <div class="col-md-1">{{t.commission}}赚点</div>                
-              <div class="col-md-1">{{statusNames[t.statusId]}}</div> 
+              <div class="col-md-1">{{statusNames[t.taskStatus]}}</div> 
               <div class="col-md-1 text-info"><a class="text-info">查看详情</a></div>
-              <div class="col-md-1 text-info" ng-if="t.statusId==1"></div>
-              <div class="col-md-1 text-info" ng-if="t.statusId==3"><a class="text-info" ng-click="processTaskStatus(t.taskBuyerId,4)">已收货</a></div>     
-              <div class="col-md-1 text-info" ng-if="t.statusId==5"><a class="text-info" ng-click="processTaskStatus(t.taskBuyerId,6)">已好评</a></div>     
+              <div class="col-md-1 text-info" ng-if="t.taskStatus==1"></div>
+              <div class="col-md-1 text-info" ng-if="t.taskStatus==3"><a class="text-info" ng-click="processTaskStatus(t.taskBuyerId,4)">已收货</a></div>     
+              <div class="col-md-1 text-info" ng-if="t.taskStatus==5"><a class="text-info" ng-click="processTaskStatus(t.taskBuyerId,6)">已好评</a></div>     
             </div>    
           </div>
         </div>
