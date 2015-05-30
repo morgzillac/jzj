@@ -55,11 +55,11 @@
               <div class="col-md-1">{{t.productPrice}}元</div>                
               <div class="col-md-1">{{t.shopPrice}}元</div>               
               <div class="col-md-1">{{t.commission}}赚点</div>                
-              <div class="col-md-1">{{statusNames[t.taskStatus]}}</div> 
+              <div class="col-md-1">{{statusNames[t.buyerStatusId]}}</div> 
               <div class="col-md-1 text-info"><a class="text-info">查看详情</a></div>
-              <div class="col-md-1 text-info" ng-if="t.taskStatus==1"></div>
-              <div class="col-md-1 text-info" ng-if="t.taskStatus==3"><a class="text-info" ng-click="processTaskStatus(t.taskBuyerId,4)">已收货</a></div>     
-              <div class="col-md-1 text-info" ng-if="t.taskStatus==5"><a class="text-info" ng-click="processTaskStatus(t.taskBuyerId,6)">已好评</a></div>     
+              <div class="col-md-1 text-info" ng-if="t.buyerStatusId==1"></div>
+              <div class="col-md-1 text-info" ng-if="t.buyerStatusId==3"><a class="text-info" ng-click="processTaskStatus(t.taskBuyerId,4)">已收货</a></div>     
+              <div class="col-md-1 text-info" ng-if="t.buyerStatusId==5"><a class="text-info" ng-click="processTaskStatus(t.taskBuyerId,6)">已好评</a></div>     
             </div>    
           </div>
         </div>
