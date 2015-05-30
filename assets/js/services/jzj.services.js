@@ -443,6 +443,12 @@ app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promise
 //TaskBuyer 买手接单子任务 Service
 app.factory('taskBuyers',['promisePost','promiseGet','promisePut',function(promisePost,promiseGet,promisePut){
 	return {
+		filter : function(taskId,statusId,currentPage,pageSize){
+			var queryPara = '?sort=createdAt DESC&taskId=' + taskId + '&taskStatus=' + statusId;
+			var skip = pageSize * (currentPage - 1);
+			queryPara += '&limit=' + pageSize + '&skip=' + skip;
+			return promiseGet('/VWTaskBuyer/' + queryPara);
+		},
 		queryCount : function(condition){
 			return promiseGet('/query/count/?model=TaskBuyer&where=' + condition);
 		},
