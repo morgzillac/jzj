@@ -444,7 +444,7 @@ app.factory('taskLists',['promisePost','promiseGet',function(promisePost,promise
 app.factory('taskBuyers',['promisePost','promiseGet','promisePut',function(promisePost,promiseGet,promisePut){
 	return {
 		queryCount : function(condition){
-			return promiseGet('/query/count/?model=VWTaskBuyer&where=' + condition);
+			return promiseGet('/query/count/?model=TaskBuyer&where=' + condition);
 		},
 		updateStatus : function(taskId,statusId){
 			return promisePut('/TaskBuyer/' + taskId, {"statusId":statusId});
