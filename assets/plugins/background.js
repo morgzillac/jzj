@@ -427,6 +427,7 @@ function shoppingFlow(){
 		var ajax = new ajaxService();
 		ajax.updateTaskBuyerStatus(me.taskBuyerId,2,function(result){
 			setTimeout(function(){ storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status); },1000);					
+			storage.clearFlowData();
 			alert("任务已经完成。");
 		});
 	};

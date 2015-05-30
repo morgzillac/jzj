@@ -254,14 +254,33 @@ $(function(){
 		var taskid = $(".task-item li.curr-item:first").find(".product-name").attr("taskid");
 		ajax.canTakeTask(taskid,function(data){
 			if(data.result){
-				ajax.addTaskBuyer({"userId":userId,"taskId":taskid,"statusId":1},function(taskBuyerData){
-					//TODO: 需要这个taskBuyerId去提交数据
-					chrome.extension.sendRequest({command:"start",message: "",data:{"taskId":taskid,"taskBuyerId":taskBuyerData.taskBuyerId}}, function(response) {
-						deactiveBtn($('.btn-execute'));
-					});
-				},function(reason){
-					alert(reason);
+				/*判断是否已经接手了，但还没有完成*/
+				ajax.isExistTaskBuyer(userId,taskid,function(existBuyerTasks){
+					if(existBuyerTasks.length > 0){
+						if(existBuyerTasks[0].statusId == 1){
+							ajax.updateTaskBuyerStatus(existBuyerTasks[0].taskBuyerId,1,function(taskBuyerData){
+								//TODO: 需要这个taskBuyerId去提交数据
+								chrome.extension.sendRequest({command:"start",message: "",data:{"taskId":taskid,"taskBuyerId":taskBuyerData.taskBuyerId}}, function(response) {
+									deactiveBtn($('.btn-execute'));
+								});
+							},function(reason){
+								alert(reason);
+							});
+						}else{
+							alert("您已经做过次任务，并且还没完成，请完成后再继续！");
+						}						
+					}else{
+						ajax.addTaskBuyer({"userId":userId,"taskId":taskid,"statusId":1},function(taskBuyerData){
+							//TODO: 需要这个taskBuyerId去提交数据
+							chrome.extension.sendRequest({command:"start",message: "",data:{"taskId":taskid,"taskBuyerId":taskBuyerData.taskBuyerId}}, function(response) {
+								deactiveBtn($('.btn-execute'));
+							});
+						},function(reason){
+							alert(reason);
+						});
+					}
 				});
+				
 			}else{
 				alert('该任务已经全部被接手，请换一个试试！');
 			}			

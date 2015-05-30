@@ -235,6 +235,21 @@ function ajaxService(){
 			}
 		);
 	};
+	/*判断是否已经接手该任务，而且是还没有付款*/
+	this.isExistTaskBuyer = function(userId,taskId,succCallBack,errCallBack){
+		ajaxGet(getGlobalConfig().API.HOST + '/TaskBuyer?sort=createdAt DESC&userId=' + userId +' &taskId='+taskId, {},				
+			function success(data,status,xhr){	
+				if(typeof succCallBack == 'function'){
+					succCallBack(data);
+				}				
+			},
+			function error(reason){
+				if(typeof errCallBack == 'function'){
+					errCallBack(reason);	
+				}				
+			}
+		);
+	};
 	/*记录做任务的每一步的信息*/
 	this.addTaskBuyerActivityDetail = function(details,succCallBack,errCallBack){
 		ajaxPost(getGlobalConfig().API.HOST + '/TaskBuyerActivityDetail', details,				
