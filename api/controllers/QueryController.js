@@ -44,7 +44,7 @@ module.exports = {
         return res.customError('403', sails.config.errs.access_notloggedin);
       }
 
-      switch (strMode) {
+      switch (strMode.toLowerCase()) {
         case 'transaction' :
             Transaction.count(criteria)
             .exec(function(err, total){
@@ -76,8 +76,16 @@ module.exports = {
             .exec(function(err, total){
               if (err) return res.serverError(err);
               res.ok({count: total})});
-
           break;
+
+        case 'taskbuyer':
+           console.log('in taskbuyer:', criteria);
+          VWTaskBuyer.count(criteria)
+            .exec(function(err, total){
+              if (err) return res.serverError(err);
+              res.ok({count: total})});
+          break;
+
         default:
           res.ok({count: count});
       }
