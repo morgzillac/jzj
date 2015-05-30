@@ -35,21 +35,21 @@ app.controller('HomeSellerController', ['$scope', '$state','tasks','taskBuyers',
   };
   $scope.buyer1TaskCount = 0;
   var queryBuyer1TaskCount = function(){
-    var condition = "{\"statusId\":1}";
+    var condition = "{\"taskStatus\":1}";
       taskBuyers.queryCount(condition).then(function(result){
         $scope.buyer1TaskCount = result.count;
       });
   };
   $scope.buyer2TaskCount = 0;
   var queryBuyer2TaskCount = function(){
-    var condition = "{\"statusId\":2}";
+    var condition = "{\"taskStatus\":2}";
       taskBuyers.queryCount(condition).then(function(result){
         $scope.buyer2TaskCount = result.count;
       });
   };
   $scope.buyer3TaskCount = 0;
   var queryBuyer3TaskCount = function(){
-    var condition = "{\"statusId\":3}";
+    var condition = "{\"taskStatus\":3}";
       taskBuyers.queryCount(condition).then(function(result){
         $scope.buyer3TaskCount = result.count;
       });
