@@ -265,7 +265,22 @@ function ajaxService(){
 			}
 		);
 	};
-	
+	/*获取平台0010*/
+	this.getXiuAccounts = function(){
+		return xiu_account_list;
+	};
+	/*获取平台收货人信息*/
+	this.getAddresses = function(){
+		return address_list;
+	};
+	/*获取IP代理信息*/
+	this.getProxys = function(){
+		return proxy_list;
+	};
+	/*获取Jzj账号信息*/
+	this.getJzjAccounts = function(){
+		return jzj_account_list;
+	};
 };
 function getCurrExecuteTask(){
 	var taskId = window.localStorage.getItem("currExecuteTaskId");
@@ -392,8 +407,13 @@ function getXiuTemplate(){
 	            "desc": "提交订单", 
 	            "define": "", 
 	            "script": "$(\"#submit_order_btn\").click().get(0).click();nextCallBack();"
+	        },
+	        {
+	            "url": "#", 
+	            "desc": "退出", 
+	            "define": "", 
+	            "script": "$(\".logout\").click().get(0).click();nextCallBack();"
 	        }
-
 	        
 		],
 	   
@@ -426,6 +446,10 @@ function getXiuTemplate(){
 	        {
 	            "index": "7", 
 	            "desc": "提交订单"
+	        },
+	        {
+	            "index": "8", 
+	            "desc": "退出"
 	        }
 	    ]
 	};

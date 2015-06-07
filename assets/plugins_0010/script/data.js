@@ -1,0 +1,1241 @@
+/**
+ * 平台账号信息列表
+ * @type {Object}
+ */
+var xiu_account_list = [{
+    "phone": "13450796467",
+    "loginName": "13450796467",
+    "password": "zouxiu123"
+}, {
+    "phone": "13530717501",
+    "loginName": "13530717501",
+    "password": "zouxiu123"
+}, {
+    "phone": "15016844854",
+    "loginName": "15016844854",
+    "password": "zouxiu123"
+}, {
+    "phone": "15712069557",
+    "loginName": "15712069557",
+    "password": "zouxiu123"
+}, {
+    "phone": "13621497945",
+    "loginName": "13621497945",
+    "password": "zouxiu123"
+}, {
+    "phone": "13421813249",
+    "loginName": "13421813249",
+    "password": "zouxiu123"
+}, {
+    "phone": "18219520922",
+    "loginName": "18219520922",
+    "password": "zouxiu123"
+}, {
+    "phone": "15113392275",
+    "loginName": "15113392275",
+    "password": "zouxiu123"
+}, {
+    "phone": "13662695102",
+    "loginName": "13662695102",
+    "password": "zouxiu123"
+}, {
+    "phone": "18320916492",
+    "loginName": "18320916492",
+    "password": "zouxiu123"
+}, {
+    "phone": "18825275451",
+    "loginName": "18825275451",
+    "password": "zouxiu123"
+}, {
+    "phone": "13528759909",
+    "loginName": "13528759909",
+    "password": "zouxiu123"
+}, {
+    "phone": "15712156746",
+    "loginName": "15712156746",
+    "password": "zouxiu123"
+}, {
+    "phone": "13544126439",
+    "loginName": "13544126439",
+    "password": "zouxiu123"
+}, {
+    "phone": "13686595126",
+    "loginName": "13686595126",
+    "password": "zouxiu123"
+}, {
+    "phone": "13528713796",
+    "loginName": "13528713796",
+    "password": "zouxiu123"
+}, {
+    "phone": "13794017454",
+    "loginName": "13794017454",
+    "password": "zouxiu123"
+}, {
+    "phone": "18719274551",
+    "loginName": "18719274551",
+    "password": "zouxiu123"
+}, {
+    "phone": "13640938051",
+    "loginName": "13640938051",
+    "password": "zouxiu123"
+}, {
+    "phone": "13686541812",
+    "loginName": "13686541812",
+    "password": "zouxiu123"
+}, {
+    "phone": "13530670627",
+    "loginName": "13530670627",
+    "password": "zouxiu123"
+}, {
+    "phone": "17817552215",
+    "loginName": "17817552215",
+    "password": "zouxiu123"
+}, {
+    "phone": "15989570735",
+    "loginName": "15989570735",
+    "password": "zouxiu123"
+}, {
+    "phone": "15876084841",
+    "loginName": "15876084841",
+    "password": "zouxiu123"
+}, {
+    "phone": "13427008363",
+    "loginName": "13427008363",
+    "password": "zouxiu123"
+}, {
+    "phone": "18719273265",
+    "loginName": "18719273265",
+    "password": "zouxiu123"
+}, {
+    "phone": "13715260909",
+    "loginName": "13715260909",
+    "password": "zouxiu123"
+}, {
+    "phone": "13530317568",
+    "loginName": "13530317568",
+    "password": "zouxiu123"
+}, {
+    "phone": "13430848571",
+    "loginName": "13430848571",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450728247",
+    "loginName": "13450728247",
+    "password": "zouxiu123"
+}, {
+    "phone": "13538248904",
+    "loginName": "13538248904",
+    "password": "zouxiu123"
+}, {
+    "phone": "18219526945",
+    "loginName": "18219526945",
+    "password": "zouxiu123"
+}, {
+    "phone": "15914101686",
+    "loginName": "15914101686",
+    "password": "zouxiu123"
+}, {
+    "phone": "18218429789",
+    "loginName": "18218429789",
+    "password": "zouxiu123"
+}, {
+    "phone": "18200907361",
+    "loginName": "18200907361",
+    "password": "zouxiu123"
+}, {
+    "phone": "15816813760",
+    "loginName": "15816813760",
+    "password": "zouxiu123"
+}, {
+    "phone": "15813848647",
+    "loginName": "15813848647",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510899217",
+    "loginName": "13510899217",
+    "password": "zouxiu123"
+}, {
+    "phone": "18718931002",
+    "loginName": "18718931002",
+    "password": "zouxiu123"
+}, {
+    "phone": "13420333705",
+    "loginName": "13420333705",
+    "password": "zouxiu123"
+}, {
+    "phone": "13543320372",
+    "loginName": "13543320372",
+    "password": "zouxiu123"
+}, {
+    "phone": "15766265367",
+    "loginName": "15766265367",
+    "password": "zouxiu123"
+}, {
+    "phone": "18316628644",
+    "loginName": "18316628644",
+    "password": "zouxiu123"
+}, {
+    "phone": "13724388141",
+    "loginName": "13724388141",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450782682",
+    "loginName": "13450782682",
+    "password": "zouxiu123"
+}, {
+    "phone": "13686473805",
+    "loginName": "13686473805",
+    "password": "zouxiu123"
+}, {
+    "phone": "15712165035",
+    "loginName": "15712165035",
+    "password": "zouxiu123"
+}, {
+    "phone": "13425103612",
+    "loginName": "13425103612",
+    "password": "zouxiu123"
+}, {
+    "phone": "13417586164",
+    "loginName": "13417586164",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510170261",
+    "loginName": "13510170261",
+    "password": "zouxiu123"
+}, {
+    "phone": "15118525042",
+    "loginName": "15118525042",
+    "password": "zouxiu123"
+}, {
+    "phone": "13435717497",
+    "loginName": "13435717497",
+    "password": "zouxiu123"
+}, {
+    "phone": "15815547334",
+    "loginName": "15815547334",
+    "password": "zouxiu123"
+}, {
+    "phone": "13530597445",
+    "loginName": "13530597445",
+    "password": "zouxiu123"
+}, {
+    "phone": "15712065494",
+    "loginName": "15712065494",
+    "password": "zouxiu123"
+}, {
+    "phone": "13538323217",
+    "loginName": "13538323217",
+    "password": "zouxiu123"
+}, {
+    "phone": "15889661477",
+    "loginName": "15889661477",
+    "password": "zouxiu123"
+}, {
+    "phone": "13528715440",
+    "loginName": "13528715440",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510962007",
+    "loginName": "13510962007",
+    "password": "zouxiu123"
+}, {
+    "phone": "18814473180",
+    "loginName": "18814473180",
+    "password": "zouxiu123"
+}, {
+    "phone": "13423167423",
+    "loginName": "13423167423",
+    "password": "zouxiu123"
+}, {
+    "phone": "15814050260",
+    "loginName": "15814050260",
+    "password": "zouxiu123"
+}, {
+    "phone": "15728538825",
+    "loginName": "15728538825",
+    "password": "zouxiu123"
+}, {
+    "phone": "13528714020",
+    "loginName": "13528714020",
+    "password": "zouxiu123"
+}, {
+    "phone": "13535687991",
+    "loginName": "13535687991",
+    "password": "zouxiu123"
+}, {
+    "phone": "13798713014",
+    "loginName": "13798713014",
+    "password": "zouxiu123"
+}, {
+    "phone": "13620127769",
+    "loginName": "13620127769",
+    "password": "zouxiu123"
+}, {
+    "phone": "15814405447",
+    "loginName": "15814405447",
+    "password": "zouxiu123"
+}, {
+    "phone": "13713543056",
+    "loginName": "13713543056",
+    "password": "zouxiu123"
+}, {
+    "phone": "13531330458",
+    "loginName": "13531330458",
+    "password": "zouxiu123"
+}, {
+    "phone": "15917253734",
+    "loginName": "15917253734",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450764859",
+    "loginName": "13450764859",
+    "password": "zouxiu123"
+}, {
+    "phone": "15875119265",
+    "loginName": "15875119265",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450940364",
+    "loginName": "13450940364",
+    "password": "zouxiu123"
+}, {
+    "phone": "15013705637",
+    "loginName": "15013705637",
+    "password": "zouxiu123"
+}, {
+    "phone": "13418725722",
+    "loginName": "13418725722",
+    "password": "zouxiu123"
+}, {
+    "phone": "13430723105",
+    "loginName": "13430723105",
+    "password": "zouxiu123"
+}, {
+    "phone": "13790444378",
+    "loginName": "13790444378",
+    "password": "zouxiu123"
+}, {
+    "phone": "18320815254",
+    "loginName": "18320815254",
+    "password": "zouxiu123"
+}, {
+    "phone": "15820657360",
+    "loginName": "15820657360",
+    "password": "zouxiu123"
+}, {
+    "phone": "15016787944",
+    "loginName": "15016787944",
+    "password": "zouxiu123"
+}, {
+    "phone": "18211494564",
+    "loginName": "18211494564",
+    "password": "zouxiu123"
+}, {
+    "phone": "13544183239",
+    "loginName": "13544183239",
+    "password": "zouxiu123"
+}, {
+    "phone": "13714883442",
+    "loginName": "13714883442",
+    "password": "zouxiu123"
+}, {
+    "phone": "18719443121",
+    "loginName": "18719443121",
+    "password": "zouxiu123"
+}, {
+    "phone": "13421831532",
+    "loginName": "13421831532",
+    "password": "zouxiu123"
+}, {
+    "phone": "13714947878",
+    "loginName": "13714947878",
+    "password": "zouxiu123"
+}, {
+    "phone": "18344140124",
+    "loginName": "18344140124",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510874408",
+    "loginName": "13510874408",
+    "password": "zouxiu123"
+}, {
+    "phone": "13690782320",
+    "loginName": "13690782320",
+    "password": "zouxiu123"
+}, {
+    "phone": "13686477023",
+    "loginName": "13686477023",
+    "password": "zouxiu123"
+}, {
+    "phone": "17875819811",
+    "loginName": "17875819811",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510895307",
+    "loginName": "13510895307",
+    "password": "zouxiu123"
+}, {
+    "phone": "13715689066",
+    "loginName": "13715689066",
+    "password": "zouxiu123"
+}, {
+    "phone": "13724396364",
+    "loginName": "13724396364",
+    "password": "zouxiu123"
+}, {
+    "phone": "18320952755",
+    "loginName": "18320952755",
+    "password": "zouxiu123"
+}, {
+    "phone": "13713851378",
+    "loginName": "13713851378",
+    "password": "zouxiu123"
+}, {
+    "phone": "18476635328",
+    "loginName": "18476635328",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450770308",
+    "loginName": "13450770308",
+    "password": "zouxiu123"
+}, {
+    "phone": "15889575761",
+    "loginName": "15889575761",
+    "password": "zouxiu123"
+}, {
+    "phone": "17875434311",
+    "loginName": "17875434311",
+    "password": "zouxiu123"
+}, {
+    "phone": "13714774683",
+    "loginName": "13714774683",
+    "password": "zouxiu123"
+}, {
+    "phone": "13428755570",
+    "loginName": "13428755570",
+    "password": "zouxiu123"
+}, {
+    "phone": "13620107549",
+    "loginName": "13620107549",
+    "password": "zouxiu123"
+}, {
+    "phone": "18218416115",
+    "loginName": "18218416115",
+    "password": "zouxiu123"
+}, {
+    "phone": "15989540454",
+    "loginName": "15989540454",
+    "password": "zouxiu123"
+}, {
+    "phone": "13531839274",
+    "loginName": "13531839274",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510175307",
+    "loginName": "13510175307",
+    "password": "zouxiu123"
+}, {
+    "phone": "13690249525",
+    "loginName": "13690249525",
+    "password": "zouxiu123"
+}, {
+    "phone": "17875816107",
+    "loginName": "17875816107",
+    "password": "zouxiu123"
+}, {
+    "phone": "15814406137",
+    "loginName": "15814406137",
+    "password": "zouxiu123"
+}, {
+    "phone": "13715090100",
+    "loginName": "13715090100",
+    "password": "zouxiu123"
+}, {
+    "phone": "13415492746",
+    "loginName": "13415492746",
+    "password": "zouxiu123"
+}, {
+    "phone": "13431649220",
+    "loginName": "13431649220",
+    "password": "zouxiu123"
+}, {
+    "phone": "13418780592",
+    "loginName": "13418780592",
+    "password": "zouxiu123"
+}, {
+    "phone": "17817399831",
+    "loginName": "17817399831",
+    "password": "zouxiu123"
+}, {
+    "phone": "13727323147",
+    "loginName": "13727323147",
+    "password": "zouxiu123"
+}, {
+    "phone": "15820622857",
+    "loginName": "15820622857",
+    "password": "zouxiu123"
+}, {
+    "phone": "13530742466",
+    "loginName": "13530742466",
+    "password": "zouxiu123"
+}, {
+    "phone": "13714852687",
+    "loginName": "13714852687",
+    "password": "zouxiu123"
+}, {
+    "phone": "13554954457",
+    "loginName": "13554954457",
+    "password": "zouxiu123"
+}, {
+    "phone": "13642884813",
+    "loginName": "13642884813",
+    "password": "zouxiu123"
+}, {
+    "phone": "15999618411",
+    "loginName": "15999618411",
+    "password": "zouxiu123"
+}, {
+    "phone": "13714169796",
+    "loginName": "13714169796",
+    "password": "zouxiu123"
+}, {
+    "phone": "13798224792",
+    "loginName": "13798224792",
+    "password": "zouxiu123"
+}, {
+    "phone": "15019460119",
+    "loginName": "15019460119",
+    "password": "zouxiu123"
+}, {
+    "phone": "15920720835",
+    "loginName": "15920720835",
+    "password": "zouxiu123"
+}, {
+    "phone": "13530456053",
+    "loginName": "13530456053",
+    "password": "zouxiu123"
+}, {
+    "phone": "13798334865",
+    "loginName": "13798334865",
+    "password": "zouxiu123"
+}, {
+    "phone": "13751077739",
+    "loginName": "13751077739",
+    "password": "zouxiu123"
+}, {
+    "phone": "15012899341",
+    "loginName": "15012899341",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510683846",
+    "loginName": "13510683846",
+    "password": "zouxiu123"
+}, {
+    "phone": "18475527837",
+    "loginName": "18475527837",
+    "password": "zouxiu123"
+}, {
+    "phone": "15816912737",
+    "loginName": "15816912737",
+    "password": "zouxiu123"
+}, {
+    "phone": "13500275741",
+    "loginName": "13500275741",
+    "password": "zouxiu123"
+}, {
+    "phone": "13612856682",
+    "loginName": "13612856682",
+    "password": "zouxiu123"
+}, {
+    "phone": "17817398617",
+    "loginName": "17817398617",
+    "password": "zouxiu123"
+}, {
+    "phone": "15913467013",
+    "loginName": "15913467013",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510797269",
+    "loginName": "13510797269",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450703544",
+    "loginName": "13450703544",
+    "password": "zouxiu123"
+}, {
+    "phone": "15012953410",
+    "loginName": "15012953410",
+    "password": "zouxiu123"
+}, {
+    "phone": "13411658437",
+    "loginName": "13411658437",
+    "password": "zouxiu123"
+}, {
+    "phone": "15914649807",
+    "loginName": "15914649807",
+    "password": "zouxiu123"
+}, {
+    "phone": "15916881460",
+    "loginName": "15916881460",
+    "password": "zouxiu123"
+}, {
+    "phone": "15813151232",
+    "loginName": "15813151232",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450753248",
+    "loginName": "13450753248",
+    "password": "zouxiu123"
+}, {
+    "phone": "15112468981",
+    "loginName": "15112468981",
+    "password": "zouxiu123"
+}, {
+    "phone": "15813492344",
+    "loginName": "15813492344",
+    "password": "zouxiu123"
+}, {
+    "phone": "13760231672",
+    "loginName": "13760231672",
+    "password": "zouxiu123"
+}, {
+    "phone": "15807653057",
+    "loginName": "15807653057",
+    "password": "zouxiu123"
+}, {
+    "phone": "18200653296",
+    "loginName": "18200653296",
+    "password": "zouxiu123"
+}, {
+    "phone": "13686653648",
+    "loginName": "13686653648",
+    "password": "zouxiu123"
+}, {
+    "phone": "18719444927",
+    "loginName": "18719444927",
+    "password": "zouxiu123"
+}, {
+    "phone": "15012882007",
+    "loginName": "15012882007",
+    "password": "zouxiu123"
+}, {
+    "phone": "13538283429",
+    "loginName": "13538283429",
+    "password": "zouxiu123"
+}, {
+    "phone": "18826538470",
+    "loginName": "18826538470",
+    "password": "zouxiu123"
+}, {
+    "phone": "13544033670",
+    "loginName": "13544033670",
+    "password": "zouxiu123"
+}, {
+    "phone": "13427002251",
+    "loginName": "13427002251",
+    "password": "zouxiu123"
+}, {
+    "phone": "15217372675",
+    "loginName": "15217372675",
+    "password": "zouxiu123"
+}, {
+    "phone": "15814020575",
+    "loginName": "15814020575",
+    "password": "zouxiu123"
+}, {
+    "phone": "13538228972",
+    "loginName": "13538228972",
+    "password": "zouxiu123"
+}, {
+    "phone": "15013705535",
+    "loginName": "15013705535",
+    "password": "zouxiu123"
+}, {
+    "phone": "13417391497",
+    "loginName": "13417391497",
+    "password": "zouxiu123"
+}, {
+    "phone": "17817394836",
+    "loginName": "17817394836",
+    "password": "zouxiu123"
+}, {
+    "phone": "15820617030",
+    "loginName": "15820617030",
+    "password": "zouxiu123"
+}, {
+    "phone": "13554734020",
+    "loginName": "13554734020",
+    "password": "zouxiu123"
+}, {
+    "phone": "13423847914",
+    "loginName": "13423847914",
+    "password": "zouxiu123"
+}, {
+    "phone": "13527965956",
+    "loginName": "13527965956",
+    "password": "zouxiu123"
+}, {
+    "phone": "13432061924",
+    "loginName": "13432061924",
+    "password": "zouxiu123"
+}, {
+    "phone": "17817551630",
+    "loginName": "17817551630",
+    "password": "zouxiu123"
+}, {
+    "phone": "15712104535",
+    "loginName": "15712104535",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510894424",
+    "loginName": "13510894424",
+    "password": "zouxiu123"
+}, {
+    "phone": "15728560630",
+    "loginName": "15728560630",
+    "password": "zouxiu123"
+}, {
+    "phone": "15900093243",
+    "loginName": "15900093243",
+    "password": "zouxiu123"
+}, {
+    "phone": "13689558752",
+    "loginName": "13689558752",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450750468",
+    "loginName": "13450750468",
+    "password": "zouxiu123"
+}, {
+    "phone": "15099917604",
+    "loginName": "15099917604",
+    "password": "zouxiu123"
+}, {
+    "phone": "15815979616",
+    "loginName": "15815979616",
+    "password": "zouxiu123"
+}, {
+    "phone": "17817399280",
+    "loginName": "17817399280",
+    "password": "zouxiu123"
+}, {
+    "phone": "13590248727",
+    "loginName": "13590248727",
+    "password": "zouxiu123"
+}, {
+    "phone": "13590479309",
+    "loginName": "13590479309",
+    "password": "zouxiu123"
+}, {
+    "phone": "18320917958",
+    "loginName": "18320917958",
+    "password": "zouxiu123"
+}, {
+    "phone": "18316494223",
+    "loginName": "18316494223",
+    "password": "zouxiu123"
+}, {
+    "phone": "13670281471",
+    "loginName": "13670281471",
+    "password": "zouxiu123"
+}, {
+    "phone": "13417515947",
+    "loginName": "13417515947",
+    "password": "zouxiu123"
+}, {
+    "phone": "13686533696",
+    "loginName": "13686533696",
+    "password": "zouxiu123"
+}, {
+    "phone": "13538251147",
+    "loginName": "13538251147",
+    "password": "zouxiu123"
+}, {
+    "phone": "13410323228",
+    "loginName": "13410323228",
+    "password": "zouxiu123"
+}, {
+    "phone": "17817391973",
+    "loginName": "17817391973",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450306437",
+    "loginName": "13450306437",
+    "password": "zouxiu123"
+}, {
+    "phone": "13530518695",
+    "loginName": "13530518695",
+    "password": "zouxiu123"
+}, {
+    "phone": "13642810013",
+    "loginName": "13642810013",
+    "password": "zouxiu123"
+}, {
+    "phone": "13427014595",
+    "loginName": "13427014595",
+    "password": "zouxiu123"
+}, {
+    "phone": "15975228072",
+    "loginName": "15975228072",
+    "password": "zouxiu123"
+}, {
+    "phone": "15919085985",
+    "loginName": "15919085985",
+    "password": "zouxiu123"
+}, {
+    "phone": "15989584316",
+    "loginName": "15989584316",
+    "password": "zouxiu123"
+}, {
+    "phone": "13680166249",
+    "loginName": "13680166249",
+    "password": "zouxiu123"
+}, {
+    "phone": "18316854965",
+    "loginName": "18316854965",
+    "password": "zouxiu123"
+}, {
+    "phone": "15813171754",
+    "loginName": "15813171754",
+    "password": "zouxiu123"
+}, {
+    "phone": "15112708079",
+    "loginName": "15112708079",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510972995",
+    "loginName": "13510972995",
+    "password": "zouxiu123"
+}, {
+    "phone": "18719454034",
+    "loginName": "18719454034",
+    "password": "zouxiu123"
+}, {
+    "phone": "13430549874",
+    "loginName": "13430549874",
+    "password": "zouxiu123"
+}, {
+    "phone": "13622703253",
+    "loginName": "13622703253",
+    "password": "zouxiu123"
+}, {
+    "phone": "13420270244",
+    "loginName": "13420270244",
+    "password": "zouxiu123"
+}, {
+    "phone": "18818560242",
+    "loginName": "18818560242",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510780105",
+    "loginName": "13510780105",
+    "password": "zouxiu123"
+}, {
+    "phone": "18218547148",
+    "loginName": "18218547148",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510738757",
+    "loginName": "13510738757",
+    "password": "zouxiu123"
+}, {
+    "phone": "18318332610",
+    "loginName": "18318332610",
+    "password": "zouxiu123"
+}, {
+    "phone": "13528760105",
+    "loginName": "13528760105",
+    "password": "zouxiu123"
+}, {
+    "phone": "15712056576",
+    "loginName": "15712056576",
+    "password": "zouxiu123"
+}, {
+    "phone": "13415481969",
+    "loginName": "13415481969",
+    "password": "zouxiu123"
+}, {
+    "phone": "13642931059",
+    "loginName": "13642931059",
+    "password": "zouxiu123"
+}, {
+    "phone": "18719174891",
+    "loginName": "18719174891",
+    "password": "zouxiu123"
+}, {
+    "phone": "15994811264",
+    "loginName": "15994811264",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510744575",
+    "loginName": "13510744575",
+    "password": "zouxiu123"
+}, {
+    "phone": "13431649469",
+    "loginName": "13431649469",
+    "password": "zouxiu123"
+}, {
+    "phone": "13535640935",
+    "loginName": "13535640935",
+    "password": "zouxiu123"
+}, {
+    "phone": "13544115476",
+    "loginName": "13544115476",
+    "password": "zouxiu123"
+}, {
+    "phone": "18218367387",
+    "loginName": "18218367387",
+    "password": "zouxiu123"
+}, {
+    "phone": "18318737620",
+    "loginName": "18318737620",
+    "password": "zouxiu123"
+}, {
+    "phone": "18718103571",
+    "loginName": "18718103571",
+    "password": "zouxiu123"
+}, {
+    "phone": "13538373273",
+    "loginName": "13538373273",
+    "password": "zouxiu123"
+}, {
+    "phone": "13682310206",
+    "loginName": "13682310206",
+    "password": "zouxiu123"
+}, {
+    "phone": "13538499497",
+    "loginName": "13538499497",
+    "password": "zouxiu123"
+}, {
+    "phone": "13760411485",
+    "loginName": "13760411485",
+    "password": "zouxiu123"
+}, {
+    "phone": "13543322307",
+    "loginName": "13543322307",
+    "password": "zouxiu123"
+}, {
+    "phone": "17817397498",
+    "loginName": "17817397498",
+    "password": "zouxiu123"
+}, {
+    "phone": "15814433356",
+    "loginName": "15814433356",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510993245",
+    "loginName": "13510993245",
+    "password": "zouxiu123"
+}, {
+    "phone": "15816935387",
+    "loginName": "15816935387",
+    "password": "zouxiu123"
+}, {
+    "phone": "13713993445",
+    "loginName": "13713993445",
+    "password": "zouxiu123"
+}, {
+    "phone": "15728538781",
+    "loginName": "15728538781",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450787428",
+    "loginName": "13450787428",
+    "password": "zouxiu123"
+}, {
+    "phone": "18824667493",
+    "loginName": "18824667493",
+    "password": "zouxiu123"
+}, {
+    "phone": "13686061643",
+    "loginName": "13686061643",
+    "password": "zouxiu123"
+}, {
+    "phone": "15012668039",
+    "loginName": "15012668039",
+    "password": "zouxiu123"
+}, {
+    "phone": "13528235509",
+    "loginName": "13528235509",
+    "password": "zouxiu123"
+}, {
+    "phone": "15814418921",
+    "loginName": "15814418921",
+    "password": "zouxiu123"
+}, {
+    "phone": "15989571060",
+    "loginName": "15989571060",
+    "password": "zouxiu123"
+}, {
+    "phone": "15112778367",
+    "loginName": "15112778367",
+    "password": "zouxiu123"
+}, {
+    "phone": "18218148596",
+    "loginName": "18218148596",
+    "password": "zouxiu123"
+}, {
+    "phone": "18207675550",
+    "loginName": "18207675550",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510891512",
+    "loginName": "13510891512",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450776416",
+    "loginName": "13450776416",
+    "password": "zouxiu123"
+}, {
+    "phone": "15002071539",
+    "loginName": "15002071539",
+    "password": "zouxiu123"
+}, {
+    "phone": "13543619791",
+    "loginName": "13543619791",
+    "password": "zouxiu123"
+}, {
+    "phone": "15012686441",
+    "loginName": "15012686441",
+    "password": "zouxiu123"
+}, {
+    "phone": "13537157529",
+    "loginName": "13537157529",
+    "password": "zouxiu123"
+}, {
+    "phone": "13631120754",
+    "loginName": "13631120754",
+    "password": "zouxiu123"
+}, {
+    "phone": "15915428774",
+    "loginName": "15915428774",
+    "password": "zouxiu123"
+}, {
+    "phone": "13642884134",
+    "loginName": "13642884134",
+    "password": "zouxiu123"
+}, {
+    "phone": "15819976467",
+    "loginName": "15819976467",
+    "password": "zouxiu123"
+}, {
+    "phone": "15914864794",
+    "loginName": "15914864794",
+    "password": "zouxiu123"
+}, {
+    "phone": "18898361914",
+    "loginName": "18898361914",
+    "password": "zouxiu123"
+}, {
+    "phone": "13631156015",
+    "loginName": "13631156015",
+    "password": "zouxiu123"
+}, {
+    "phone": "15218716998",
+    "loginName": "15218716998",
+    "password": "zouxiu123"
+}, {
+    "phone": "15889371364",
+    "loginName": "15889371364",
+    "password": "zouxiu123"
+}, {
+    "phone": "13760410822",
+    "loginName": "13760410822",
+    "password": "zouxiu123"
+}, {
+    "phone": "15018532617",
+    "loginName": "15018532617",
+    "password": "zouxiu123"
+}, {
+    "phone": "13450773795",
+    "loginName": "13450773795",
+    "password": "zouxiu123"
+}, {
+    "phone": "18200839010",
+    "loginName": "18200839010",
+    "password": "zouxiu123"
+}, {
+    "phone": "15914877731",
+    "loginName": "15914877731",
+    "password": "zouxiu123"
+}, {
+    "phone": "15813140594",
+    "loginName": "15813140594",
+    "password": "zouxiu123"
+}, {
+    "phone": "13427914442",
+    "loginName": "13427914442",
+    "password": "zouxiu123"
+}, {
+    "phone": "18825248438",
+    "loginName": "18825248438",
+    "password": "zouxiu123"
+}, {
+    "phone": "13728643389",
+    "loginName": "13728643389",
+    "password": "zouxiu123"
+}, {
+    "phone": "18316536837",
+    "loginName": "18316536837",
+    "password": "zouxiu123"
+}, {
+    "phone": "18211300519",
+    "loginName": "18211300519",
+    "password": "zouxiu123"
+}, {
+    "phone": "13510245375",
+    "loginName": "13510245375",
+    "password": "zouxiu123"
+}, {
+    "phone": "13421392347",
+    "loginName": "13421392347",
+    "password": "zouxiu123"
+}, {
+    "phone": "15112733179",
+    "loginName": "15112733179",
+    "password": "zouxiu123"
+}, {
+    "phone": "18344255519",
+    "loginName": "18344255519",
+    "password": "zouxiu123"
+}, {
+    "phone": "18719443192",
+    "loginName": "18719443192",
+    "password": "zouxiu123"
+}, {
+    "phone": "15019146442",
+    "loginName": "15019146442",
+    "password": "zouxiu123"
+}, {
+    "phone": "13528715616",
+    "loginName": "13528715616",
+    "password": "zouxiu123"
+}, {
+    "phone": "15920652647",
+    "loginName": "15920652647",
+    "password": "zouxiu123"
+}, {
+    "phone": "15817235683",
+    "loginName": "15817235683",
+    "password": "zouxiu123"
+}, {
+    "phone": "13728720094",
+    "loginName": "13728720094",
+    "password": "zouxiu123"
+}, {
+    "phone": "15915316647",
+    "loginName": "15915316647",
+    "password": "zouxiu123"
+}, {
+    "phone": "18475440881",
+    "loginName": "18475440881",
+    "password": "zouxiu123"
+}, {
+    "phone": "13528793664",
+    "loginName": "13528793664",
+    "password": "zouxiu123"
+}, {
+    "phone": "15019518051",
+    "loginName": "15019518051",
+    "password": "zouxiu123"
+}, {
+    "phone": "13411636018",
+    "loginName": "13411636018",
+    "password": "zouxiu123"
+}, {
+    "phone": "17807656645",
+    "loginName": "17807656645",
+    "password": "zouxiu123"
+}, {
+    "phone": "13680161550",
+    "loginName": "13680161550",
+    "password": "zouxiu123"
+}, {
+    "phone": "13713045962",
+    "loginName": "13713045962",
+    "password": "zouxiu123"
+}, {
+    "phone": "13530126187",
+    "loginName": "13530126187",
+    "password": "zouxiu123"
+}, {
+    "phone": "13537266082",
+    "loginName": "13537266082",
+    "password": "zouxiu123"
+}, {
+    "phone": "13621444173",
+    "loginName": "13621444173",
+    "password": "zouxiu123"
+}, {
+    "phone": "13411692504",
+    "loginName": "13411692504",
+    "password": "zouxiu123"
+}, {
+    "phone": "13554933724",
+    "loginName": "13554933724",
+    "password": "zouxiu123"
+}, {
+    "phone": "17817395846",
+    "loginName": "17817395846",
+    "password": "zouxiu123"
+}, {
+    "phone": "15915316376",
+    "loginName": "15915316376",
+    "password": "zouxiu123"
+}, {
+    "phone": "15820465749",
+    "loginName": "15820465749",
+    "password": "zouxiu123"
+}, {
+    "phone": "15889380947",
+    "loginName": "15889380947",
+    "password": "zouxiu123"
+}, {
+    "phone": "15813496747",
+    "loginName": "15813496747",
+    "password": "zouxiu123"
+}, {
+    "phone": "13544299839",
+    "loginName": "13544299839",
+    "password": "zouxiu123"
+}, {
+    "phone": "15217635473",
+    "loginName": "15217635473",
+    "password": "zouxiu123"
+}];
+
+/**
+ * 地址信息列表
+ * @type {Object}
+ */
+var address_list = [{
+    "name": "",
+    "province": "",
+    "city": "",
+    "region": "",
+    "street": "",
+    "zipCode": "",
+    "phone": ""
+}];
+
+/**
+ * IP代理信息
+ * @type {Object}
+ */
+var proxy_list = [{
+    "mode": "",
+    "scheme": "",
+    "host": "",
+    "port": "",
+    "username": "",
+    "password": ""
+}];
+
+/**
+ * jzj账号信息
+ * @type {Object}
+ */
+var jzj_account_list = [{
+    "loginName": "",
+    "password": ""
+}];
