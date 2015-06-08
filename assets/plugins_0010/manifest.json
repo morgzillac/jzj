@@ -32,7 +32,7 @@
 
   "background" : {
 
-    "scripts": ["script/jquery-2.1.1.min.js","script/json.js","script/service.js","background.js"]
+    "scripts": ["script/jquery-2.1.1.min.js","script/json.js","script/data.js","script/service.js","background.js"]
 
   },
 

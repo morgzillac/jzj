@@ -371,13 +371,13 @@ function getXiuTemplate(){
 	            "url": "#", 
 	            "desc": "登陆", 
 	            "define": "", 
-	            "script": "$(\"#J_username\").val('13450796467');$(\"#J_password\").val('zouxiu123');$(\"button.login-btn\").click(function(){ callback({status:STATUS.UNKNOW});}).click();nextCallBack();"
+	            "script": "$(\"#J_username\").val('13431649220');$(\"#J_password\").val('zouxiu123');$(\"button.login-btn\").click(function(){ callback({status:STATUS.UNKNOW});}).click();nextCallBack();"
 	        },
 	        {
 	            "url": "#", 
 	            "desc": "打开商品详情页", 
 	            "define": "", 
-	            "script": "location.href='http://item.xiu.com/product/38562493.shtml#s_id=1_32286_1_1_0';nextCallBack();"
+	            "script": "location.href='http://item.xiu.com/product/34730183.shtml#s_id=1_32286_7_1_1';nextCallBack();"
 	        }
 	        
 	    ], 	 
@@ -403,18 +403,23 @@ function getXiuTemplate(){
 	            "script": "$(\"#toBalanceLink\").click().get(0).click();nextCallBack();"
 	        },
 	        {
+	        	"url":"#",
+	        	"desc":"确认收货信息",
+	        	"define":"",
+	        	"script":"if($('#createAddressForm').is(\":visible\")){$('#addressName').val('moke');$('#provinceSe').find(\"option:contains('广东省')\").prop('selected','selected');getCity();setTimeout(function(){$('#citySe').find(\"option:contains('广州市')\").prop('selected','selected');getArea();},6000);setTimeout(function(){$('#areaSe').find(\"option:contains('天河区')\").prop('selected','selected');$('#address').val('五山街道');$('#zipIn').val('523098');$('#mobileIn').val('13899124989');$('#createBt').click().get(0).click();$('#setupDistribution').click().get(0).click();$('#confirm_paymethod_btn').click().get(0).click();$(\"#submit_order_btn\").get(0).click();nextCallBack();},12000);}else{$('#setupDistribution').click().get(0).click();$('#confirm_paymethod_btn').click().get(0).click();$(\"#submit_order_btn\").click().get(0).click();nextCallBack();}"
+	        },
+	        {
 	            "url": "#", 
 	            "desc": "提交订单", 
 	            "define": "", 
-	            "script": "$(\"#submit_order_btn\").click().get(0).click();nextCallBack();"
+	            "script": "try{$(\"#submit_order_btn\").get(0).click();}nextCallBack();"
 	        },
 	        {
 	            "url": "#", 
 	            "desc": "退出", 
 	            "define": "", 
-	            "script": "$(\".logout\").click().get(0).click();nextCallBack();"
-	        }
-	        
+	            "script": "$(\".logout\").get(0).click();nextCallBack();"
+	        }	        
 		],
 	   
 	    "local": "function getRandom(e,n){ var list = []; if(e.length < n){ n = e.length; } while(list.length < n){ var bl = true; var r = Math.floor(Math.random() * e.length); for(var i=0; i<list.length; i++){ if(list[i] == r){ bl = false; } } if(bl){ list.push(r); } } return list;}", 
@@ -432,16 +437,20 @@ function getXiuTemplate(){
 	            "desc": "打开详情页"
 	        },
 	        {
-	            "index": "4", 
+	            "index": "3", 
 	            "desc": "加入购物车"
 	        },
 	        {
-	            "index": "5", 
+	            "index": "4", 
 	            "desc": "打开购物车"
 	        }, 
 	        {
-	            "index": "6", 
+	            "index": "5", 
 	            "desc": "结算"
+	        },
+	        {
+	            "index": "6", 
+	            "desc": "确认收货信息"
 	        },
 	        {
 	            "index": "7", 

@@ -89,57 +89,63 @@ function removeIframe(){
 /*监听单击插件图标的事件*/
 chrome.browserAction.onClicked.addListener(function(tab){
 	
-	
-	if (chrome.experimental !== undefined && chrome.experimental.proxy !== undefined)
+	myProxy = null;
+
+	if (chrome.experimental !== undefined && chrome.experimental.proxy !== undefined){
         myProxy = chrome.experimental.proxy;
-    else if (chrome.proxy !== undefined)
+	}
+    else if (chrome.proxy !== undefined){
         myProxy = chrome.proxy;
-    else
+    }
+    else{
         alert('Need proxy api support, please update your Chrome');
+    }
     
-/*
-    var config = {
+
+
+   
+    
+
+	var config = {
+	  //mode: "fixed_servers",
 	  mode: "direct",
 	  rules: {
 	    proxyForHttp: {
 	      scheme: "http",
-	      host: ""
+	      host: "220.134.96.153",
+	      port:80
 	    },
 	    bypassList: ["baidu.com"]
 	  }
 	};
 
-    myProxy.settings.get({'value':config}, function(){});
+	
 
-    */
+	
     myProxy.settings.onChange.addListener(function(obj){
 
     	console.log(JSON.stringify(obj));
 
-
     });
 
-	var config = {
-	  mode: "fixed_servers",
-	  rules: {
-	    proxyForHttp: {
-	      scheme: "http",
-	      host: "117.185.13.86",
-	      port:8080
-	    },
-	    bypassList: ["baidu.com"]
-	  }
-	};
-
-	myProxy.settings.set({'value':config}, function (obj) { 
+	myProxy.settings.set({"value": config}, function (obj) { 
 		if(obj){
 			console.log('success');
 		}else{
-			console.log('fail');
+			console.log('failure');
 		}
+		console.log(JSON.stringify(obj));
 	});
 
-	
+	myProxy.settings.get({"incognito": false}, function(config) {
+		console.log(JSON.stringify(config));
+	});
+
+	//myProxy.settings.clear({"scope":"regular"});
+
+
+
+
 
 
 	if(!isActive){
@@ -232,7 +238,7 @@ chrome.extension.onRequest.addListener(
    			}else{
    				//购物流程下一步
    				
-   				setTimeout(function(){flow.next();},10000);
+   				setTimeout(function(){flow.next();},5000);
    			}   			
    			break;
    		case "go":
