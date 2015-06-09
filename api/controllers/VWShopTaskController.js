@@ -102,8 +102,13 @@ module.exports = {
 
   getTaskForBuyer: function (req, res) {
 
-    var query = VWShopTask.find();
-    //query.limit(5);
+    var criteria = actionUtil.parseCriteria(req);
+    var limit =  actionUtil.parseLimit(req);
+
+    var query = VWShopTask.find()
+        .where(criteria)
+        .limit(limit)
+      ;
 
     query.exec(function (err, task) {
       if (err) return res.customError('508', sails.config.errs.systemError('硬盘数据出错'));
