@@ -40,15 +40,12 @@ $(function(){
 		}else if($password.val() == ''){
 			$password.focus();
 		}else{
-			//TODO: 处理登录逻辑
-			ajaxPost(getGlobalConfig().API.HOST + '/user/login', { "login" : $username.val(), "password" : $password.val() },				
-				function success(data,status,xhr){	
-					saveSession(xhr.getResponseHeader("token"),data);	
-					location.href = "iframe.html";
-				},function error(error){					
-					$authError.text(JSON.parse(error.responseText).message);	
-				}
-			);
+			var ajax = new ajaxService();
+			ajax.login($username.val(),$password.val(),function(data){
+				location.href = "iframe.html";
+			},function(error){
+				$authError.text(JSON.parse(error.responseText).message);
+			});
 		}
 	});
 

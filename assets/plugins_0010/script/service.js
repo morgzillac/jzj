@@ -119,17 +119,33 @@ function ajaxDelete(url,json,successCallBack,errorCallBack){
 	    }  
 	});
 }
-/*get global session token*/
-function getHearders(key){
-	var token = window.localStorage.getItem("token");
-	return (token != undefined && token != null ) ? token : "";
+/*get global header*/
+function getHearders(key) {
+	var value = window.localStorage.getItem(key);
+	return (value != undefined && value != null ) ? value : "";
 }
-/*set global session token*/
-function setHearders(data){
+/*set global header*/
+function setHearders(name,value){
 	//TODO: 设置session token信息到浏览localstoge存储里面和global变量里获取
+	window.localStorage.setItem(name,value);
 }
 /*后台数据处理的Service*/
 function ajaxService(){
+	/*Login service*/
+	this.login = function(user,pwd,succCallBack,errCallBack){
+		ajaxPost(getGlobalConfig().API.HOST + '/user/login', { "login" : user, "password" : pwd },				
+			function success(data,status,xhr){	
+				saveSession(xhr.getResponseHeader("token"),data);	
+				if(typeof succCallBack == 'function'){
+					succCallBack(data);
+				}
+			},function error(reason){						
+				if(typeof errCallBack == 'function'){
+					errCallBack(reason);	
+				}
+			}
+		);
+	};
 	/*获取可接单的任务*/
 	this.getTaskForBuyer = function(succCallBack,errCallBack){
 		ajaxGet(getGlobalConfig().API.HOST + '/VWShopTask/getTaskForBuyer?sort=createdAt DESC', { },

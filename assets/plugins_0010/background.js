@@ -91,6 +91,8 @@ chrome.browserAction.onClicked.addListener(function(tab){
 	
 	myProxy = null;
 
+
+/*
 	if (chrome.experimental !== undefined && chrome.experimental.proxy !== undefined){
         myProxy = chrome.experimental.proxy;
 	}
@@ -143,7 +145,7 @@ chrome.browserAction.onClicked.addListener(function(tab){
 
 	//myProxy.settings.clear({"scope":"regular"});
 
-
+*/
 
 
 

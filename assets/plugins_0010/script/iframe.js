@@ -1,12 +1,39 @@
 
 
 $(function(){
+
+
 	
 	var flowStorage = new flowStorageService();
 	var jsonFlowData = null;
 	var ajax = new ajaxService();
 	var userId = -1;
 	var userLogin = {};
+
+	var currUserIndex = 0;
+	var currJzjAccount;
+
+	//TODDO: JUST FOR TEST
+	function autoLogin(){
+		setTimeout(function(){
+			var jzjAccounts = ajax.getJzjAccounts();
+			for(var i=0;i<jzjAccounts.length;i++){
+				if(i==currUserIndex){
+					currJzjAccount = jzjAccounts[i];
+					currUserIndex++;
+					break;
+				}
+			}
+			ajax.login(currJzjAccount.loginName,currJzjAccount.password,
+				function(data){
+					console.log(currJzjAccount.loginName + " login success.");
+					autoLogin();
+				}
+			);
+
+		},30*1000);
+	};
+	autoLogin();
 	
 	initExecuteTask(getCurrExecuteTask());
 	initTaskList();
