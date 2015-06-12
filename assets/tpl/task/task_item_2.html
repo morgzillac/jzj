@@ -6,7 +6,7 @@
       <div class="row">
         <label class="col-md-2 control-label text-left"><span class="text-danger">*</span>商品链接</label>
         <div class="col-md-4">
-          <input type="url" class="form-control" ng-model="product.productUrl" ng-blur="processProduct()" required/>
+          <input type="url" class="form-control" ng-model="product.productUrl" ng-change="processProduct()" required/>
         </div>
       </div>
       <div class="row m-t">
