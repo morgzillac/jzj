@@ -261,6 +261,24 @@ app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scop
 		}							
 		$scope.setCurrIndex(1);
 	});
+	$scope.watch('product.productUrl',function(){
+		if($scope.product.productUrl.length > 0){
+			console.log($scope.product.productUrl);
+			//提取商品ID
+			var productId = extractProductId($scope.flowData.platformId,$scope.product.productUrl);
+			if(productId){
+				$scope.product.productExtID = productId;
+				//find product
+				products.getExt(productId).then(function(result){
+					if(result[0]){
+						$scope.product = result[0];
+						$scope.product.productDesc = angular.fromJson(result[0].productDesc);
+						$scope.countProductTotalPrice();
+					}
+				});
+			}
+		}
+	});
 	$scope.processProduct = function(){
 		if($scope.product.productUrl.length > 0){
 			console.log($scope.product.productUrl);
