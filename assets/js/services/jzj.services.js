@@ -160,7 +160,8 @@ app.factory('platforms', ['promisePost','promiseGet',function(promisePost,promis
 			    {id : 3, name: '京东', filter:'jd', color:'#fad733', active : false},
 			    {id : 4, name: '当当', filter:'dangdang', color:'#27c24c', active : false},
 			    {id : 5, name: '亚马逊', filter:'amazon', color:'#fad733', active : false},
-			    {id : 6, name: '一号店', filter:'yhd', color:'#23b7e5', active : false}
+			    {id : 6, name: '一号店', filter:'yhd', color:'#23b7e5', active : false},
+			    {id : 7, name: '0010', filter:'0010', color:'#23b7e5', active : false}
 			  ];
 	return {
 		getAll : function(){
@@ -187,7 +188,8 @@ app.factory('platforms', ['promisePost','promiseGet',function(promisePost,promis
 			    {id : 3, name: '京东', count : 1},
 			    {id : 4, name: '当当', count : 0},
 			    {id : 5, name: '亚马逊', count : 0},
-			    {id : 6, name: '一号店', count : 0}
+			    {id : 6, name: '一号店', count : 0},
+			    {id : 7, name: '0010', count : 0}
 			  ];
 		},
 		getPlatformName : function(platformId){
