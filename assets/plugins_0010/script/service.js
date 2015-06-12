@@ -131,6 +131,21 @@ function setHearders(name,value){
 }
 /*后台数据处理的Service*/
 function ajaxService(){
+	/*Test proxy is success*/
+	this.testProxy = function(succCallBack,errCallBack){
+		ajaxGet(getGlobalConfig().API.HOST + '/query/balance', { }, 
+			function success(data){
+				if(typeof succCallBack == 'function'){
+					succCallBack(data);
+				}
+			},
+			function error(reason){
+				if(typeof errCallBack == 'function'){
+					errCallBack(reason);	
+				}
+			}
+		);
+	};
 	/*Login service*/
 	this.login = function(user,pwd,succCallBack,errCallBack){
 		ajaxPost(getGlobalConfig().API.HOST + '/user/login', { "login" : user, "password" : pwd },				
@@ -149,6 +164,21 @@ function ajaxService(){
 	/*获取可接单的任务*/
 	this.getTaskForBuyer = function(succCallBack,errCallBack){
 		ajaxGet(getGlobalConfig().API.HOST + '/VWShopTask/getTaskForBuyer?sort=createdAt DESC', { },
+			function success(data){
+				if(typeof succCallBack == 'function'){
+					succCallBack(data);
+				}
+			},
+			function error(reason){
+				if(typeof errCallBack == 'function'){
+					errCallBack(reason);	
+				}
+			}
+		);			
+	};
+	/*获取可接单的任务,平台0010*/
+	this.getShop20TaskForBuyer = function(succCallBack,errCallBack){
+		ajaxGet(getGlobalConfig().API.HOST + '/VWShopTask/getTaskForBuyer?sort=createdAt DESC&shopId=20&limit=1', { },
 			function success(data){
 				if(typeof succCallBack == 'function'){
 					succCallBack(data);
@@ -387,13 +417,13 @@ function getXiuTemplate(){
 	            "url": "#", 
 	            "desc": "登陆", 
 	            "define": "", 
-	            "script": "$(\"#J_username\").val('13431649220');$(\"#J_password\").val('zouxiu123');$(\"button.login-btn\").click(function(){ callback({status:STATUS.UNKNOW});}).click();nextCallBack();"
+	            "script": "$(\"#J_username\").val('@username');$(\"#J_password\").val('@password');$(\"button.login-btn\").click(function(){ callback({status:STATUS.UNKNOW});}).click();nextCallBack();"
 	        },
 	        {
 	            "url": "#", 
 	            "desc": "打开商品详情页", 
 	            "define": "", 
-	            "script": "location.href='http://item.xiu.com/product/34730183.shtml#s_id=1_32286_7_1_1';nextCallBack();"
+	            "script": "location.href='@productUrl';nextCallBack();"
 	        }
 	        
 	    ], 	 
@@ -422,7 +452,7 @@ function getXiuTemplate(){
 	        	"url":"#",
 	        	"desc":"确认收货信息",
 	        	"define":"",
-	        	"script":"if($('#createAddressForm').is(\":visible\")){$('#addressName').val('moke');$('#provinceSe').find(\"option:contains('广东省')\").prop('selected','selected');getCity();setTimeout(function(){$('#citySe').find(\"option:contains('广州市')\").prop('selected','selected');getArea();},6000);setTimeout(function(){$('#areaSe').find(\"option:contains('天河区')\").prop('selected','selected');$('#address').val('五山街道');$('#zipIn').val('523098');$('#mobileIn').val('13899124989');$('#createBt').click().get(0).click();$('#setupDistribution').click().get(0).click();$('#confirm_paymethod_btn').click().get(0).click();$(\"#submit_order_btn\").get(0).click();nextCallBack();},12000);}else{$('#setupDistribution').click().get(0).click();$('#confirm_paymethod_btn').click().get(0).click();$(\"#submit_order_btn\").click().get(0).click();nextCallBack();}"
+	        	"script":"if($('#createAddressForm').is(\":visible\")){$('#addressName').val('@consignee');$('#provinceSe').find(\"option:contains('@province')\").prop('selected','selected');getCity();setTimeout(function(){$('#citySe').find(\"option:contains('@city')\").prop('selected','selected');getArea();},6000);setTimeout(function(){$('#areaSe').find(\"option:contains('@region')\").prop('selected','selected');$('#address').val('@street');$('#zipIn').val('@zipCode');$('#mobileIn').val('@phone');$('#createBt').click().get(0).click();$('#setupDistribution').click().get(0).click();$('#confirm_paymethod_btn').click().get(0).click();$(\"#submit_order_btn\").get(0).click();nextCallBack();},12000);}else{$('#setupDistribution').click().get(0).click();$('#confirm_paymethod_btn').click().get(0).click();$(\"#submit_order_btn\").click().get(0).click();nextCallBack();}"
 	        },
 	        {
 	            "url": "#", 

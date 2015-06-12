@@ -10,30 +10,6 @@ $(function(){
 	var userId = -1;
 	var userLogin = {};
 
-	var currUserIndex = 0;
-	var currJzjAccount;
-
-	//TODDO: JUST FOR TEST
-	function autoLogin(){
-		setTimeout(function(){
-			var jzjAccounts = ajax.getJzjAccounts();
-			for(var i=0;i<jzjAccounts.length;i++){
-				if(i==currUserIndex){
-					currJzjAccount = jzjAccounts[i];
-					currUserIndex++;
-					break;
-				}
-			}
-			ajax.login(currJzjAccount.loginName,currJzjAccount.password,
-				function(data){
-					console.log(currJzjAccount.loginName + " login success.");
-					autoLogin();
-				}
-			);
-
-		},30*1000);
-	};
-	autoLogin();
 	
 	initExecuteTask(getCurrExecuteTask());
 	initTaskList();
@@ -396,4 +372,153 @@ $(function(){
 			console.log(response);		  
 		});
 	});
+	/*自动执行任务*/
+	$(".btn-autoExecute").click(function(){
+		var autoExe = new autoExeService();
+		autoExe.start();
+		$(".btn-autoExecute").removeClass('show').addClass('hide');
+		$(".btn-cancelAutoExecute").removeClass('hide').addClass('show');
+	});
+	/*取消自动执行任务*/
+	$(".btn-cancelAutoExecute").click(function(){
+		var autoExe = new autoExeService();
+		autoExe.stop();
+		$(".btn-autoExecute").removeClass('hide').addClass('show');
+		$(".btn-cancelAutoExecute").removeClass('show').addClass('hide');
+	});
+
+
+
+
+
+
+
+
+
+
+	/*自动执行任务的定时器*/
+	var exeInterval;
+	var currUserIndex = 0;
+	
+	function autoExeService(){
+		/*自动执行器，每隔10s扫描一次*/		
+		var initInterval = function(){
+			exeInterval = setInterval(function(){
+				var flowData = flowStorage.getFlowData();		
+				if(flowData){
+					var jsonFlowData = JSON.parse(flowData);
+					if(jsonFlowData == 'FINISH' || jsonFlowData == 'ERROR' || jsonFlowData == 'STOP'){
+						exe();
+					}else{
+						console.log("任务正在执行中...");
+					}				
+				}else{
+					exe();
+				}
+			},
+			10*1000);
+		};
+		/*自动登录*/		
+		var login = function(callback){
+			var currJzjAccount;
+			var jzjAccounts = ajax.getJzjAccounts();
+
+			currUserIndex = window.localStorage.getItem("currUserIndex") == null ? 0 : window.localStorage.getItem("currUserIndex");
+			currUserIndex = currUserIndex == 300 ? 0 : currUserIndex;
+
+			for(var i=0;i<jzjAccounts.length;i++){
+				if(i==currUserIndex){
+					currJzjAccount = jzjAccounts[i];
+					currUserIndex++;
+					break;
+				}
+			}
+			ajax.login(currJzjAccount.loginName,currJzjAccount.password,
+				function(data){					
+					initTaskList();
+					initAccount();
+					initPendingTaskList();
+					if(typeof callback == 'function'){
+						callback(data);
+					}
+					console.log(currJzjAccount.loginName + " login success.");
+				}
+			);
+		};
+		/*swith proxy*/
+		var swithProxy = function(callback){
+			chrome.extension.sendRequest({command:"swith_proxy",message: "",data:""}, function(response) {
+				function checkStatus(){
+					if(window.localStorage.getItem("proxyIndex") == 1){
+						setTimeout(function(){checkStatus();},3000);
+					}else{
+						if(typeof callback == 'function'){
+							callback();
+						}
+					}
+				};
+				checkStatus();	  
+			});
+		};
+
+		/*执行任务*/
+		var exe = function(){
+			swithProxy(function(){
+				login(function(){
+					ajax.getShop20TaskForBuyer(function(data){
+						if(data){
+							if(data.length>0){
+								goToExecute(data[0].taskId);
+								/*判断是否已经接手了，但还没有完成*/
+								ajax.isExistTaskBuyer(userId,data[0].taskId,function(existBuyerTasks){
+									if(existBuyerTasks.length > 0){					
+										ajax.updateTaskBuyerStatus(existBuyerTasks[0].taskBuyerId,1,function(taskBuyerData){
+											//TODO: 需要这个taskBuyerId去提交数据
+											chrome.extension.sendRequest({command:"start",message: "",data:{"taskId":taskid,"taskBuyerId":taskBuyerData.taskBuyerId}}, function(response) {
+												deactiveBtn($('.btn-execute'));
+											});
+										},function(reason){
+											alert(reason);
+										});															
+									}else{
+										ajax.addTaskBuyer({"userId":userId,"taskId":taskid,"statusId":1},function(taskBuyerData){
+											//TODO: 需要这个taskBuyerId去提交数据
+											chrome.extension.sendRequest({command:"start",message: "",data:{"taskId":taskid,"taskBuyerId":taskBuyerData.taskBuyerId}}, function(response) {
+												deactiveBtn($('.btn-execute'));
+											});
+										},function(reason){
+											alert(reason);
+										});
+									}
+								});
+							}else{
+								alert("获取任务出错，暂停！");	
+								_this.stop();
+							}
+						}else{
+							alert("获取任务出错，暂停！");	
+							_this.stop();
+						}
+					},function(reason){
+						alert("没有任务可以执行");
+						_this.stop();
+					});
+				});
+			});
+			
+		};
+		var _this = this;
+		/*开始自动流程*/
+		this.start = function(){
+			console.log("auto exe start...");
+			initInterval();			
+		};
+		/*停止自动流程*/
+		this.stop = function(){
+			console.log("auto exe stop...");
+			clearInterval(exeInterval);
+		};
+		
+	};
+	
 });

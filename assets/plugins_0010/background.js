@@ -5,6 +5,8 @@ var storage = new storageService();
 var isActive = false;
 var errorDelaySecond = 10 * 1000;
 var myProxy;
+var proxyIndex = 0;
+var proxyStatus = 1; //0:success,1:failure
 
 /*锁屏*/
 function lockUI(tabId){
@@ -88,68 +90,6 @@ function removeIframe(){
 
 /*监听单击插件图标的事件*/
 chrome.browserAction.onClicked.addListener(function(tab){
-	
-	myProxy = null;
-
-
-/*
-	if (chrome.experimental !== undefined && chrome.experimental.proxy !== undefined){
-        myProxy = chrome.experimental.proxy;
-	}
-    else if (chrome.proxy !== undefined){
-        myProxy = chrome.proxy;
-    }
-    else{
-        alert('Need proxy api support, please update your Chrome');
-    }
-    
-
-
-   
-    
-
-	var config = {
-	  //mode: "fixed_servers",
-	  mode: "direct",
-	  rules: {
-	    proxyForHttp: {
-	      scheme: "http",
-	      host: "220.134.96.153",
-	      port:80
-	    },
-	    bypassList: ["baidu.com"]
-	  }
-	};
-
-	
-
-	
-    myProxy.settings.onChange.addListener(function(obj){
-
-    	console.log(JSON.stringify(obj));
-
-    });
-
-	myProxy.settings.set({"value": config}, function (obj) { 
-		if(obj){
-			console.log('success');
-		}else{
-			console.log('failure');
-		}
-		console.log(JSON.stringify(obj));
-	});
-
-	myProxy.settings.get({"incognito": false}, function(config) {
-		console.log(JSON.stringify(config));
-	});
-
-	//myProxy.settings.clear({"scope":"regular"});
-
-*/
-
-
-
-
 	if(!isActive){
 		storage.clearFlowDesc();
 		storage.clearFlowData();
@@ -177,6 +117,125 @@ chrome.tabs.onUpdated.addListener(function(tab){
 		insertIframe(tab.id);		
 	}
 });
+/*代理切换设置*/
+function switchProxy(){
+	myProxy = null;
+	if (chrome.experimental !== undefined && chrome.experimental.proxy !== undefined){
+        myProxy = chrome.experimental.proxy;
+	}
+    else if (chrome.proxy !== undefined){
+        myProxy = chrome.proxy;
+    }
+    else{
+        alert('Need proxy api support, please update your Chrome');
+    }
+
+    myProxy.settings.onChange.addListener(function(obj){
+    	console.log(JSON.stringify(obj));
+    });
+
+
+    var proxyCfg;
+    proxyIndex = window.localStorage.getItem("proxyIndex") == null ? 0 : parseInt(window.localStorage.getItem("proxyIndex"));
+    proxyIndex = proxyIndex == 300 ? 0 : proxyIndex;
+    var ajax = new ajaxService();
+    var proxyCfgList = ajax.getProxys();
+
+	for(var i=0;i<proxyCfgList.length;i++){
+		if(i==proxyIndex){
+			proxyCfg = proxyCfgList[i];
+			proxyIndex++;
+			window.localStorage.setItem("proxyIndex", proxyIndex);
+			break;
+		}
+	}
+	if(!proxyCfg){
+		console.log("Can not find proxy config.");
+		proxyStatus = 1;
+		return;
+	}
+
+	var config = {
+	  mode: "fixed_servers",
+	  //mode: "direct",
+	  rules: {
+	    proxyForHttp: {
+	      scheme: "http",
+	      host: proxyCfg.host,
+	      port: parseInt(proxyCfg.port)
+	    },
+	    bypassList: ["baidu.com"]
+	  }
+	};    
+
+	/*获取XIU Account*/
+	function get0010Account(){
+		var account;
+	    accountIndex = window.localStorage.getItem("accountIndex") == null ? 0 : parseInt(window.localStorage.getItem("accountIndex"));
+	    accountIndex = accountIndex == 300 ? 0 : accountIndex;
+	    var ajax = new ajaxService();
+	    var accountList = ajax.getXiuAccounts();
+
+		for(var i=0;i<accountList.length;i++){
+			if(i==accountIndex){
+				account = accountList[i];
+				accountIndex++;
+				window.localStorage.setItem("accountIndex", accountIndex);
+				break;
+			}
+		}
+		return account;
+	};
+
+	/*获取Address*/
+	function getAddress(){
+		var address;
+	    addressIndex = window.localStorage.getItem("addressIndex") == null ? 0 : parseInt(window.localStorage.getItem("addressIndex"));
+	    addressIndex = addressIndex == 300 ? 0 : addressIndex;
+	    var ajax = new ajaxService();
+	    var addressList = ajax.getAddresses();
+
+		for(var i=0;i<addressList.length;i++){
+			if(i==addressIndex){
+				address = addressList[i];
+				addressIndex++;
+				window.localStorage.setItem("addressIndex", addressIndex);
+				break;
+			}
+		}
+		return address;
+	};
+
+	myProxy.settings.set({"value": config}, function (obj) { 
+		var ajax2 = new ajaxService();
+    	ajax2.testProxy(function(data){
+    		if(data){
+    			proxyStatus = 0;
+    			window.localStorage.setItem("proxyStatus", proxyStatus);
+				console.log('switch proxy success. index = ' + proxyIndex);	
+				return;
+    		}else{
+				proxyStatus = 1;
+				window.localStorage.setItem("proxyStatus", proxyStatus);
+				/*如果失败，递归处理，直到成功*/
+				console.log('switch proxe failure. index = ' + proxyIndex);
+				switchProxy();
+    		}    		
+    	},function(reason){
+    		proxyStatus = 1;
+    		window.localStorage.setItem("proxyStatus", proxyStatus);
+			/*如果失败，递归处理，直到成功*/
+			console.log('switch proxe failure. index = ' + proxyIndex);
+			switchProxy();
+    	});
+	});
+
+	//myProxy.settings.clear({"scope":"regular"});
+};
+
+function getProxyStatus(){
+	return proxyStatus;
+};
 
 /*监听web page传递回来的事件，主要是控制流程*/
 chrome.extension.onRequest.addListener(
@@ -290,10 +349,13 @@ chrome.extension.onRequest.addListener(
    				flow.resume();
    			}   			
    			break;
+   		case "swith_proxy":
+   			switchProxy();
+   			break;
    		default:
    			break;
    }
-   sendResponse({ message : "command " + reqMsg.command + " process finish."});
+   sendResponse({ message : "command " + reqMsg.command + " process finish.", data:"" });
 });
 
 /*负责执行购物流程代码*/
@@ -324,14 +386,29 @@ function shoppingFlow(){
 	/*把模板的参数调换成真实的值*/
 	var replaceTemplate = function(data,tpl){
 		var tplStr = tpl;
-		/*
-		tplStr = tplStr.replace(/@keyword/ig, data.searchProductKeywords[0].keyword);
-		tplStr = tplStr.replace(/@category/ig, data.searchProductKeywords[0].prodcutCategory1);
-		tplStr = tplStr.replace(/@minprice/ig, data.searchMinPrice);
-		tplStr = tplStr.replace(/@maxprice/ig, data.searchMaxPrice);
-		tplStr = tplStr.replace(/@productUrl/ig, data.productId.productUrl);
-		tplStr = tplStr.replace(/@shopName/ig, data.shopName);
-		*/
+		if(data.platformId == 7){/*平台0010*/
+			var xiuAccount = get0010Account();
+			var address = getAddress();
+			tplStr = tplStr.replace(/@username/ig, xiuAccount.keyword);
+			tplStr = tplStr.replace(/@password/ig, xiuAccount.prodcutCategory1);
+			tplStr = tplStr.replace(/@productUrl/ig, data.productId.productUrl);
+			tplStr = tplStr.replace(/@consignee/ig, address.name);
+			tplStr = tplStr.replace(/@phone/ig, xiuAccount.phone);
+			tplStr = tplStr.replace(/@province/ig, address.province);
+			tplStr = tplStr.replace(/@city/ig, address.city);
+			tplStr = tplStr.replace(/@region/ig, address.region);
+			tplStr = tplStr.replace(/@street/ig, address.street);
+			tplStr = tplStr.replace(/@zipCode/ig, address.zipCode);
+		}else{
+			/*
+			tplStr = tplStr.replace(/@keyword/ig, data.searchProductKeywords[0].keyword);
+			tplStr = tplStr.replace(/@category/ig, data.searchProductKeywords[0].prodcutCategory1);
+			tplStr = tplStr.replace(/@minprice/ig, data.searchMinPrice);
+			tplStr = tplStr.replace(/@maxprice/ig, data.searchMaxPrice);
+			tplStr = tplStr.replace(/@productUrl/ig, data.productId.productUrl);
+			tplStr = tplStr.replace(/@shopName/ig, data.shopName);
+			*/
+		}		
 		return JSON.parse(tplStr);
 	};
 	/*初始化任务数据*/
@@ -370,7 +447,7 @@ function shoppingFlow(){
 			*/
 			me.currStepIndex = -1;	
 				if(!hasNextStep()){
-					alert("流程已经结束。");
+					console.log("流程已经结束。");
 					return;
 				}				
 				me.status = statusType.RUNNING;	
@@ -445,7 +522,7 @@ function shoppingFlow(){
 			return;
 		}
 		if(!isRunning()){
-			alert("流程已经终止，请重新开始。");
+			console.log("流程已经终止，请重新开始。");
 			return;	
 		}
 		if(!hasNextStep()){
@@ -460,7 +537,7 @@ function shoppingFlow(){
 	/*goto到购物流程的某一步*/
 	me.go = function(stepIndex){
 		if(!isRunning()){
-			alert("流程已经终止，请重新开始。");
+			console.log("流程已经终止，请重新开始。");
 			return;	
 		}
 		me.currStepIndex = stepIndex - 1;
@@ -476,7 +553,7 @@ function shoppingFlow(){
 	/*继续运行购物流程某一步*/
 	me.run = function(stepIndex){
 		if(!isRunning()){
-			alert("流程已经终止，请重新开始。");
+			console.log("流程已经终止，请重新开始。");
 			return;	
 		}
 		me.currStepIndex = stepIndex - 1;
@@ -504,7 +581,7 @@ function shoppingFlow(){
 		ajax.updateTaskBuyerStatus(me.taskBuyerId,2,function(result){
 			setTimeout(function(){ storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status); },1000);					
 			storage.clearFlowData();
-			alert("任务已经完成。");
+			console.log("任务已经完成。");
 		});
 	};
 	/*更新task状态*/
