@@ -34,7 +34,7 @@
               <div class="row">
                 <div class="col-md-1"><label class="h4"><span class="label bg-danger">T</span>{{t.shopName}}</label></div>                
                 <!-- <div class="col-md-2"><a ng-click="viewDetail(t.taskId)" class="text-info">{{t.productName}}</a></div>                 -->
-                <div class="col-md-2"><a class="text-info">{{t.productName}}</a></div>                
+                <div class="col-md-2"><a ng-click="toggleOpen(t.taskId)" class="text-info">{{t.productName}}</a></div>                
                 <div class="col-md-1">{{t.shopProductPrice}}</div>                
                 <div class="col-md-1">{{t.taskProductPrice / t.shopProductPrice}}</div>                
                 <div class="col-md-1">{{t.taskProductPrice}}</div>                
