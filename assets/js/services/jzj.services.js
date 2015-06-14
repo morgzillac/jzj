@@ -286,7 +286,7 @@ app.factory('flowDatas',function(){
 				    "terminal": null,
 				    "approvalPriority": 0,
 				    "taskPriority": 0,
-				    "includeShipping": 0,
+				    "includeShipping": 1,
 					"taskDetail" : {
 						"currItem" : "app.task.item1",
 						"flowItem" : ['app.task.item1','app.task.item2','app.task.item3','app.task.item4','app.task.item5','app.task.item6'],
@@ -300,11 +300,11 @@ app.factory('flowDatas',function(){
 						"productId" : -1,
 						"productPrice" : 0, 
 						"productCount" : 1,
-						"searchProductKeywords" : [{"keyword":"", "totalTasks":"", "prodcutCategory1" : "", "prodcutCategory2" : "", "prodcutCategory3" : "", "prodcutCategory4" : ""}],
+						"searchProductKeywords" : [{"keyword":"", "totalTasks":"", "prodcutCategory1" : "", "prodcutCategory2" : "", "prodcutCategory3" : "", "prodcutCategory4" : "", "orderQuantity":null }],
 						"searchMinPrice" : "",
 						"searchMaxPrice" : "",
 						"searchProductLocation" : "",
-						"includeShipping" : false,
+						"includeShipping" : true,
 						"totalTasks" : "",					
 						"orderMessages" : [""],
 						"agreeFastRefunds" : false,
@@ -324,6 +324,54 @@ app.factory('flowDatas',function(){
 			var yhd = { "platformId" : 4, "shopId" : -1, "taskTypeId" : 1 };
 			var dangdang = { "platformId" : 5, "shopId" : -1, "taskTypeId" : 1 };
 			var amazon = { "platformId" : 6, "shopId" : -1, "taskTypeId" : 1 };
+			var p0010 = { 		
+					"taskId" : -1,	
+					"status" : 2,		
+					"platformId" : 7, 
+					"platformName" : "0010",
+					"shopId" : 25, 
+					"taskTypeId" : 1,
+					"productId" : -1,
+					"productPrice" : 0,
+					"totalTasks" : 1,					
+				    "commission": 0,
+				    "bonus": 0,
+				    "terminal": null,
+				    "approvalPriority": 0,
+				    "taskPriority": 0,
+				    "includeShipping": 1,
+					"taskDetail" : {
+						"currItem" : "app.task.item1",
+						"flowItem" : ['app.task.item1','app.task.item2','app.task.item3','app.task.item5','app.task.item6'],
+						"taskId" : -1,
+						"status" : 2,
+						"platformId" : 1, 
+						"platformName" : "0010",
+						"shopId" : -1, 
+						"shopName" : "shop_0010",
+						"taskTypeId" : 1,
+						"productId" : -1,
+						"productPrice" : 0, 
+						"productCount" : 1,
+						"searchProductKeywords" : [{"keyword":"", "totalTasks":"", "prodcutCategory1" : "", "prodcutCategory2" : "", "prodcutCategory3" : "", "prodcutCategory4" : "", "orderQuantity":null }],
+						"searchMinPrice" : "",
+						"searchMaxPrice" : "",
+						"searchProductLocation" : "",
+						"includeShipping" : true,
+						"totalTasks" : "",					
+						"orderMessages" : [""],
+						"agreeFastRefunds" : false,
+						"taskPriority" : -1,
+						"agreeBonus" : false,
+						"bonus" : 0,
+						"agreeApprovalPriority" : false,
+						"agreeQualityPraise" : false,
+						"praiseKeywords" : ["","",""],
+						"paymentPiont" : false,
+						"paymentDeposit" : false,
+						"paymentBank" : false
+					}					
+				};
 			var model;
 			switch(platformId){
 				case 1:
@@ -344,6 +392,9 @@ app.factory('flowDatas',function(){
 				case 6:
 					model = taobao;
 					break;				
+				case 7:
+					model = p0010;
+					break;	
 				default:
 					model = taobao;
 					break;

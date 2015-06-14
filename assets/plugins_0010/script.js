@@ -5,14 +5,14 @@ STATUS = {UNKNOW:0,FAIL:-1,SUCCESS:1}
 
 /*如果执行需要返回，使用callback事件传递回到extension*/
 function callback(obj) {
-
 	window.postMessage({
 		type: "EXECUTE_SCRIPT_CALLBACK",
 		command: obj.command,
 		message: obj.message,
 		data: obj.data,
 		status: obj.status,
-		step: obj.step
+		step: obj.step,
+		waitTime: obj.waitTime
 	}, "*");
 };
 
@@ -74,6 +74,10 @@ function getRandom(e,n){
 function nextCallBack(){
 
     callback({command:"next",message:null,data:null,status:0}); 
+};
+
+function nextCallBack2(time){
+	callback({command:"next",message:null,data:null,status:0,waitTime:time}); 		
 };
 
 /*处理模板数据*/

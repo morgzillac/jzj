@@ -32,7 +32,7 @@
 	  if (event.source != window)
 	    return;
 	  if (event.data.type && (event.data.type == "EXECUTE_SCRIPT_CALLBACK")) {
-	    chrome.extension.sendRequest({command: event.data.command, message: event.data.message, data: event.data.data}, function(response) {
+	    chrome.extension.sendRequest({command: event.data.command, message: event.data.message, data: event.data.data,waitTime:event.data.waitTime}, function(response) {
 		  console.log(response.message);
 		});
 	  }

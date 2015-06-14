@@ -261,7 +261,8 @@ app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scop
 		}							
 		$scope.setCurrIndex(1);
 	});
-	$scope.watch('product.productUrl',function(){
+	//TODO: HAVA A BUG FOR EXTRACTOR
+	$scope.$watch('product.productUrl',function(){
 		if($scope.product.productUrl.length > 0){
 			console.log($scope.product.productUrl);
 			//提取商品ID
@@ -317,6 +318,9 @@ app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scop
 				break;
 			case 6: //一号店
 				id = getProductIdByUrl3(productUrl);
+				break;	
+			case 7: //一号店
+				id = getProductIdFor0010(productUrl);
 				break;			
 			default:
 				break;
@@ -355,6 +359,18 @@ app.controller('TaskFlowItem2Ctrl',['$scope','products','$modal', function($scop
 			var a = arrayStr[0].split('/');
 			if(a[a.length-2]){
 				id = a[a.length-2];
+			}
+		}
+		return id;
+	};
+	/*0010*/
+	var getProductIdFor0010 = function(url){
+		var id = -1;
+		var arrayStr = url.split('.shtml');
+		if(arrayStr[0]){
+			var a = arrayStr[0].split('/');
+			if(a[a.length-1]){
+				id = a[a.length-1];
 			}
 		}
 		return id;
@@ -748,22 +764,41 @@ app.controller('TaskBuyerCtrl',['$scope','taskBuyers',function($scope,taskBuyers
 	$scope.taskId = -1;
 	$scope.expanded = false;
 	$scope.taskBuyerList= [];
+
+	$scope.bpageSize = 5;
+    $scope.bmaxSize = 10;
+    $scope.btotalItems = 0;
+    $scope.bcurrentPage = 1;
+    $scope.setPage = function (pageNo) {
+        $scope.bcurrentPage = pageNo;
+    };
+    $scope.pageChanged = function(pageNo) {
+      filterTaskBuyer(pageNo,$scope.bpageSize);
+    };
+
 	$scope.toggleOpen = function(taskId){
 		$scope.expanded = !$scope.expanded;
 		$scope.taskId = taskId;
-		filterTaskBuyer(1,4);
+		filterTaskBuyer(1,5);
 	};
 	$scope.toggleClose = function(){
 		$scope.expanded = !$scope.expanded;
 	};
 	$scope.filterTaskBuyer = function(statusId){
 		$scope.statusId = statusId;
-		filterTaskBuyer(1,4);
+		filterTaskBuyer(1,5);
+		queryCount();
 	};
 	$scope.updateTaskBuyerStatus = function(taskBuyerId,statusId){		
 		taskBuyers.updateStatus(taskBuyerId,statusId).then(function(result){
-			filterTaskBuyer(1,4);
+			filterTaskBuyer(1,5);
 		});
+	};
+	var queryCount = function(){
+		var condition = "{\"taskId\":" + $scope.taskId + ",\"buyerStatusId\":" + $scope.statusId + "}";
+	    taskBuyers.queryCount(condition).then(function(result){
+	      $scope.btotalItems = parseInt(result.count);
+	    });
 	};
 	var filterTaskBuyer = function(currentPage,pageSize){
 		taskBuyers.filter($scope.taskId,$scope.statusId,currentPage,pageSize).then(function(result){

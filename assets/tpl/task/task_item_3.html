@@ -5,8 +5,9 @@
     <span class="h4 pull-right">已选择：<label class="text-danger">{{flowData.taskDetail.platformName}} | {{flowData.taskDetail.shopName}} | 订单</label></span>
   </div>  
   <div class="line b-b"></div> 
-  <div class="wrapper-md row no-p-t">    
-    <h5 class="font-bold">1.请设置成交关键词分布 <span  class="font-normal text-muted">( 注：关键词订单总数需要为<span class="text-danger">1</span>单 )</span></h5>    
+  <!--not platform 0010-->
+  <div ng-if="flowData.platformId!=7" class="wrapper-md row no-p-t">    
+    <h5 class="font-bold">请设置成交关键词分布 <span  class="font-normal text-muted">( 注：关键词订单总数需要为<span class="text-danger">1</span>单 )</span></h5>    
     <label class="m-t">使用 <span class="text-danger">“<span ng-bind="flowData.taskDetail.platformName"></span>搜索框”</span> 查找商品</label><br/>
     <div class="wrapper">
       <div class="row m-b b bg-remind wrapper-sm" ng-repeat="keyword in productKeywords">
@@ -56,6 +57,17 @@
       </div>
     </div>
   </div>
+  <!--for platform 0010-->
+  <div ng-if="flowData.platformId==7" class="wrapper-md row no-p-t no-p-b">    
+    <div class="wrapper no-p-b">
+      <div class="row m-b wrapper-sm ">
+        <div>
+          <label><span class="text-danger">*</span>刷单数量：</label>
+          <input type="number" class="w-xs input-control-xs" ng-change="countPoint()" ng-model="flowData.taskDetail.searchProductKeywords[0].orderQuantity" required/><label>单</label>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="line b-b"></div> 
 
@@ -68,7 +80,7 @@
   <div class="line b-b hide"></div> 
 
   <div class="row wrapper-md no-p-t">
-      <h5 class="font-bold">3.订单留言 <span  class="font-normal text-muted">( 注：出于安全性考虑，强烈不建议制定订单留言。如必须留言，请尽可能填写多个不同的留言内容</span></h5>
+      <h5 class="font-bold">订单留言 <span  class="font-normal text-muted">（注：出于安全性考虑，强烈不建议制定订单留言。如必须留言，请尽可能填写多个不同的留言内容）</span></h5>
       <div class="m-t" ng-repeat="m in orderMessages">
          <label>留言内容{{$index+1}}：</label><input type="text" class="w-md input-control-xs" placeholder="例如：快点给我发货哦！" ng-model="flowData.taskDetail.orderMessages[$index]"/>
       </div>
@@ -83,14 +95,14 @@
 
   <div class="row wrapper-md no-p-t">
       <h5 class="font-bold">费用小计</h5>
-      <div class="row wrapper bg-remind">
+      <div class="wrapper bg-remind">
          <label class="">刷单费用：<sapn class="text-danger">16.6</sapn>赚点/单 X <sapn class="text-danger">{{totalTasks}}</sapn>单</label>         
          <label class="pull-right"><sapn class="text-danger">{{totalPoint | number:2}}</sapn>赚点</label>
       </div>      
   </div>
 
-  <div class="row wrapper no-p-t">
-      <h5 ><span class="text-danger">注意：</span>请控制好店铺的转化率！不得超过3%！如果因转化率过高，导致商品降权，聚赚界概不负责！</h5>
+  <div class="row ">
+      <h5 class="wrapper-md no-p-t"><span class="text-danger">注意：</span>请控制好店铺的转化率！不得超过3%！如果因转化率过高，导致商品降权，聚赚界概不负责！</h5>
   </div> 
    
 

@@ -56,7 +56,7 @@
         <!--task item-->
         <div class="panel panel-danger" ng-repeat="t in taskList">
           <div class="panel-heading">                    
-            <span><span class="label bg-danger">T</span> {{t.shopName}}<span class="m-l">任务编号：</span><span>{{t.taskId}}</span> [<a ng-click="viewDetail(t.taskId)" class="text-info">详情</a>]</span>
+            <span><span class="label bg-danger">T</span> {{t.shopName}}<span class="m-l">任务编号：</span><span>{{t.taskId}}</span> [<a class="text-info">详情</a>]</span>
             <span class="pull-right">
               <span>任务单数：</span><span>{{t.totalTasks}}单</span>
               <span class="m-l">任务押金：</span><span>{{t.taskProductPrice * t.totalTasks}}元</span>

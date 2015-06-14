@@ -26,32 +26,34 @@
       </div>
       <div class="row m-t">
         <label class="col-md-2 control-label text-left"><span class="text-danger">*</span>单品售价</label>
-        <div class="col-md-1">
+        <div class="col-md-2">
           <input type="number" class="form-control" ng-model="product.productPrice" ng-change="countProductTotalPrice()" required/>
         </div>
         <label class="col-md-1 text-left control-label" >元</label>
         <label class="col-md-1 text-left control-label"><span class="text-danger">*</span>每单拍</label>
-        <div class="col-md-1">
+        <div class="col-md-2">
           <input type="number" class="form-control" ng-model="flowData.taskDetail.productCount" ng-change="countProductTotalPrice()" required/>
         </div>
         <label class="col-md-1 text-left control-label">件</label>
         <label class="col-md-2 text-left control-label">下单总金额<span class="m-l m-r text-danger" ng-bind="totalPrice"></span>元</label>
       </div>
-      <div class="row m-t">
+      <div ng-if="flowData.platformId!=7" class="row m-t">
         <label class="col-md-2 control-label text-left"><span class="text-danger">&nbsp;</span>搜索页面展示价格</label>
         <div class="col-md-2">
           <input type="number" class="form-control" ng-model="flowData.taskDetail.productPrice" required/>
         </div>
-        <label class="col-md-4 text-left control-label ">如该商品有满减、促销、多规格等情况，请填写此金额</label>
+        <label class="col-md-6 text-left control-label text-muted">（如该商品有满减、促销、多规格等情况，请填写此金额）</label>
       </div>
       <div class="row m-t">
-        <label class="col-md-4"><span class="text-danger">&nbsp;</span>请上传 <span class="text-danger">“<span ng-bind="flowData.taskDetail.platformName"></span>商品主图”</span> ，以便于买手快速找到任务商品</label>
         <div class="col-md-2">
+
+        </div>
+        <div class="col-md-10">
           <button type="button" class="btn btn-sm btn-jzj" ng-click="openUploadModel()">上传文件</button>
+          <label class="text-muted"><span class="text-danger">&nbsp;</span>（请上传 <span class="text-danger">“<span ng-bind="flowData.taskDetail.platformName"></span>商品主图”</span> ，以便于买手快速找到任务商品）</label>
+          <a class="text-danger control-label m-l">什么是合格的商品主图？</a>
         </div>
-        <div class="col-md-2">
-          <a class="text-danger control-label">什么是合格的商品主图？</a>
-        </div>
+
       </div>
       <div ng-if="product.productImage!=''" class="row m-t">
         <div class="col-md-6">
@@ -65,11 +67,11 @@
     <h4 class="text-danger">2.设置商品收取运费的方式</h4>
     <div class="wrapper-xs">
       <div class="row radio">
-        <label class="m-l"><input class="" type="radio" name="fare" value="true" ng-model="flowData.taskDetail.includeShipping" checked="checked" />商品本身包邮</label><label class="text-muted">买手按照商品实际金额下单</label>
+        <label class="m-l"><input type="radio" name="fare" value="true" ng-model="flowData.taskDetail.includeShipping" ng-checked="flowData.taskDetail.includeShipping==true" />商品本身包邮</label><label class="text-muted">（买手按照商品实际金额下单）</label>
       </div>
       <div class="line line-dashed b-b line-lg pull-in"></div>
       <div class="row radio">
-        <label class="m-l"><input type="radio" name="fare" value="false" ng-model="flowData.taskDetail.includeShipping"/>商品不包邮</label><label class="text-muted">无需买手联系客服，商家每单额外支出10元作为运费押金，任务完成后运费押金将全部退还给商家</label>
+        <label class="m-l"><input type="radio" name="fare" value="false" ng-model="flowData.taskDetail.includeShipping" ng-checked="flowData.taskDetail.includeShipping==false"/>商品不包邮</label><label class="text-muted">（无需买手联系客服，商家每单额外支出10元作为运费押金，任务完成后运费押金将全部退还给商家）</label>
       </div>
     </div>
   </div>

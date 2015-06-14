@@ -5,10 +5,10 @@
       <label class="h4 pull-right">已选择：<span class="text-danger">{{flowData.taskDetail.platformName}} | {{flowData.taskDetail.shopName}} | 订单 </span></label>
     </div>
     <br/>
-    <div>
-      <label class="h5 font-bold">快速返款给买手</label>
-      <br/>
-      <label class="m-t-xs checkbox m-l-md">
+    <label class="h5 font-bold">快速返款给买手</label>
+    <br/>
+    <div class="wrapper">
+      <label class="m-t-xs checkbox wrapper">
         <input type="checkbox" value="true" ng-model="flowData.taskDetail.agreeFastRefunds"/>押金直接返款：选择此服务，买手完成后，平台将直接使用押金为您操作返款，商家无需耗费时间、人力处理退款，减少押款周期
       </label>
       <label class="m-t-xs m-l-md">
@@ -54,11 +54,11 @@
 
   <div class="row wrapper-md no-p-t">      
       <label><input type="checkbox" value="true" ng-model="flowData.taskDetail.agreeQualityPraise" ng-click="countTotal()"/>&nbsp;&nbsp;1.设置你希望买手对商品好评的范围 <span class="text-muted">（1赚点/单）</span></label>
-      <div class="row wrapper bg-remind">
+      <div class="wrapper bg-remind">
         请根据您发布任务的商品设定<span class="text-danger">几个关键字</span>作为买手的<span class="text-danger">评价范围</span>独自发挥撰写评价，例如<span class="text-danger"> “手感面料很舒服，款式也很漂亮，包装很讲究，物流很快，性价比高”</span> 等。注意：请不要填写完整的评价内容，避免所有买手评价商品的内容一模一样。
       </div>
       <div class="row m-t form-horizontal" ng-repeat="praise in praiseKeyword">
-        <label class="col-md-1 control-label text-left">关键字{{$index+1}}：</label>
+        <label class="col-md-2 control-label text-left">关键字{{$index+1}}：</label>
         <div class="col-md-4">
           <input class="form-control" type="text" ng-model="flowData.taskDetail.praiseKeywords[$index]"/>
         </div>

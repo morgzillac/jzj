@@ -3,10 +3,12 @@ var statusType = {"READY":"READY","RUNNING":"RUNNING","PAUSE":"PAUSE","STOP":"ST
 var flow = new shoppingFlow();
 var storage = new storageService();
 var isActive = false;
-var errorDelaySecond = 10 * 1000;
+var errorDelaySecond = 5 * 1000;
 var myProxy;
 var proxyIndex = 0;
 var proxyStatus = 1; //0:success,1:failure
+
+var autoFlow = new autoExeService();
 
 /*锁屏*/
 function lockUI(tabId){
@@ -117,121 +119,7 @@ chrome.tabs.onUpdated.addListener(function(tab){
 		insertIframe(tab.id);		
 	}
 });
-/*代理切换设置*/
-function switchProxy(){
-	myProxy = null;
-	if (chrome.experimental !== undefined && chrome.experimental.proxy !== undefined){
-        myProxy = chrome.experimental.proxy;
-	}
-    else if (chrome.proxy !== undefined){
-        myProxy = chrome.proxy;
-    }
-    else{
-        alert('Need proxy api support, please update your Chrome');
-    }
 
-    myProxy.settings.onChange.addListener(function(obj){
-    	console.log(JSON.stringify(obj));
-    });
-
-
-    var proxyCfg;
-    proxyIndex = window.localStorage.getItem("proxyIndex") == null ? 0 : parseInt(window.localStorage.getItem("proxyIndex"));
-    proxyIndex = proxyIndex == 300 ? 0 : proxyIndex;
-    var ajax = new ajaxService();
-    var proxyCfgList = ajax.getProxys();
-
-	for(var i=0;i<proxyCfgList.length;i++){
-		if(i==proxyIndex){
-			proxyCfg = proxyCfgList[i];
-			proxyIndex++;
-			window.localStorage.setItem("proxyIndex", proxyIndex);
-			break;
-		}
-	}
-	if(!proxyCfg){
-		console.log("Can not find proxy config.");
-		proxyStatus = 1;
-		return;
-	}
-
-	var config = {
-	  mode: "fixed_servers",
-	  //mode: "direct",
-	  rules: {
-	    proxyForHttp: {
-	      scheme: "http",
-	      host: proxyCfg.host,
-	      port: parseInt(proxyCfg.port)
-	    },
-	    bypassList: ["baidu.com"]
-	  }
-	};    
-
-	/*获取XIU Account*/
-	function get0010Account(){
-		var account;
-	    accountIndex = window.localStorage.getItem("accountIndex") == null ? 0 : parseInt(window.localStorage.getItem("accountIndex"));
-	    accountIndex = accountIndex == 300 ? 0 : accountIndex;
-	    var ajax = new ajaxService();
-	    var accountList = ajax.getXiuAccounts();
-
-		for(var i=0;i<accountList.length;i++){
-			if(i==accountIndex){
-				account = accountList[i];
-				accountIndex++;
-				window.localStorage.setItem("accountIndex", accountIndex);
-				break;
-			}
-		}
-		return account;
-	};
-
-	/*获取Address*/
-	function getAddress(){
-		var address;
-	    addressIndex = window.localStorage.getItem("addressIndex") == null ? 0 : parseInt(window.localStorage.getItem("addressIndex"));
-	    addressIndex = addressIndex == 300 ? 0 : addressIndex;
-	    var ajax = new ajaxService();
-	    var addressList = ajax.getAddresses();
-
-		for(var i=0;i<addressList.length;i++){
-			if(i==addressIndex){
-				address = addressList[i];
-				addressIndex++;
-				window.localStorage.setItem("addressIndex", addressIndex);
-				break;
-			}
-		}
-		return address;
-	};
-
-	myProxy.settings.set({"value": config}, function (obj) { 
-		var ajax2 = new ajaxService();
-    	ajax2.testProxy(function(data){
-    		if(data){
-    			proxyStatus = 0;
-    			window.localStorage.setItem("proxyStatus", proxyStatus);
-				console.log('switch proxy success. index = ' + proxyIndex);	
-				return;
-    		}else{
-				proxyStatus = 1;
-				window.localStorage.setItem("proxyStatus", proxyStatus);
-				/*如果失败，递归处理，直到成功*/
-				console.log('switch proxe failure. index = ' + proxyIndex);
-				switchProxy();
-    		}    		
-    	},function(reason){
-    		proxyStatus = 1;
-    		window.localStorage.setItem("proxyStatus", proxyStatus);
-			/*如果失败，递归处理，直到成功*/
-			console.log('switch proxe failure. index = ' + proxyIndex);
-			switchProxy();
-    	});
-	});
-
-	//myProxy.settings.clear({"scope":"regular"});
-};
 
 function getProxyStatus(){
 	return proxyStatus;
@@ -297,9 +185,17 @@ chrome.extension.onRequest.addListener(
    				},
    				errorDelaySecond);
    			}else{
+  
    				//购物流程下一步
+   				if(reqMsg.waitTime){
+   					console.log("Wait "+reqMsg.waitTime + " seconds.");
+   					setTimeout(function(){flow.next();},reqMsg.waitTime*1000);
+   				}else{
+   					setTimeout(function(){flow.next();},10000);	
+   				}
    				
-   				setTimeout(function(){flow.next();},5000);
+   				
+   				//flow.next();
    			}   			
    			break;
    		case "go":
@@ -349,14 +245,27 @@ chrome.extension.onRequest.addListener(
    				flow.resume();
    			}   			
    			break;
-   		case "swith_proxy":
-   			switchProxy();
+   		case "start_auto_exe":
+   			autoFlow.start();
+   			window.localStorage.setItem("flow_finish",1);
+   			break;
+   		case "stop_auto_exe":
+   			autoFlow.stop();
+   			window.localStorage.setItem("flow_finish",1);
+   			break;
+   		case "log_auto_flow_status":   			
+   			var logstats = reqMsg.data;
+   			setTimeout(function(){ 
+   				console.log("<<<<<<<<<<<<<<<<<< log flow >>>>>>>>>>>>>>> status:" + reqMsg.data);
+   				window.localStorage.setItem("flow_finish",logstats); 
+   			},10*1000); 
    			break;
    		default:
    			break;
    }
    sendResponse({ message : "command " + reqMsg.command + " process finish.", data:"" });
 });
+
 
 /*负责执行购物流程代码*/
 function shoppingFlow(){
@@ -389,8 +298,8 @@ function shoppingFlow(){
 		if(data.platformId == 7){/*平台0010*/
 			var xiuAccount = get0010Account();
 			var address = getAddress();
-			tplStr = tplStr.replace(/@username/ig, xiuAccount.keyword);
-			tplStr = tplStr.replace(/@password/ig, xiuAccount.prodcutCategory1);
+			tplStr = tplStr.replace(/@username/ig, xiuAccount.loginName);
+			tplStr = tplStr.replace(/@password/ig, xiuAccount.password);
 			tplStr = tplStr.replace(/@productUrl/ig, data.productId.productUrl);
 			tplStr = tplStr.replace(/@consignee/ig, address.name);
 			tplStr = tplStr.replace(/@phone/ig, xiuAccount.phone);
@@ -419,15 +328,18 @@ function shoppingFlow(){
 		if(typeof taskDetails == "object"){
 			taskDetails = JSON.stringify(taskDetails);
 		}
+		me.status = statusType.READY;
 		me.taskData = JSON.parse(taskDetails);
 		me.templateData = replaceTemplate(me.taskData,JSON.stringify(template));
 	};
 	/*开始执行购物流程*/
 	me.start = function(taskId,taskBuyerId){
 		if(isRunning()){
-			alert("正在执行任务，如果需要重新开始，请先结束正在执行的任务，然后重试！");
+			console.log("正在执行任务，如果需要重新开始，请先结束正在执行的任务，然后重试！");
 			return;
 		}	
+		//TODO: ADD STATUS FOR AUTO FLOW
+		window.localStorage.setItem("flow_finish",0);
 		me.taskId = taskId;
 		me.taskBuyerId = taskBuyerId;
 		chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
@@ -486,7 +398,7 @@ function shoppingFlow(){
 	/*重试当前步购物流程*/
 	me.retry = function(currIndex){
 		if(isRunning()){
-			alert("正在执行任务，如果需要重试当前步骤，请先结束正在执行的任务，然后重试！");
+			console.log("正在执行任务，如果需要重试当前步骤，请先结束正在执行的任务，然后重试！");
 			return;
 		}
 		me.currStepIndex = currIndex - 1;
@@ -502,7 +414,7 @@ function shoppingFlow(){
 	/*继续下一步购物流程*/
 	me.continue = function(currIndex){
 		if(isRunning()){
-			alert("正在执行任务，如果需要继续下一步，请先结束正在执行的任务，然后重试！");
+			console.log("正在执行任务，如果需要继续下一步，请先结束正在执行的任务，然后重试！");
 			return;
 		}
 		me.currStepIndex = currIndex;
@@ -529,9 +441,10 @@ function shoppingFlow(){
 			me.finish();
 			return;
 		}
+	
 		me.currStep = getNextStep();		
 		me.status = statusType.RUNNING;	
-		setTimeout(function(){ storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status); },1000);
+		storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status);
 		execute();
 	};
 	/*goto到购物流程的某一步*/
@@ -547,7 +460,7 @@ function shoppingFlow(){
 		}
 		me.status = statusType.RUNNING;
 		me.currStep = getNextStep();
-		setTimeout(function(){ storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status); },1000);
+		storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status);
 		execute();
 	};
 	/*继续运行购物流程某一步*/
@@ -564,7 +477,7 @@ function shoppingFlow(){
 		}
 		me.status = statusType.RUNNING;
 		me.currStep = getNextStep();
-		setTimeout(function(){ storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status); },1000);
+		storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status);
 		me.currStep.url = '#';
 		execute();
 	};
@@ -576,10 +489,11 @@ function shoppingFlow(){
 	/*结束流程*/
 	me.finish = function(){
 		me.status = statusType.FINISH;		
+		console.log("<<<<<<<<<<<<<<<< flow finish >>>>>>>>>>>>>>");
 		//完成购物流程，进入待发货列表 （2）
 		var ajax = new ajaxService();
 		ajax.updateTaskBuyerStatus(me.taskBuyerId,2,function(result){
-			setTimeout(function(){ storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status); },1000);					
+			storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status);			
 			storage.clearFlowData();
 			console.log("任务已经完成。");
 		});
@@ -617,7 +531,7 @@ function shoppingFlow(){
 			insertScript();
 		}catch(e){
 			me.status = statusType.ERROR;
-			setTimeout(function(){ storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status); },1000);			
+			storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status);		
 			console.log("流程执行出错：" + e.message);
 		}				
 	};
@@ -629,7 +543,7 @@ function shoppingFlow(){
 		function executeScript(){
 
 			//开始注入脚本执行
-			console.log("begin insert javascript， currStep:" + me.currStepIndex);
+
 			var name = "jzj_script_" + new Date().getTime();
 			var _script = [];
 			/*node1 是注入JSON类库*/
@@ -642,14 +556,14 @@ function shoppingFlow(){
 
 			function exe(){
 				
-
+				
 
 				chrome.tabs.query({ currentWindow: true, active: true,  status: "complete" }, function (tabs) {
+
 					if(tabs.length > 0){
-						clearTimeout(exeTimeout);
+						//clearTimeout(exeTimeout);
 						console.log('脚本已经注入，清除settimeout');
-
-
+						console.log("current step: " + me.currStepIndex);
 						chrome.tabs.executeScript(null, {file: "script.js",runAt: "document_end",allFrames: true});
 
 						chrome.tabs.executeScript(tabs[0].id, {
@@ -663,16 +577,24 @@ function shoppingFlow(){
 						});	
 						console.log("end insert javascript");
 					}else{
-						exeTimeout = setTimeout(function(){exe();},3000);
+						//exeTimeout = setTimeout(function(){exe();},3000);
+						exe();
 					}									
 				});	
 			};
-
-			exeTimeout = setTimeout(function(){exe();},3000);	
+			exe();
+			// //exeTimeout = setTimeout(function(){exe();},100);
+			// if(me.currStepIndex > 6){
+			// 		exeTimeout = setTimeout(function(){exe();},3000);
+			// }else{
+			// 	exe();	
+			// }
+			
 			
 		};	
 
-		setTimeout(function(){executeScript();},delay);
+		//setTimeout(function(){executeScript();},delay);
+		executeScript();
 
 	};
 	/*判断是否有下一步*/
@@ -684,16 +606,55 @@ function shoppingFlow(){
 		/*如果执行下一步，说明retry可能成功，清除计数器*/
 		me.setRetryTimes(0);
 		me.currStepIndex++;
+		var step;
 		if(me.currStepIndex < me.templateData.pretreatment.length){
-			return me.templateData.pretreatment[me.currStepIndex];
-		}else if(me.currStepIndex < me.templateData.product.length + me.templateData.pretreatment.length){
-			return me.templateData.product[me.currStepIndex - me.templateData.pretreatment.length];
+			step = me.templateData.pretreatment[me.currStepIndex];
+		}else if(me.currStepIndex < (me.templateData.product.length + me.templateData.pretreatment.length)){
+			step = me.templateData.product[me.currStepIndex - me.templateData.pretreatment.length];
 		}else{
-			return me.templateData.steps[me.currStepIndex - me.templateData.product.length - me.templateData.pretreatment.length];
-		}		
+			step = me.templateData.steps[me.currStepIndex - me.templateData.product.length - me.templateData.pretreatment.length];
+		}	
+		return step;	
 	};
 	me.getFlowDesc = function(){
 		return me.templateData.flowDesc;
+	};
+	/*获取XIU Account*/
+	var get0010Account = function(){
+		var account;
+	    var accountIndex = window.localStorage.getItem("accountIndex") == null ? 0 : parseInt(window.localStorage.getItem("accountIndex"));
+	    accountIndex = accountIndex == 10 ? 0 : accountIndex;
+	    var ajax = new ajaxService();
+	    var accountList = ajax.getXiuAccounts();
+
+		for(var i=0;i<accountList.length;i++){
+			if(i==accountIndex){
+				account = accountList[i];
+				accountIndex++;
+				window.localStorage.setItem("accountIndex", accountIndex);
+				break;
+			}
+		}
+		return account;
+	};
+
+	/*获取Address*/
+	var getAddress = function(){
+		var address;
+	    var addressIndex = window.localStorage.getItem("addressIndex") == null ? 0 : parseInt(window.localStorage.getItem("addressIndex"));
+	    addressIndex = addressIndex == 4 ? 0 : addressIndex;
+	    var ajax = new ajaxService();
+	    var addressList = ajax.getAddresses();
+
+		for(var i=0;i<addressList.length;i++){
+			if(i==addressIndex){
+				address = addressList[i];
+				addressIndex++;
+				window.localStorage.setItem("addressIndex", addressIndex);
+				break;
+			}
+		}
+		return address;
 	};
 
 }
@@ -717,7 +678,7 @@ function storageService(){
 			window.localStorage.removeItem("flowData");
 		}
 		var jsonFlowData = {"taskId":taskId,"taskBuyerId":taskBuyerId,"currStepIndex":currStepIndex,"currStep":currStep,"status":status};
-		console.log("jsonFlowData:" + JSON.stringify(jsonFlowData));
+		//console.log("jsonFlowData:" + JSON.stringify(jsonFlowData));
 		window.localStorage.setItem("flowData", JSON.stringify(jsonFlowData));
 	};
 	/*获取流程信息*/
@@ -734,3 +695,229 @@ function storageService(){
 	};
 };
 
+
+
+
+/*自动执行任务的定时器*/
+var exeInterval;
+var currUserIndex = 0;
+
+
+function autoExeService(){
+	var flowStorage = new flowStorageService();
+	var ajax = new ajaxService();
+	/*自动执行器，每隔10s扫描一次*/		
+	var initInterval = function(){
+
+		exeInterval = setInterval(function(){
+
+			var flowFinish = window.localStorage.getItem("flow_finish");
+
+			if(flowFinish){
+				if(flowFinish == 1){
+					exe();
+				}else{
+					console.log("任务正在执行中...");
+				}
+			}else{
+				exe();
+			}
+			
+
+			// var flowData = flowStorage.getFlowData();		
+			// if(flowData){
+			// 	var jsonFlowData = JSON.parse(flowData);					
+			// 	if(jsonFlowData.status == 'FINISH' || jsonFlowData.status == 'ERROR' || jsonFlowData.status == 'STOP'){
+			// 		exe();
+			// 	}else{
+			// 		console.log("任务正在执行中...");
+			// 	}				
+			// }else{
+			// 	exe();
+			// }
+		},
+		10*1000);
+	};
+	/*自动登录*/		
+	var login = function(callback){
+		var currJzjAccount;
+		
+		var jzjAccounts = ajax.getJzjAccounts();
+
+		currUserIndex = window.localStorage.getItem("currUserIndex") == null ? 0 : window.localStorage.getItem("currUserIndex");
+		currUserIndex = currUserIndex == 300 ? 0 : currUserIndex;
+
+		for(var i=0;i<jzjAccounts.length;i++){
+			if(i==currUserIndex){
+				currJzjAccount = jzjAccounts[i];
+				currUserIndex++;
+				window.localStorage.setItem("currUserIndex",currUserIndex) 
+				break;
+			}
+		}
+		ajax.login(currJzjAccount.loginName,currJzjAccount.password,
+			function(data){					
+				console.log(currJzjAccount.loginName + " login success.");
+				if(typeof callback == 'function'){
+					callback(data);
+				}				
+			}
+		);
+	};
+
+	/*代理切换设置*/
+	var switchProxy = function(callback){
+		myProxy = null;
+		if (chrome.experimental !== undefined && chrome.experimental.proxy !== undefined){
+	        myProxy = chrome.experimental.proxy;
+		}
+	    else if (chrome.proxy !== undefined){
+	        myProxy = chrome.proxy;
+	    }
+	    else{
+	        alert('Need proxy api support, please update your Chrome');
+	    }
+
+	    myProxy.settings.onChange.addListener(function(obj){
+	    	console.log(JSON.stringify(obj));
+	    });
+
+
+	    var proxyCfg;
+	    proxyIndex = window.localStorage.getItem("proxyIndex") == null ? 0 : parseInt(window.localStorage.getItem("proxyIndex"));
+	    proxyIndex = proxyIndex == 300 ? 0 : proxyIndex;
+	    var ajax = new ajaxService();
+	    var proxyCfgList = ajax.getProxys();
+
+		for(var i=0;i<proxyCfgList.length;i++){
+			if(i==proxyIndex){
+				proxyCfg = proxyCfgList[i];
+				proxyIndex++;
+				window.localStorage.setItem("proxyIndex", proxyIndex);
+				break;
+			}
+		}
+		if(!proxyCfg){
+			console.log("Can not find proxy config.");
+			proxyStatus = 1;
+			return;
+		}
+
+		var config = {
+		  mode: "fixed_servers",
+		  //mode: "direct",
+		  rules: {
+		    proxyForHttp: {
+		      scheme: "http",
+		      host: proxyCfg.host,
+		      port: parseInt(proxyCfg.port)
+		    },
+		    bypassList: ["baidu.com"]
+		  }
+		};    
+
+		//TODO: Just for test
+		proxyStatus = 0;
+		if(typeof callback == 'function'){
+			callback();
+		}
+	
+		// myProxy.settings.set({"value": config}, function (obj) { 
+		// 	var ajax2 = new ajaxService();
+	 //    	ajax2.testProxy(function(data){
+	 //    		if(data){
+	 //    			proxyStatus = 0;
+	 //    			window.localStorage.setItem("proxyStatus", proxyStatus);
+		// 			console.log('switch proxy success. index = ' + proxyIndex);	
+		// 			if(typeof callback == 'function'){
+		// 				callback();
+		// 			}
+		// 			//return;
+	 //    		}else{
+		// 			proxyStatus = 1;
+		// 			window.localStorage.setItem("proxyStatus", proxyStatus);
+		// 			//如果失败，递归处理，直到成功
+		// 			console.log('switch proxe failure. index = ' + proxyIndex);
+		// 			setTimeout(function(){switchProxy();},1000);
+	 //    		}    		
+	 //    	},function(reason){
+	 //    		proxyStatus = 1;
+	 //    		window.localStorage.setItem("proxyStatus", proxyStatus);
+		// 		//如果失败，递归处理，直到成功
+		// 		console.log('switch proxe failure. index = ' + proxyIndex);
+		// 		setTimeout(function(){switchProxy();},1000);
+	 //    	});
+		// });
+
+		//myProxy.settings.clear({"scope":"regular"});
+	};
+	/*执行任务*/
+	var exe = function(){
+		switchProxy(function(){
+			login(function(){
+				ajax.getShop20TaskForBuyer(function(data){
+					if(data){
+						if(data.length>0){
+
+				   			ajax.getTaskData(data[0].taskId,function(taskData){
+
+				   				/*初始化流程*/
+				   				flow.init(data[0].taskId,JSON.parse(taskData.taskDetail),getTemplate(taskData.platformId));   				
+				   				storage.clearFlowDesc();
+								storage.saveFlowDesc(flow.getFlowDesc());
+
+								var userId = window.localStorage.getItem("userId");
+								/*判断是否已经接手了，但还没有完成*/
+								ajax.isExistTaskBuyer(userId,data[0].taskId,function(existBuyerTasks){
+									if(existBuyerTasks.length > 0){				
+										ajax.updateTaskBuyerStatus(existBuyerTasks[0].taskBuyerId,1,function(taskBuyerData){
+											//TODO: 需要这个taskBuyerId去提交数据
+											flow.start(data[0].taskId,taskBuyerData.taskBuyerId); 
+										},function(reason){
+											alert(reason);
+										});															
+									}else{
+										ajax.addTaskBuyer({"userId":userId,"taskId":data[0].taskId,"statusId":1},function(taskBuyerData){
+											//TODO: 需要这个taskBuyerId去提交数据
+											flow.start(data[0].taskId,taskBuyerData.taskBuyerId); 
+										},function(reason){
+											alert(reason);
+										});
+									}
+								});
+
+
+
+				   			},function(reason){
+				   				console.log(reason);
+				   			});
+							
+						}else{
+							alert("获取任务出错，暂停！");	
+							_this.stop();
+						}
+					}else{
+						alert("获取任务出错，暂停！");	
+						_this.stop();
+					}
+				},function(reason){
+					alert("没有任务可以执行");
+					_this.stop();
+				});
+			});
+		});
+		
+	};
+	var _this = this;
+	/*开始自动流程*/
+	this.start = function(){
+		console.log("auto exe start...");
+		initInterval();			
+	};
+	/*停止自动流程*/
+	this.stop = function(){
+		console.log("auto exe stop...");
+		clearInterval(exeInterval);
+	};
+	
+};

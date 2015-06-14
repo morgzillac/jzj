@@ -178,7 +178,7 @@ function ajaxService(){
 	};
 	/*获取可接单的任务,平台0010*/
 	this.getShop20TaskForBuyer = function(succCallBack,errCallBack){
-		ajaxGet(getGlobalConfig().API.HOST + '/VWShopTask/getTaskForBuyer?sort=createdAt DESC&shopId=20&limit=1', { },
+		ajaxGet(getGlobalConfig().API.HOST + '/VWShopTask/getTaskForBuyer?sort=createdAt DESC&shopId=25&limit=1', { },
 			function success(data){
 				if(typeof succCallBack == 'function'){
 					succCallBack(data);
@@ -407,11 +407,23 @@ function getTemplate(platformId){
 function getXiuTemplate(){
 	return xiu = {
 	    "pretreatment": [
+	        //  {
+	        //     "url": "#", 
+	        //     "desc": "打开首页", 
+	        //     "define": "", 
+	        //     "script": "location.reload();nextCallBack();"
+	        // },
+	        // {
+	        //     "url": "#", 
+	        //     "desc": "退出", 
+	        //     "define": "", 
+	        //     "script": "setTimeout(function(){try{$(\".logout\").click().get(0).click();nextCallBack();}catch(e){}},30*1000);"
+	        // },
 	        {
 	            "url": "#", 
 	            "desc": "打开登陆页面", 
 	            "define": "", 
-	            "script": "location.href='https://login.xiu.com/';nextCallBack();"
+	            "script": "callback({command:'log_auto_flow_status',data:0});location.href='https://login.xiu.com/';nextCallBack();"
 	        },
 	        {
 	            "url": "#", 
@@ -424,19 +436,14 @@ function getXiuTemplate(){
 	            "desc": "打开商品详情页", 
 	            "define": "", 
 	            "script": "location.href='@productUrl';nextCallBack();"
-	        }
-	        
-	    ], 	 
-	    "product": [
+	        },
 	        {
 	            "url": "#", 
 	            "desc": "加入购物车", 
 	            "define": "", 
-	            "script": "$(\"#user_buy_btn\").click().get(0).click();nextCallBack();"
-	        }
-		], 
-		"steps": [
-			{
+	            "script": "try{$(\"#user_buy_btn\").click().get(0).click();}catch(e){}nextCallBack();"
+	        },
+	        {
 	            "url": "#", 
 	            "desc": "打开购物车", 
 	            "define": "", 
@@ -446,30 +453,52 @@ function getXiuTemplate(){
 	            "url": "#", 
 	            "desc": "结算", 
 	            "define": "", 
-	            "script": "$(\"#toBalanceLink\").click().get(0).click();nextCallBack();"
-	        },
+	            "script": "try{$(\"#toBalanceLink\").click().get(0).click();}catch(e){}nextCallBack();"
+	        },	        
 	        {
 	        	"url":"#",
 	        	"desc":"确认收货信息",
 	        	"define":"",
-	        	"script":"if($('#createAddressForm').is(\":visible\")){$('#addressName').val('@consignee');$('#provinceSe').find(\"option:contains('@province')\").prop('selected','selected');getCity();setTimeout(function(){$('#citySe').find(\"option:contains('@city')\").prop('selected','selected');getArea();},6000);setTimeout(function(){$('#areaSe').find(\"option:contains('@region')\").prop('selected','selected');$('#address').val('@street');$('#zipIn').val('@zipCode');$('#mobileIn').val('@phone');$('#createBt').click().get(0).click();$('#setupDistribution').click().get(0).click();$('#confirm_paymethod_btn').click().get(0).click();$(\"#submit_order_btn\").get(0).click();nextCallBack();},12000);}else{$('#setupDistribution').click().get(0).click();$('#confirm_paymethod_btn').click().get(0).click();$(\"#submit_order_btn\").click().get(0).click();nextCallBack();}"
+	        	//"script":"if($('#createAddressForm').is(\":visible\")){$('#addressName').val('@consignee');$('#provinceSe').find(\"option:contains('@province')\").prop('selected','selected');getCity();setTimeout(function(){$('#citySe').find(\"option:contains('@city')\").prop('selected','selected');getArea();},5000);setTimeout(function(){$('#areaSe').find(\"option:contains('@region')\").prop('selected','selected');$('#address').val('@street');$('#zipIn').val('@zipCode');$('#mobileIn').val('@phone');$('#createBt').click().get(0).click();nextCallBack();},10000);}else{nextCallBack();}"
+	        	"script":"if ($('#createAddressForm').is(':visible')) {	$('#addressName').val('@consignee');	$('#provinceSe').find(\"option:contains('@province')\").prop('selected', 'selected');	getCity();	function selectCity() {		if ($('#citySe').find('option').length >= 2) {			$('#citySe').find(\"option:contains('@city')\").prop('selected', 'selected');			getArea();			selectArea();		} else {		setTimeout(function(){selectCity();},1000);				}	};	function selectArea() {		if ($('#areaSe').find('option').length >= 2) {			$('#areaSe').find(\"option:contains('@region')\").prop('selected', 'selected');			$('#address').val('@street');			$('#zipIn').val('@zipCode');			$('#mobileIn').val('@phone');			$('#createBt').click().get(0).click();		nextCallBack();		} else {		setTimeout(function(){selectArea();},1000);			}	};	selectCity();} else {	nextCallBack(); }"
+	        },	      
+	        {
+	            "url": "#", 
+	            "desc": "确认配送方式", 
+	            "define": "", 
+	            "script": "try{$('#setupDistribution').click().get(0).click(); confirmDistribution();XIU.Window.ctraceClick('type=sendsure','trade');}catch(e){};nextCallBack();"
 	        },
+	        {
+	            "url": "#", 
+	            "desc": "确认支付方式", 
+	            "define": "", 
+	            "script": "try{$('#confirm_paymethod_btn').click().get(0).click();}catch(e){}; nextCallBack();"
+	        },  
 	        {
 	            "url": "#", 
 	            "desc": "提交订单", 
 	            "define": "", 
-	            "script": "try{$(\"#submit_order_btn\").get(0).click();}nextCallBack();"
-	        },
-	        {
-	            "url": "#", 
-	            "desc": "退出", 
-	            "define": "", 
-	            "script": "$(\".logout\").get(0).click();nextCallBack();"
-	        }	        
-		],
-	   
+	            "script": "try{$(\"#submit_order_btn\").click().get(0).click();}catch(e){}; callback({command:'log_auto_flow_status',data:1});nextCallBack();"
+	        }
+	        
+	        
+	    ], 	 
+	    "product": [
+	        
+		], 
+		"steps": [
+				        
+		],	   
 	    "local": "function getRandom(e,n){ var list = []; if(e.length < n){ n = e.length; } while(list.length < n){ var bl = true; var r = Math.floor(Math.random() * e.length); for(var i=0; i<list.length; i++){ if(list[i] == r){ bl = false; } } if(bl){ list.push(r); } } return list;}", 
 	    "flowDesc": [
+	        // {
+	        //     "index": "0", 
+	        //     "desc": "打开首页"
+	        // },
+	        // {
+	        //     "index": "1", 
+	        //     "desc": "退出"
+	        // },
 	        {
 	            "index": "0", 
 	            "desc": "打开登陆页面"
@@ -496,16 +525,21 @@ function getXiuTemplate(){
 	        },
 	        {
 	            "index": "6", 
-	            "desc": "确认收货信息"
+	            "desc": "确认配送方式"
 	        },
 	        {
 	            "index": "7", 
-	            "desc": "提交订单"
+	            "desc": "确认支付方式"
 	        },
 	        {
 	            "index": "8", 
-	            "desc": "退出"
+	            "desc": "确认收货信息"
+	        },	        
+	        {
+	            "index": "9", 
+	            "desc": "提交订单"
 	        }
+	        
 	    ]
 	};
 }
