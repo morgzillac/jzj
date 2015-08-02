@@ -702,8 +702,8 @@ app.controller('TaskFlowItem5Ctrl',['$scope','balances','tasks','$modal','$windo
 		balances.get().then(function(result){
 			$scope.balance = result;
 			//计算是否足够支付费用
-			//$scope.caculateBalance = ($scope.balance.cashFrozen + $scope.balance.points) - ($scope.calcCost.total + $scope.calcCost.totalPts);
-			$scope.caculateBalance = -200;;
+			$scope.caculateBalance = ($scope.balance.cashFrozen + $scope.balance.points) - ($scope.calcCost.total + $scope.calcCost.totalPts);
+			//$scope.caculateBalance = -200;;
 		});
 	};
 	$scope.absCaculateBalance= function(){
