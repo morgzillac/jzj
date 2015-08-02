@@ -4,12 +4,30 @@
       <label class="h4 font-bold">支付</label>
     </div>
   </div> 
-  <div class="wrapper bg-remind">
-    <label>本次任务发布<span class="text-danger" ng-bind="flowData.taskDetail.totalTasks"></span>单</label>
-    <label class="pull-right">需押金： <span class="text-danger h4 m-r-sm">{{calcCost.total | currency:"￥"}}</span>元  <span class="m-l">赚点：</span><span class="text-danger h4 m-r-sm">{{calcCost.totalPts | number : 2}}</span>点</label>
+  <div class="wrapper col-md-12 bg-remind">
+    <label class="pull-left">本次任务发布&nbsp;<span class="text-danger h3" ng-bind="flowData.taskDetail.totalTasks"></span>&nbsp;单</label>
+    <label class="pull-right">需押金： <span class="text-danger h3 m-r-sm">{{calcCost.total | currency:"￥"}}</span>元  <span class="m-l">赚点：</span><span class="text-danger h3 m-r-sm">{{calcCost.totalPts | number : 2}}</span>点</label>
   </div>  
+  <div class="wrapper col-md-12 bg-remind">
+    <label class="pull-left">账户余额</label>
+    <label class="pull-left m-l">可用押金：<span class="text-danger h4 m-r-sm">{{balance.cashFrozen | currency:"￥"}}</span>元&nbsp;&nbsp;|&nbsp;&nbsp;可用赚点：<span class="text-danger h4 m-r-sm">{{balance.points}}</span>点</label>
+  </div>
+  <div ng-if="caculateBalance>-1" class="wrapper col-md-12 bg-remind">
+    <label class="pull-left text-info">您的余额已经足够支付任务费用，请点击付款并发布任务。</label>
+  </div>
 
-  <div class="row wrapper no-p-b">
+   <div ng-if="caculateBalance<0" class="wrapper col-md-12 bg-remind">
+   <form role="form" name="rechargePointForm" class="form-horizontal" method="post" target="_blank" action="/bill/send">
+      <input type="hidden" name="productId" value="4">
+      <input type="hidden" name="points" value="{{absCaculateBalance()}}">
+      <input type="hidden" name="orderAmount" value="{{absCaculateBalance()}}" >
+      <input type="hidden" name="token" value="{{token}}">
+      <label class="text-danger">您的余额不足，请先充值赚点。还需&nbsp;<span class="text-danger h3" ng-bind="absCaculateBalance()"></span>&nbsp;赚点</label>
+      <button class="btn btn-sm btn-jzj m-l" type="submit" ng-click="openConfirmModal()"><span>充值赚点</span></button>
+    </form>
+  </div>
+
+  <div class="row wrapper no-p-b hide">
     <h4 class="font-bold">选择支付方式<label class="h5 m-l font-normal text-muted">当前押金、赚点足够支付，若需要使用网银支付方式，请先取消选择使用押金、赚点支付</label></h4>
     <div class="wrapper-sm bg-remind">
       <label class="checkbox-inline"><input type="checkbox" value="true" ng-model="flowData.taskDetail.paymentPiont"/>使用赚点支付（可用赚点：<span class="text-danger h4 m-r-sm">{{balance.points}}</span>点）1点 = 1元</label> 
@@ -22,12 +40,10 @@
     </div>          
   </div>
 
-  <div class="line b-b"></div> 
-
   <div class="row wrapper-md no-p-t">
     <div class="wrapper text-center">
       <button class="btn btn-jzj m-r" ng-click="prevstep()"><i class="glyphicon glyphicon-chevron-left"></i><span class="m-r">上一步</span></button>
-      <button class="btn btn-jzj m-l" ng-click="nextstep()"><span class="m-r">付款并发布任务</span></button>
+      <button class="btn btn-jzj m-l" ng-click="nextstep()" ng-disabled="caculateBalance<0"><span class="m-r">付款并发布任务</span></button>
     </div>
   </div>
 

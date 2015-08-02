@@ -670,14 +670,17 @@ app.controller('TaskFlowItem4Ctrl',['$scope','platforms','sellerShops','tasks', 
 	};
 }]);
 //支付
-app.controller('TaskFlowItem5Ctrl',['$scope','balances','tasks', function($scope,balances,tasks){
+app.controller('TaskFlowItem5Ctrl',['$scope','balances','tasks','$modal','$window', 
+	function($scope,balances,tasks,$modal,$window){
 	$scope.thisItem = "app.task.item5";
 	$scope.flowData = {}; 
 
+	$scope.caculateBalance = -1;
+	$scope.token = $window.localStorage.getItem("token");
+
 	$scope.$on('flow-ready',function(event,flowData){
 		$scope.flowData = flowData;
-		calcTotalCost();
-		getMyBalance();		
+		calcTotalCost();			
 		$scope.setCurrIndex(4);
 	});
 	$scope.nextstep = function(){
@@ -690,15 +693,47 @@ app.controller('TaskFlowItem5Ctrl',['$scope','balances','tasks', function($scope
 	var calcTotalCost = function(){
 		tasks.calcCost($scope.flowData).then(function(result){
 			$scope.calcCost = result;
+			//获取账户余额
+			getMyBalance();	
 		});
 	};
 	$scope.balance = {};
 	var getMyBalance = function(){		
 		balances.get().then(function(result){
 			$scope.balance = result;
+			//计算是否足够支付费用
+			//$scope.caculateBalance = ($scope.balance.cashFrozen + $scope.balance.points) - ($scope.calcCost.total + $scope.calcCost.totalPts);
+			$scope.caculateBalance = -200;;
 		});
 	};
+	$scope.absCaculateBalance= function(){
+		return Math.abs($scope.caculateBalance);
+	};
+	$scope.openConfirmModal = function () {
+      var modalInstance = $modal.open({
+        templateUrl: 'tpl/modal/pay_fee_confirm.html',
+        controller: 'RechargPayFeeConfirmCtrl',
+        resolve: {
+          data: function () {
+            return { "title": ""};
+          }
+        }
+      });
+      modalInstance.result.then(function (data) {        
+            //获取账户余额
+		    getMyBalance();	
+      });
+  };
 
+}]);
+//确定充值成功对话框
+app.controller('RechargPayFeeConfirmCtrl',['$scope','$modalInstance','data',function($scope,$modalInstance,data){
+  	$scope.success = function () {
+      $modalInstance.close();
+    };
+    $scope.close = function () {
+      $modalInstance.dismiss('cancel');
+    };
 }]);
 //发布成功
 app.controller('TaskFlowItem6Ctrl',['$scope','$timeout', function($scope,$timeout){

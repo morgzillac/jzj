@@ -191,7 +191,7 @@ chrome.extension.onRequest.addListener(
    					console.log("Wait "+reqMsg.waitTime + " seconds.");
    					setTimeout(function(){flow.next();},reqMsg.waitTime*1000);
    				}else{
-   					setTimeout(function(){flow.next();},10000);	
+   					setTimeout(function(){flow.next();},6000);	
    				}
    				
    				
@@ -255,10 +255,8 @@ chrome.extension.onRequest.addListener(
    			break;
    		case "log_auto_flow_status":   			
    			var logstats = reqMsg.data;
-   			setTimeout(function(){ 
-   				console.log("<<<<<<<<<<<<<<<<<< log flow >>>>>>>>>>>>>>> status:" + reqMsg.data);
-   				window.localStorage.setItem("flow_finish",logstats); 
-   			},10*1000); 
+   			console.log("<<<<<<<<<<<<<<<<<< log flow >>>>>>>>>>>>>>> status:" + reqMsg.data);
+   			window.localStorage.setItem("flow_finish",logstats); 
    			break;
    		default:
    			break;
@@ -360,6 +358,7 @@ function shoppingFlow(){
 			me.currStepIndex = -1;	
 				if(!hasNextStep()){
 					console.log("流程已经结束。");
+					me.finish();
 					return;
 				}				
 				me.status = statusType.RUNNING;	
@@ -384,6 +383,8 @@ function shoppingFlow(){
 		storage.clearFlowDesc();
 		storage.clearFlowData();		
 		me.status = statusType.STOP;
+		//TODO: ADD STATUS FOR AUTO FLOW
+		window.localStorage.setItem("flow_finish",1);
 		setTimeout(function(){ storage.setFlowData(me.taskId,me.taskBuyerId,me.currStepIndex,me.currStep,me.status); },1000);
 	};
 	/*停止购物流程*/
@@ -489,6 +490,8 @@ function shoppingFlow(){
 	/*结束流程*/
 	me.finish = function(){
 		me.status = statusType.FINISH;		
+		//TODO: ADD STATUS FOR AUTO FLOW
+		window.localStorage.setItem("flow_finish",1);
 		console.log("<<<<<<<<<<<<<<<< flow finish >>>>>>>>>>>>>>");
 		//完成购物流程，进入待发货列表 （2）
 		var ajax = new ajaxService();
@@ -702,7 +705,6 @@ function storageService(){
 var exeInterval;
 var currUserIndex = 0;
 
-
 function autoExeService(){
 	var flowStorage = new flowStorageService();
 	var ajax = new ajaxService();
@@ -710,9 +712,7 @@ function autoExeService(){
 	var initInterval = function(){
 
 		exeInterval = setInterval(function(){
-
 			var flowFinish = window.localStorage.getItem("flow_finish");
-
 			if(flowFinish){
 				if(flowFinish == 1){
 					exe();
@@ -721,7 +721,7 @@ function autoExeService(){
 				}
 			}else{
 				exe();
-			}
+			}			
 			
 
 			// var flowData = flowStorage.getFlowData();		
@@ -736,7 +736,7 @@ function autoExeService(){
 			// 	exe();
 			// }
 		},
-		10*1000);
+		30*1000);
 	};
 	/*自动登录*/		
 	var login = function(callback){
@@ -816,6 +816,8 @@ function autoExeService(){
 		  }
 		};    
 
+		myProxy.settings.clear({"scope":"regular"});
+		
 		//TODO: Just for test
 		proxyStatus = 0;
 		if(typeof callback == 'function'){
@@ -849,10 +851,13 @@ function autoExeService(){
 	 //    	});
 		// });
 
-		//myProxy.settings.clear({"scope":"regular"});
+		
 	};
 	/*执行任务*/
 	var exe = function(){
+		//设置自动流程的状态
+		//TODO: ADD STATUS FOR AUTO FLOW
+		window.localStorage.setItem("flow_finish",0);
 		switchProxy(function(){
 			login(function(){
 				ajax.getShop20TaskForBuyer(function(data){
